@@ -1,0 +1,6 @@
+Flask==2.3.3
+Flask-CORS==4.0.0
+owlready2==0.46
+Werkzeug==2.3.7
+rdflib==7.6.0
+
