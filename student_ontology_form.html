@@ -17,15 +17,16 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             padding: 20px;
+            padding-top: 30px;
         }
 
         .container {
             background: white;
             border-radius: 12px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 500px;
+            max-width: 550px;
             width: 100%;
             padding: 40px;
         }
@@ -126,19 +127,20 @@
             height: 16px;
         }
 
-        .scale-option.selected {
-            border-color: #667eea;
-            background-color: rgba(102, 126, 234, 0.1);
-        }
-
         .button-group {
             display: flex;
             gap: 12px;
             margin-top: 32px;
         }
 
+        .button-group-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
         button {
-            flex: 1;
             padding: 14px 24px;
             border: none;
             border-radius: 6px;
@@ -148,12 +150,28 @@
             transition: all 0.3s ease;
         }
 
+        .btn-add {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-add:active {
+            transform: translateY(0);
+        }
+
         .btn-generate {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            width: 100%;
         }
 
-        .btn-generate:hover {
+        .btn-generate:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
         }
@@ -162,13 +180,99 @@
             transform: translateY(0);
         }
 
+        .btn-generate:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         .btn-reset {
             background: #f0f0f0;
             color: #333;
+            flex: 1;
         }
 
         .btn-reset:hover {
             background: #e0e0e0;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+            flex: 0;
+            margin-left: 12px;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+        }
+
+        .btn-clear-all {
+            background: #f97316;
+            color: white;
+        }
+
+        .btn-clear-all:hover {
+            background: #ea580c;
+        }
+
+        .students-list {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            margin-top: 24px;
+            padding: 0;
+            max-height: 450px;
+            overflow-y: auto;
+        }
+
+        .students-list-header {
+            padding: 16px;
+            border-bottom: 2px solid #e5e7eb;
+            background: #f3f4f6;
+            font-weight: 600;
+            color: #333;
+            border-radius: 6px 6px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .student-item {
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: white;
+        }
+
+        .student-item:last-child {
+            border-bottom: none;
+        }
+
+        .student-info {
+            flex: 1;
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .student-details {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .student-details-line {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 4px;
         }
 
         .info-box {
@@ -202,6 +306,20 @@
             display: none;
         }
 
+        .student-count-badge {
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
         @media (max-width: 480px) {
             .container {
                 padding: 24px;
@@ -218,6 +336,21 @@
             .button-group {
                 flex-direction: column;
             }
+
+            .student-item {
+                flex-direction: column;
+            }
+
+            .btn-delete {
+                margin-left: 0;
+                margin-top: 12px;
+                width: 100%;
+            }
+
+            .student-details-line {
+                flex-direction: column;
+                gap: 4px;
+            }
         }
     </style>
 </head>
@@ -228,14 +361,11 @@
             <p>Crea file Turtle (OWL) per l'ammissione studenti</p>
         </div>
 
-        <div class="success-message" id="successMessage">
-            ✓ File generato e scaricato con successo!
-        </div>
-
+        <div class="success-message" id="successMessage"></div>
         <div class="error-message" id="errorMessage"></div>
 
         <div class="info-box">
-            Compila il modulo per generare un file Turtle con la descrizione dell'ontologia dello studente.
+            Compila il modulo per aggiungere studenti. Al termine, scarica il file Turtle con tutti i dati.
         </div>
 
         <form id="studentForm">
@@ -294,7 +424,7 @@
 
             <!-- GPA -->
             <div class="form-group hidden" id="gpaGroup">
-                <label for="gpa" class="required">GPA (Voto)</label>
+                <label for="gpa">GPA (Voto)</label>
                 <input
                     type="number"
                     id="gpa"
@@ -325,12 +455,27 @@
                 </div>
             </div>
 
-            <!-- Pulsanti -->
+            <!-- Pulsanti Azione Form -->
             <div class="button-group">
-                <button type="submit" class="btn-generate">📥 Genera e Scarica</button>
+                <button type="button" class="btn-add" id="addStudentBtn">➕ Aggiungi Studente</button>
                 <button type="reset" class="btn-reset">🔄 Pulisci Modulo</button>
             </div>
         </form>
+
+        <!-- Lista Studenti Inseriti -->
+        <div id="studentsListContainer" class="students-list hidden">
+            <div class="students-list-header">
+                📋 Studenti Inseriti
+                <span class="student-count-badge" id="studentCount">0</span>
+            </div>
+            <div id="studentsList"></div>
+        </div>
+
+        <!-- Pulsanti di Generazione -->
+        <div class="button-group-vertical" id="generateButtonsContainer" style="display: none;">
+            <button type="button" class="btn-generate" id="finalGenerateBtn">📥 Genera e Scarica File Turtle</button>
+            <button type="button" class="btn-clear-all" id="clearAllBtn">🗑️ Elimina Tutti gli Studenti</button>
+        </div>
     </div>
 
     <script>
@@ -358,6 +503,9 @@
             ]
         };
 
+        // Array per memorizzare gli studenti inseriti
+        let studentsData = [];
+
         // Elementi DOM
         const form = document.getElementById('studentForm');
         const studentNameInput = document.getElementById('studentName');
@@ -371,13 +519,23 @@
         const gpaScaleContainer = document.getElementById('gpaScaleContainer');
         const successMessage = document.getElementById('successMessage');
         const errorMessage = document.getElementById('errorMessage');
+        const addStudentBtn = document.getElementById('addStudentBtn');
+        const studentsListContainer = document.getElementById('studentsListContainer');
+        const studentsList = document.getElementById('studentsList');
+        const studentCount = document.getElementById('studentCount');
+        const generateButtonsContainer = document.getElementById('generateButtonsContainer');
+        const finalGenerateBtn = document.getElementById('finalGenerateBtn');
+        const clearAllBtn = document.getElementById('clearAllBtn');
 
         // Event Listeners
         countrySelect.addEventListener('change', updateQualifications);
         qualificationSelect.addEventListener('change', updateDurationField);
         courseSelect.addEventListener('change', updateGpaField);
         gpaInput.addEventListener('change', updateGpaScale);
-        form.addEventListener('submit', generateTurtleFile);
+        addStudentBtn.addEventListener('click', addStudent);
+        finalGenerateBtn.addEventListener('click', generateTurtleFile);
+        clearAllBtn.addEventListener('click', clearAllStudents);
+        form.addEventListener('reset', resetForm);
 
         // Aggiorna le opzioni di titolo di studio in base al paese
         function updateQualifications() {
@@ -399,7 +557,6 @@
                 qualificationSelect.appendChild(option);
             });
 
-            // Reset della durata e GPA
             durationGroup.classList.add('hidden');
             updateGpaField();
         }
@@ -476,8 +633,8 @@
             return name.trim().replace(/\s+/g, '_');
         }
 
-        // Genera il file Turtle
-        function generateTurtleFile(e) {
+        // Aggiunge uno studente alla lista
+        function addStudent(e) {
             e.preventDefault();
             errorMessage.style.display = 'none';
             successMessage.style.display = 'none';
@@ -502,7 +659,7 @@
                 }
 
                 if (course === 'Magistrale' && country === 'India' && !document.querySelector('input[name="gpaScale"]:checked')) {
-                    showError('Seleziona la scala del GPA.');
+                    showError('Seleziona la scala del GPA per gli studenti Indiani.');
                     return;
                 }
 
@@ -514,22 +671,156 @@
                     return;
                 }
 
-                // Generazione del contenuto Turtle
-                let turtleContent = generateTurtleContent(
-                    studentName,
-                    course,
-                    country,
-                    qualificationTitle,
-                    duration,
-                    gpa
-                );
+                // Raccogli i dati dello studente
+                const studentData = {
+                    name: studentName,
+                    course: course,
+                    country: country,
+                    qualificationTitle: qualificationTitle,
+                    duration: duration || null,
+                    gpa: gpa || null,
+                    gpaScale: country === 'Iran' ? 'Base20' : (document.querySelector('input[name="gpaScale"]:checked')?.value || null)
+                };
 
-                // Download del file
-                downloadFile(turtleContent, 'studenti_generati.ttl');
-                showSuccess();
+                // Aggiungi lo studente all'array
+                studentsData.push(studentData);
+
+                // Aggiorna la visualizzazione
+                updateStudentsList();
+
+                // Pulisci il form
                 form.reset();
                 durationGroup.classList.add('hidden');
                 gpaGroup.classList.add('hidden');
+                resetGpaScale();
+
+                showSuccess(`Studente "${studentName}" aggiunto alla lista!`);
+
+            } catch (error) {
+                showError('Errore nell\'aggiunta dello studente: ' + error.message);
+                console.error(error);
+            }
+        }
+
+        // Aggiorna la visualizzazione della lista studenti
+        function updateStudentsList() {
+            studentCount.textContent = studentsData.length;
+
+            if (studentsData.length === 0) {
+                studentsListContainer.classList.add('hidden');
+                generateButtonsContainer.style.display = 'none';
+                return;
+            }
+
+            studentsListContainer.classList.remove('hidden');
+            generateButtonsContainer.style.display = 'flex';
+
+            studentsList.innerHTML = '';
+            studentsData.forEach((student, index) => {
+                const studentItem = document.createElement('div');
+                studentItem.className = 'student-item';
+
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'student-info';
+
+                const nameDiv = document.createElement('div');
+                nameDiv.className = 'student-name';
+                nameDiv.textContent = `${index + 1}. ${student.name}`;
+
+                const detailsDiv = document.createElement('div');
+                detailsDiv.className = 'student-details';
+
+                const detailsLine = document.createElement('div');
+                detailsLine.className = 'student-details-line';
+
+                const countryLabel = document.createElement('span');
+                countryLabel.textContent = `🌍 ${student.country}`;
+
+                const courseLabel = document.createElement('span');
+                courseLabel.textContent = `📚 ${student.course}`;
+
+                const qualLabel = document.createElement('span');
+                const qualData = qualificationsByCountry[student.country].find(q => q.value === student.qualificationTitle);
+                qualLabel.textContent = `📜 ${qualData?.label || 'N/A'}`;
+
+                detailsLine.appendChild(countryLabel);
+                detailsLine.appendChild(courseLabel);
+                detailsLine.appendChild(qualLabel);
+                detailsDiv.appendChild(detailsLine);
+
+                if (student.duration) {
+                    const durationSpan = document.createElement('div');
+                    durationSpan.style.marginTop = '6px';
+                    durationSpan.textContent = `⏱️ Durata: ${student.duration} anni`;
+                    detailsDiv.appendChild(durationSpan);
+                }
+
+                if (student.gpa && student.course === 'Magistrale') {
+                    const gpaSpan = document.createElement('div');
+                    gpaSpan.style.marginTop = '6px';
+                    const scaleLabel = student.gpaScale === 'Base20' ? 'su 20' : `su ${student.gpaScale.replace('Base', '')}`;
+                    gpaSpan.textContent = `📊 GPA: ${student.gpa} ${scaleLabel}`;
+                    detailsDiv.appendChild(gpaSpan);
+                }
+
+                infoDiv.appendChild(nameDiv);
+                infoDiv.appendChild(detailsDiv);
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.type = 'button';
+                deleteBtn.className = 'btn-delete';
+                deleteBtn.textContent = '✕ Elimina';
+                deleteBtn.addEventListener('click', () => deleteStudent(index));
+
+                studentItem.appendChild(infoDiv);
+                studentItem.appendChild(deleteBtn);
+
+                studentsList.appendChild(studentItem);
+            });
+        }
+
+        // Elimina uno studente dalla lista
+        function deleteStudent(index) {
+            const removedName = studentsData[index].name;
+            studentsData.splice(index, 1);
+            updateStudentsList();
+            showSuccess(`Studente "${removedName}" eliminato dalla lista.`);
+        }
+
+        // Elimina tutti gli studenti
+        function clearAllStudents(e) {
+            e.preventDefault();
+            if (confirm('Sei sicuro di voler eliminare tutti gli studenti?')) {
+                studentsData = [];
+                updateStudentsList();
+                showSuccess('Tutti gli studenti sono stati eliminati.');
+            }
+        }
+
+        // Reset del form
+        function resetForm() {
+            durationGroup.classList.add('hidden');
+            gpaGroup.classList.add('hidden');
+            resetGpaScale();
+            qualificationSelect.disabled = true;
+            qualificationSelect.innerHTML = '<option value="">-- Seleziona paese prima --</option>';
+        }
+
+        // Genera il file Turtle con tutti gli studenti
+        function generateTurtleFile(e) {
+            e.preventDefault();
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+
+            try {
+                if (studentsData.length === 0) {
+                    showError('Aggiungi almeno uno studente prima di generare il file.');
+                    return;
+                }
+
+                const turtleContent = generateTurtleContent(studentsData);
+                downloadFile(turtleContent, 'studenti_generati.ttl');
+                showSuccess(`File generato e scaricato con successo! (${studentsData.length} studente/i incluso/i)`);
 
             } catch (error) {
                 showError('Errore nella generazione del file: ' + error.message);
@@ -537,68 +828,67 @@
             }
         }
 
-        // Genera il contenuto Turtle
-        function generateTurtleContent(studentName, course, country, qualificationTitle, duration, gpa) {
-            const studentURI = sanitizeURI(studentName);
-            const courseURI = 'Course_' + sanitizeURI(course);
-            const certURI = 'Cert_' + sanitizeURI(studentName);
-            const courseType = course === 'Magistrale' ? 'PostgraduateCourse' : 'UndergraduateCourse';
-            const studentClass = country === 'India' ? 'IndianStudent' : 'IranianStudent';
-
+        // Genera il contenuto Turtle per tutti gli studenti
+        function generateTurtleContent(students) {
             let turtle = `@prefix : <http://example.org/university-admission#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Definizione dello studente
-:${studentURI} rdf:type owl:NamedIndividual ;
-    rdf:type :${studentClass} ;
-    :hasAppliedFor :${courseURI} `;
-
-            // Aggiunta della qualifica se non è "Nessun certificato"
-            if (qualificationTitle !== 'NoCertificate') {
-                turtle += ` ;
-    :hasQualification :${certURI}`;
-            }
-
-            turtle += ` .
-
-# Definizione del corso
-:${courseURI} rdf:type owl:NamedIndividual ;
-    rdf:type :${courseType} ;
-    :courseName "${course}"^^xsd:string .
 `;
 
-            // Aggiunta della qualifica se non è "Nessun certificato"
-            if (qualificationTitle !== 'NoCertificate') {
-                turtle += `
-# Definizione della qualifica
-:${certURI} rdf:type owl:NamedIndividual ;
-    rdf:type :${qualificationTitle}`;
+            students.forEach((student, studentIndex) => {
+                const studentURI = sanitizeURI(student.name);
+                const courseURI = 'Course_' + sanitizeURI(student.course);
+                const certURI = 'Cert_' + sanitizeURI(student.name);
+                const courseType = student.course === 'Magistrale' ? 'PostgraduateCourse' : 'UndergraduateCourse';
+                const studentClass = student.country === 'India' ? 'IndianStudent' : 'IranianStudent';
 
-                // Aggiunta della durata se richiesta
-                if (duration) {
-                    turtle += ` ;
-    :hasDurationInYears "${duration}"^^xsd:integer`;
-                }
+                // Aggiunta di un commento identificativo
+                turtle += `# Studente ${studentIndex + 1}: ${student.name}\n`;
+                turtle += `:${studentURI} rdf:type owl:NamedIndividual ;
+    rdf:type :${studentClass} ;
+    :hasAppliedFor :${courseURI}`;
 
-                // Aggiunta del GPA se presente
-                if (gpa && course === 'Magistrale') {
-                    let gpaProperty;
-                    if (country === 'Iran') {
-                        gpaProperty = 'hasGPA_Base20';
-                    } else {
-                        const gpaScale = document.querySelector('input[name="gpaScale"]:checked')?.value;
-                        gpaProperty = 'hasGPA_' + gpaScale;
-                    }
+                // Aggiunta della qualifica se non è "Nessun certificato"
+                if (student.qualificationTitle !== 'NoCertificate') {
                     turtle += ` ;
-    :${gpaProperty} "${gpa}"^^xsd:decimal`;
+    :hasQualification :${certURI}`;
                 }
 
                 turtle += ` .
+
+:${courseURI} rdf:type owl:NamedIndividual ;
+    rdf:type :${courseType} ;
+    :courseName "${student.course}"^^xsd:string .
 `;
-            }
+
+                // Aggiunta della qualifica se non è "Nessun certificato"
+                if (student.qualificationTitle !== 'NoCertificate') {
+                    turtle += `
+:${certURI} rdf:type owl:NamedIndividual ;
+    rdf:type :${student.qualificationTitle}`;
+
+                    // Aggiunta della durata se richiesta
+                    if (student.duration) {
+                        turtle += ` ;
+    :hasDurationInYears "${student.duration}"^^xsd:integer`;
+                    }
+
+                    // Aggiunta del GPA se presente
+                    if (student.gpa && student.course === 'Magistrale') {
+                        let gpaProperty = 'hasGPA_' + student.gpaScale;
+                        turtle += ` ;
+    :${gpaProperty} "${student.gpa}"^^xsd:decimal`;
+                    }
+
+                    turtle += ` .
+`;
+                }
+
+                turtle += '\n';
+            });
 
             return turtle;
         }
@@ -615,7 +905,8 @@
         }
 
         // Mostra messaggio di successo
-        function showSuccess() {
+        function showSuccess(message = 'Operazione completata con successo!') {
+            successMessage.textContent = '✓ ' + message;
             successMessage.style.display = 'block';
             setTimeout(() => {
                 successMessage.style.display = 'none';
