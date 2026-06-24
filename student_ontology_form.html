@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generatore Ontologia OWL - Studenti</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23667eea" d="M6 9L1 4h10z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 12px;
+            padding-right: 36px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .gpa-scale-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .scale-option {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scale-option:hover {
+            border-color: #667eea;
+            background-color: rgba(102, 126, 234, 0.05);
+        }
+
+        .scale-option input[type="radio"] {
+            margin-right: 8px;
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+
+        .scale-option.selected {
+            border-color: #667eea;
+            background-color: rgba(102, 126, 234, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-generate {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-generate:active {
+            transform: translateY(0);
+        }
+
+        .btn-reset {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-reset:hover {
+            background: #e0e0e0;
+        }
+
+        .info-box {
+            background: #f0f5ff;
+            border-left: 4px solid #667eea;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 24px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .gpa-scale-container {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Generatore Ontologia</h1>
+            <p>Crea file Turtle (OWL) per l'ammissione studenti</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            ✓ File generato e scaricato con successo!
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="info-box">
+            Compila il modulo per generare un file Turtle con la descrizione dell'ontologia dello studente.
+        </div>
+
+        <form id="studentForm">
+            <!-- Nome Studente -->
+            <div class="form-group">
+                <label for="studentName" class="required">Nome Studente</label>
+                <input
+                    type="text"
+                    id="studentName"
+                    name="studentName"
+                    placeholder="es. Mario Rossi"
+                    required
+                >
+            </div>
+
+            <!-- Corso di Destinazione -->
+            <div class="form-group">
+                <label for="course" class="required">Corso di Destinazione</label>
+                <select id="course" name="course" required>
+                    <option value="">-- Seleziona corso --</option>
+                    <option value="Triennale">Triennale</option>
+                    <option value="Magistrale">Magistrale</option>
+                </select>
+            </div>
+
+            <!-- Paese di Provenienza -->
+            <div class="form-group">
+                <label for="country" class="required">Paese di Provenienza</label>
+                <select id="country" name="country" required>
+                    <option value="">-- Seleziona paese --</option>
+                    <option value="India">India</option>
+                    <option value="Iran">Iran</option>
+                </select>
+            </div>
+
+            <!-- Titolo di Studio -->
+            <div class="form-group">
+                <label for="qualificationTitle" class="required">Titolo di Studio</label>
+                <select id="qualificationTitle" name="qualificationTitle" required disabled>
+                    <option value="">-- Seleziona paese prima --</option>
+                </select>
+            </div>
+
+            <!-- Durata in anni -->
+            <div class="form-group hidden" id="durationGroup">
+                <label for="duration">Durata in anni</label>
+                <input
+                    type="number"
+                    id="duration"
+                    name="duration"
+                    min="1"
+                    max="10"
+                    placeholder="es. 4"
+                >
+            </div>
+
+            <!-- GPA -->
+            <div class="form-group hidden" id="gpaGroup">
+                <label for="gpa" class="required">GPA (Voto)</label>
+                <input
+                    type="number"
+                    id="gpa"
+                    name="gpa"
+                    step="0.01"
+                    min="0"
+                    placeholder="es. 3.5"
+                >
+
+                <!-- Scala GPA per India -->
+                <div id="gpaScaleContainer" class="gpa-scale-container hidden">
+                    <div class="scale-option">
+                        <input type="radio" id="scale100" name="gpaScale" value="Base100">
+                        <label for="scale100" style="margin: 0; font-weight: 400;">Su 100</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="scale10" name="gpaScale" value="Base10">
+                        <label for="scale10" style="margin: 0; font-weight: 400;">Su 10</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="scale8" name="gpaScale" value="Base8">
+                        <label for="scale8" style="margin: 0; font-weight: 400;">Su 8</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" id="scale4" name="gpaScale" value="Base4">
+                        <label for="scale4" style="margin: 0; font-weight: 400;">Su 4</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pulsanti -->
+            <div class="button-group">
+                <button type="submit" class="btn-generate">📥 Genera e Scarica</button>
+                <button type="reset" class="btn-reset">🔄 Pulisci Modulo</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Configurazione titoli di studio per paese
+        const qualificationsByCountry = {
+            India: [
+                { label: 'Nessun certificato', value: 'NoCertificate', requiresDuration: false },
+                { label: 'All-India Senior School', value: 'AllIndiaSeniorSchool', requiresDuration: false },
+                { label: 'Indian School Certificate', value: 'IndianSchoolCertificate', requiresDuration: false },
+                { label: 'Intermediate Examination', value: 'IntermediateExamination', requiresDuration: false },
+                { label: 'Higher Secondary School', value: 'HigherSecondarySchool', requiresDuration: false },
+                { label: 'Higher Secondary Examination Part II', value: 'HigherSecondaryExaminationPartII', requiresDuration: false },
+                { label: 'Honours Bachelor', value: 'HonoursBachelorDegree', requiresDuration: true },
+                { label: 'Professional Bachelor', value: 'ProfessionalBachelorDegree', requiresDuration: true },
+                { label: 'Pass/General Bachelor', value: 'PassGeneralBachelorDegree', requiresDuration: false },
+                { label: "Master's Degree", value: 'MastersDegree', requiresDuration: false }
+            ],
+            Iran: [
+                { label: 'Nessun certificato', value: 'NoCertificate', requiresDuration: false },
+                { label: 'Diplom-e-Motevasete + Anno pre-universitario', value: 'DiplomMotevasetePreUniversitary', requiresDuration: false },
+                { label: 'Certificato dal 2018/19', value: 'Certificate2018_2019', requiresDuration: false },
+                { label: 'Associate Degree (Kardani)', value: 'AssociateDegreeKardani', requiresDuration: false },
+                { label: 'Bachelor Degree (Karshenasi)', value: 'BachelorDegreeKarshenasi', requiresDuration: true },
+                { label: 'Discontinuous Degree (Karshenasi-napayvasteh)', value: 'DiscontinuousDegreeKarshenasi', requiresDuration: true }
+            ]
+        };
+
+        // Elementi DOM
+        const form = document.getElementById('studentForm');
+        const studentNameInput = document.getElementById('studentName');
+        const courseSelect = document.getElementById('course');
+        const countrySelect = document.getElementById('country');
+        const qualificationSelect = document.getElementById('qualificationTitle');
+        const durationGroup = document.getElementById('durationGroup');
+        const durationInput = document.getElementById('duration');
+        const gpaGroup = document.getElementById('gpaGroup');
+        const gpaInput = document.getElementById('gpa');
+        const gpaScaleContainer = document.getElementById('gpaScaleContainer');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Event Listeners
+        countrySelect.addEventListener('change', updateQualifications);
+        qualificationSelect.addEventListener('change', updateDurationField);
+        courseSelect.addEventListener('change', updateGpaField);
+        gpaInput.addEventListener('change', updateGpaScale);
+        form.addEventListener('submit', generateTurtleFile);
+
+        // Aggiorna le opzioni di titolo di studio in base al paese
+        function updateQualifications() {
+            const country = countrySelect.value;
+            qualificationSelect.innerHTML = '<option value="">-- Seleziona titolo --</option>';
+
+            if (!country) {
+                qualificationSelect.disabled = true;
+                return;
+            }
+
+            qualificationSelect.disabled = false;
+            const qualifications = qualificationsByCountry[country] || [];
+
+            qualifications.forEach(qual => {
+                const option = document.createElement('option');
+                option.value = qual.value;
+                option.textContent = qual.label;
+                qualificationSelect.appendChild(option);
+            });
+
+            // Reset della durata e GPA
+            durationGroup.classList.add('hidden');
+            updateGpaField();
+        }
+
+        // Mostra/nasconde il campo durata
+        function updateDurationField() {
+            const selectedValue = qualificationSelect.value;
+            const country = countrySelect.value;
+
+            if (!country || !selectedValue) {
+                durationGroup.classList.add('hidden');
+                durationInput.value = '';
+                return;
+            }
+
+            const qualifications = qualificationsByCountry[country];
+            const selectedQual = qualifications.find(q => q.value === selectedValue);
+
+            if (selectedQual && selectedQual.requiresDuration) {
+                durationGroup.classList.remove('hidden');
+                durationInput.required = true;
+            } else {
+                durationGroup.classList.add('hidden');
+                durationInput.value = '';
+                durationInput.required = false;
+            }
+        }
+
+        // Mostra/nasconde il campo GPA
+        function updateGpaField() {
+            const course = courseSelect.value;
+
+            if (course === 'Magistrale') {
+                gpaGroup.classList.remove('hidden');
+                gpaInput.required = true;
+                updateGpaScale();
+            } else {
+                gpaGroup.classList.add('hidden');
+                gpaInput.value = '';
+                gpaInput.required = false;
+                gpaScaleContainer.classList.add('hidden');
+                resetGpaScale();
+            }
+        }
+
+        // Mostra le opzioni di scala GPA appropriate
+        function updateGpaScale() {
+            const country = countrySelect.value;
+            const course = courseSelect.value;
+
+            if (course !== 'Magistrale' || !country) {
+                gpaScaleContainer.classList.add('hidden');
+                resetGpaScale();
+                return;
+            }
+
+            if (country === 'India') {
+                gpaScaleContainer.classList.remove('hidden');
+            } else if (country === 'Iran') {
+                gpaScaleContainer.classList.add('hidden');
+                resetGpaScale();
+            }
+        }
+
+        // Reset delle opzioni di scala GPA
+        function resetGpaScale() {
+            document.querySelectorAll('input[name="gpaScale"]').forEach(radio => {
+                radio.checked = false;
+            });
+        }
+
+        // Convertida il nome in formato URI (sostituisce spazi con underscore)
+        function sanitizeURI(name) {
+            return name.trim().replace(/\s+/g, '_');
+        }
+
+        // Genera il file Turtle
+        function generateTurtleFile(e) {
+            e.preventDefault();
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+
+            try {
+                // Validazione dei campi
+                const studentName = studentNameInput.value.trim();
+                const course = courseSelect.value;
+                const country = countrySelect.value;
+                const qualificationTitle = qualificationSelect.value;
+                const gpa = gpaInput.value;
+                const duration = durationInput.value;
+
+                if (!studentName || !course || !country || !qualificationTitle) {
+                    showError('Completa tutti i campi obbligatori.');
+                    return;
+                }
+
+                if (course === 'Magistrale' && !gpa) {
+                    showError('Il GPA è obbligatorio per il corso Magistrale.');
+                    return;
+                }
+
+                if (course === 'Magistrale' && country === 'India' && !document.querySelector('input[name="gpaScale"]:checked')) {
+                    showError('Seleziona la scala del GPA.');
+                    return;
+                }
+
+                const durationRequired = qualificationTitle !== 'NoCertificate' &&
+                    qualificationsByCountry[country].find(q => q.value === qualificationTitle)?.requiresDuration;
+
+                if (durationRequired && !duration) {
+                    showError('La durata è obbligatoria per questo titolo di studio.');
+                    return;
+                }
+
+                // Generazione del contenuto Turtle
+                let turtleContent = generateTurtleContent(
+                    studentName,
+                    course,
+                    country,
+                    qualificationTitle,
+                    duration,
+                    gpa
+                );
+
+                // Download del file
+                downloadFile(turtleContent, 'studenti_generati.ttl');
+                showSuccess();
+                form.reset();
+                durationGroup.classList.add('hidden');
+                gpaGroup.classList.add('hidden');
+
+            } catch (error) {
+                showError('Errore nella generazione del file: ' + error.message);
+                console.error(error);
+            }
+        }
+
+        // Genera il contenuto Turtle
+        function generateTurtleContent(studentName, course, country, qualificationTitle, duration, gpa) {
+            const studentURI = sanitizeURI(studentName);
+            const courseURI = 'Course_' + sanitizeURI(course);
+            const certURI = 'Cert_' + sanitizeURI(studentName);
+            const courseType = course === 'Magistrale' ? 'PostgraduateCourse' : 'UndergraduateCourse';
+            const studentClass = country === 'India' ? 'IndianStudent' : 'IranianStudent';
+
+            let turtle = `@prefix : <http://example.org/university-admission#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Definizione dello studente
+:${studentURI} rdf:type owl:NamedIndividual ;
+    rdf:type :${studentClass} ;
+    :hasAppliedFor :${courseURI} `;
+
+            // Aggiunta della qualifica se non è "Nessun certificato"
+            if (qualificationTitle !== 'NoCertificate') {
+                turtle += ` ;
+    :hasQualification :${certURI}`;
+            }
+
+            turtle += ` .
+
+# Definizione del corso
+:${courseURI} rdf:type owl:NamedIndividual ;
+    rdf:type :${courseType} ;
+    :courseName "${course}"^^xsd:string .
+`;
+
+            // Aggiunta della qualifica se non è "Nessun certificato"
+            if (qualificationTitle !== 'NoCertificate') {
+                turtle += `
+# Definizione della qualifica
+:${certURI} rdf:type owl:NamedIndividual ;
+    rdf:type :${qualificationTitle}`;
+
+                // Aggiunta della durata se richiesta
+                if (duration) {
+                    turtle += ` ;
+    :hasDurationInYears "${duration}"^^xsd:integer`;
+                }
+
+                // Aggiunta del GPA se presente
+                if (gpa && course === 'Magistrale') {
+                    let gpaProperty;
+                    if (country === 'Iran') {
+                        gpaProperty = 'hasGPA_Base20';
+                    } else {
+                        const gpaScale = document.querySelector('input[name="gpaScale"]:checked')?.value;
+                        gpaProperty = 'hasGPA_' + gpaScale;
+                    }
+                    turtle += ` ;
+    :${gpaProperty} "${gpa}"^^xsd:decimal`;
+                }
+
+                turtle += ` .
+`;
+            }
+
+            return turtle;
+        }
+
+        // Scarica un file di testo
+        function downloadFile(content, filename) {
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Mostra messaggio di successo
+        function showSuccess() {
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        // Mostra messaggio di errore
+        function showError(message) {
+            errorMessage.textContent = '✗ ' + message;
+            errorMessage.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
+
