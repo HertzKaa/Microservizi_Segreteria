@@ -479,6 +479,9 @@
     </div>
 
     <script>
+        // Configurazione URL del Backend Flask
+        const BACKEND_URL = 'http://localhost:5000';
+
         // Configurazione titoli di studio per paese
         const qualificationsByCountry = {
             India: [
@@ -503,7 +506,7 @@
             ]
         };
 
-        // Array per memorizzare gli studenti inseriti
+        // Array locale per la visualizzazione temporanea
         let studentsData = [];
 
         // Elementi DOM
@@ -527,17 +530,19 @@
         const finalGenerateBtn = document.getElementById('finalGenerateBtn');
         const clearAllBtn = document.getElementById('clearAllBtn');
 
+        // Aggiorna testo del pulsante per riflettere il download dal server
+        finalGenerateBtn.textContent = "📥 Scarica File Unico dal Server";
+
         // Event Listeners
         countrySelect.addEventListener('change', updateQualifications);
         qualificationSelect.addEventListener('change', updateDurationField);
         courseSelect.addEventListener('change', updateGpaField);
         gpaInput.addEventListener('change', updateGpaScale);
         addStudentBtn.addEventListener('click', addStudent);
-        finalGenerateBtn.addEventListener('click', generateTurtleFile);
-        clearAllBtn.addEventListener('click', clearAllStudents);
+        finalGenerateBtn.addEventListener('click', downloadServerFile);
+        clearAllBtn.addEventListener('click', clearAllStudentsServer);
         form.addEventListener('reset', resetForm);
 
-        // Aggiorna le opzioni di titolo di studio in base al paese
         function updateQualifications() {
             const country = countrySelect.value;
             qualificationSelect.innerHTML = '<option value="">-- Seleziona titolo --</option>';
@@ -561,7 +566,6 @@
             updateGpaField();
         }
 
-        // Mostra/nasconde il campo durata
         function updateDurationField() {
             const selectedValue = qualificationSelect.value;
             const country = countrySelect.value;
@@ -585,7 +589,6 @@
             }
         }
 
-        // Mostra/nasconde il campo GPA
         function updateGpaField() {
             const course = courseSelect.value;
 
@@ -602,7 +605,6 @@
             }
         }
 
-        // Mostra le opzioni di scala GPA appropriate
         function updateGpaScale() {
             const country = countrySelect.value;
             const course = courseSelect.value;
@@ -621,26 +623,19 @@
             }
         }
 
-        // Reset delle opzioni di scala GPA
         function resetGpaScale() {
             document.querySelectorAll('input[name="gpaScale"]').forEach(radio => {
                 radio.checked = false;
             });
         }
 
-        // Convertida il nome in formato URI (sostituisce spazi con underscore)
-        function sanitizeURI(name) {
-            return name.trim().replace(/\s+/g, '_');
-        }
-
-        // Aggiunge uno studente alla lista
-        function addStudent(e) {
+        // AGGIUNTA DELLO STUDENTE SUL SERVER TRAMITE API
+        async function addStudent(e) {
             e.preventDefault();
             errorMessage.style.display = 'none';
             successMessage.style.display = 'none';
 
             try {
-                // Validazione dei campi
                 const studentName = studentNameInput.value.trim();
                 const course = courseSelect.value;
                 const country = countrySelect.value;
@@ -648,6 +643,7 @@
                 const gpa = gpaInput.value;
                 const duration = durationInput.value;
 
+                // Validazione form
                 if (!studentName || !course || !country || !qualificationTitle) {
                     showError('Completa tutti i campi obbligatori.');
                     return;
@@ -671,38 +667,56 @@
                     return;
                 }
 
-                // Raccogli i dati dello studente
-                const studentData = {
+                // Dati da inviare al server
+                const payload = {
                     name: studentName,
                     course: course,
                     country: country,
                     qualificationTitle: qualificationTitle,
-                    duration: duration || null,
-                    gpa: gpa || null,
+                    duration: duration ? parseInt(duration) : null,
+                    gpa: gpa ? parseFloat(gpa) : null,
                     gpaScale: country === 'Iran' ? 'Base20' : (document.querySelector('input[name="gpaScale"]:checked')?.value || null)
                 };
 
-                // Aggiungi lo studente all'array
-                studentsData.push(studentData);
+                // Mostra stato di caricamento temporaneo
+                addStudentBtn.disabled = true;
+                addStudentBtn.textContent = "⏳ Salvataggio...";
 
-                // Aggiorna la visualizzazione
+                // Chiamata API al server
+                const response = await fetch(`${BACKEND_URL}/register-student`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'Errore durante la registrazione sul server');
+                }
+
+                // Se salvato con successo sul server, aggiorna l'interfaccia locale
+                studentsData.push(payload);
                 updateStudentsList();
 
-                // Pulisci il form
+                // Pulisci il modulo
                 form.reset();
                 durationGroup.classList.add('hidden');
                 gpaGroup.classList.add('hidden');
                 resetGpaScale();
 
-                showSuccess(`Studente "${studentName}" aggiunto alla lista!`);
+                showSuccess(result.message);
 
             } catch (error) {
-                showError('Errore nell\'aggiunta dello studente: ' + error.message);
+                showError('Errore durante il salvataggio: ' + error.message);
                 console.error(error);
+            } finally {
+                addStudentBtn.disabled = false;
+                addStudentBtn.textContent = "➕ Aggiungi Studente";
             }
         }
 
-        // Aggiorna la visualizzazione della lista studenti
+        // Aggiorna visivamente la lista nell'interfaccia
         function updateStudentsList() {
             studentCount.textContent = studentsData.length;
 
@@ -725,7 +739,7 @@
 
                 const nameDiv = document.createElement('div');
                 nameDiv.className = 'student-name';
-                nameDiv.textContent = `${index + 1}. ${student.name}`;
+                nameDiv.innerHTML = `${index + 1}. ${student.name} <span style="font-size: 11px; background-color: #d1fae5; color: #065f46; padding: 2px 6px; border-radius: 4px; margin-left: 8px;">💾 Registrato sul Server</span>`;
 
                 const detailsDiv = document.createElement('div');
                 detailsDiv.className = 'student-details';
@@ -766,38 +780,41 @@
                 infoDiv.appendChild(nameDiv);
                 infoDiv.appendChild(detailsDiv);
 
-                const deleteBtn = document.createElement('button');
-                deleteBtn.type = 'button';
-                deleteBtn.className = 'btn-delete';
-                deleteBtn.textContent = '✕ Elimina';
-                deleteBtn.addEventListener('click', () => deleteStudent(index));
-
                 studentItem.appendChild(infoDiv);
-                studentItem.appendChild(deleteBtn);
-
                 studentsList.appendChild(studentItem);
             });
         }
 
-        // Elimina uno studente dalla lista
-        function deleteStudent(index) {
-            const removedName = studentsData[index].name;
-            studentsData.splice(index, 1);
-            updateStudentsList();
-            showSuccess(`Studente "${removedName}" eliminato dalla lista.`);
-        }
-
-        // Elimina tutti gli studenti
-        function clearAllStudents(e) {
+        // Azzeramento totale della lista studenti sia in locale che sul server
+        async function clearAllStudentsServer(e) {
             e.preventDefault();
-            if (confirm('Sei sicuro di voler eliminare tutti gli studenti?')) {
-                studentsData = [];
-                updateStudentsList();
-                showSuccess('Tutti gli studenti sono stati eliminati.');
+            if (confirm('Sei sicuro di voler eliminare tutti gli studenti registrati sul server? Verrà cancellato il file unico.')) {
+                try {
+                    const response = await fetch(`${BACKEND_URL}/clear-registered-ttl`, {
+                        method: 'POST'
+                    });
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(result.message);
+                    }
+
+                    studentsData = [];
+                    updateStudentsList();
+                    showSuccess(result.message);
+
+                } catch (error) {
+                    showError('Errore durante l\'azzeramento: ' + error.message);
+                }
             }
         }
 
-        // Reset del form
+        // Funzione per scaricare il file unico generato dal server
+        function downloadServerFile(e) {
+            e.preventDefault();
+            window.location.href = `${BACKEND_URL}/download-registered-ttl`;
+        }
+
         function resetForm() {
             durationGroup.classList.add('hidden');
             gpaGroup.classList.add('hidden');
@@ -806,114 +823,14 @@
             qualificationSelect.innerHTML = '<option value="">-- Seleziona paese prima --</option>';
         }
 
-        // Genera il file Turtle con tutti gli studenti
-        function generateTurtleFile(e) {
-            e.preventDefault();
-            errorMessage.style.display = 'none';
-            successMessage.style.display = 'none';
-
-            try {
-                if (studentsData.length === 0) {
-                    showError('Aggiungi almeno uno studente prima di generare il file.');
-                    return;
-                }
-
-                const turtleContent = generateTurtleContent(studentsData);
-                downloadFile(turtleContent, 'studenti_generati.ttl');
-                showSuccess(`File generato e scaricato con successo! (${studentsData.length} studente/i incluso/i)`);
-
-            } catch (error) {
-                showError('Errore nella generazione del file: ' + error.message);
-                console.error(error);
-            }
-        }
-
-        // Genera il contenuto Turtle per tutti gli studenti
-        function generateTurtleContent(students) {
-            let turtle = `@prefix : <http://example.org/university-admission#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-`;
-
-            students.forEach((student, studentIndex) => {
-                const studentURI = sanitizeURI(student.name);
-                const courseURI = 'Course_' + sanitizeURI(student.course);
-                const certURI = 'Cert_' + sanitizeURI(student.name);
-                const courseType = student.course === 'Magistrale' ? 'PostgraduateCourse' : 'UndergraduateCourse';
-                const studentClass = student.country === 'India' ? 'IndianStudent' : 'IranianStudent';
-
-                // Aggiunta di un commento identificativo
-                turtle += `# Studente ${studentIndex + 1}: ${student.name}\n`;
-                turtle += `:${studentURI} rdf:type owl:NamedIndividual ;
-    rdf:type :${studentClass} ;
-    :hasAppliedFor :${courseURI}`;
-
-                // Aggiunta della qualifica se non è "Nessun certificato"
-                if (student.qualificationTitle !== 'NoCertificate') {
-                    turtle += ` ;
-    :hasQualification :${certURI}`;
-                }
-
-                turtle += ` .
-
-:${courseURI} rdf:type owl:NamedIndividual ;
-    rdf:type :${courseType} ;
-    :courseName "${student.course}"^^xsd:string .
-`;
-
-                // Aggiunta della qualifica se non è "Nessun certificato"
-                if (student.qualificationTitle !== 'NoCertificate') {
-                    turtle += `
-:${certURI} rdf:type owl:NamedIndividual ;
-    rdf:type :${student.qualificationTitle}`;
-
-                    // Aggiunta della durata se richiesta
-                    if (student.duration) {
-                        turtle += ` ;
-    :hasDurationInYears "${student.duration}"^^xsd:integer`;
-                    }
-
-                    // Aggiunta del GPA se presente
-                    if (student.gpa && student.course === 'Magistrale') {
-                        let gpaProperty = 'hasGPA_' + student.gpaScale;
-                        turtle += ` ;
-    :${gpaProperty} "${student.gpa}"^^xsd:decimal`;
-                    }
-
-                    turtle += ` .
-`;
-                }
-
-                turtle += '\n';
-            });
-
-            return turtle;
-        }
-
-        // Scarica un file di testo
-        function downloadFile(content, filename) {
-            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        // Mostra messaggio di successo
         function showSuccess(message = 'Operazione completata con successo!') {
             successMessage.textContent = '✓ ' + message;
             successMessage.style.display = 'block';
             setTimeout(() => {
                 successMessage.style.display = 'none';
-            }, 5000);
+            }, 6000);
         }
 
-        // Mostra messaggio di errore
         function showError(message) {
             errorMessage.textContent = '✗ ' + message;
             errorMessage.style.display = 'block';

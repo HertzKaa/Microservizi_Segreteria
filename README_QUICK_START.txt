@@ -9,28 +9,14 @@
 STEP 1️⃣  - Crea l'Ambiente Virtuale (prima volta)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Apri PowerShell nella cartella del progetto e esegui:
-
-    python -m venv venv
-
-[⏳ Questo impiega ~20-30 secondi]
-
-Se ottieni errore, prova:
-
-    python3 -m venv venv
-    # oppure
-    py -m venv venv
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 STEP 2️⃣  - Attiva l'Ambiente Virtuale (sempre)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Nel terminale PowerShell, esegui:
+Apri il terminale integrato di IntelliJ (PowerShell) nella cartella root del progetto e esegui:
 
-    .\venv\Scripts\Activate.ps1
+    .\.venv\Scripts\Activate.ps1
 
-[✓ Dovresti vedere (venv) all'inizio del prompt]
+[✓ Dovresti vedere (.venv) all'inizio del prompt]
 
 Se ottieni errore sulla politica di esecuzione:
 
@@ -38,14 +24,14 @@ Se ottieni errore sulla politica di esecuzione:
 
 Poi riprova:
 
-    .\venv\Scripts\Activate.ps1
+    .\.venv\Scripts\Activate.ps1
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 STEP 3️⃣  - Installa le Dipendenze (prima volta)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Con l'ambiente virtuale ATTIVATO (vedi (venv) nel prompt):
+Con l'ambiente virtuale ATTIVATO (vedi (.venv) nel prompt):
 
     pip install -r requirements.txt
 
@@ -56,8 +42,9 @@ Con l'ambiente virtuale ATTIVATO (vedi (venv) nel prompt):
 STEP 4️⃣  - Converti il File Ontologia (IMPORTANTE - prima volta)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Con l'ambiente virtuale attivato:
+Con l'ambiente virtuale attivato, entra nella cartella backend ed esegui la conversione:
 
+    cd C:\Projects\Microservizi_Segreteria\backend
     python convert_turtle.py
 
 [⏳ Questo impiega ~5 secondi]
@@ -73,7 +60,7 @@ Output atteso:
 STEP 5️⃣  - Avvia il Backend (sempre)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Sempre con l'ambiente virtuale attivato:
+Rimani nella cartella backend con l'ambiente virtuale attivato:
 
     python app.py
 
@@ -86,10 +73,10 @@ Sempre con l'ambiente virtuale attivato:
 STEP 6️⃣  - Apri il Form nel Browser (nuovo terminale)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Apri un NUOVO terminale PowerShell (senza chiudere quello precedente):
+Apri un NUOVO terminale in IntelliJ (cliccando sul tasto + del pannello Terminal):
 
-    cd "C:\Users\claud\IdeaProjects\Microservizi Segreteria"
-    .\venv\Scripts\Activate.ps1
+    cd "C:\Projects\Microservizi_Segreteria\frontend"
+    ..\.venv\Scripts\Activate.ps1
     python -m http.server 8000
 
 Poi apri il browser e vai a:
@@ -100,13 +87,14 @@ Poi apri il browser e vai a:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📂 FILE IMPORTANTI
+📂 STRUTTURA FILE AGGIORNATA
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-✓ app.py                              → Backend Flask + owlready2
-✓ admission_verification_form.html    → Frontend form (indipendente!)
-✓ Protege0-.ttl                       → Ontologia OWL
-✓ requirements.txt                    → Dipendenze Python
+✓ backend/app.py                      → Backend Flask + owlready2
+✓ backend/convert_turtle.py           → Script di conversione ontologia
+✓ frontend/admission_verification_form.html → Frontend form (indipendente!)
+✓ ontology/Protege0-.ttl              → Ontologia OWL originale
+✓ requirements.txt                    → Dipendenze Python (nella root)
 ✓ SETUP_INSTRUCTIONS.md               → Guida completa con troubleshooting
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -140,21 +128,21 @@ API Health Check:   http://localhost:5000/health
 ❌ PROBLEMI?
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-1. "(venv) non appare nel prompt"
+1. "(.venv) non appare nel prompt"
    └─→ Significa che l'ambiente virtuale NON è attivato
-   └─→ Esegui: .\venv\Scripts\Activate.ps1
+   └─→ Esegui: .\.venv\Scripts\Activate.ps1 (se sei nella root) o ..\.venv\Scripts\Activate.ps1 (se sei in una sottocartella)
 
 2. "Cannot be loaded because running scripts is disabled"
    └─→ Esegui: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 3. "Impossibile connettersi al backend"
-   └─→ Assicurati che `python app.py` sia in esecuzione in un altro terminale
-   └─→ Verifica che il terminale del backend abbia (venv) attivo
+   └─→ Assicurati che `python app.py` sia in esecuzione in un altro terminale dentro la cartella backend
+   └─→ Verifica che il terminale del backend abbia (.venv) attivo
 
 4. "ModuleNotFoundError: No module named 'owlready2'"
    └─→ Non hai attivato venv!
-   └─→ Esegui: .\venv\Scripts\Activate.ps1
-   └─→ Poi: pip install -r requirements.txt
+   └─→ Torna nella root, esegui: .\.venv\Scripts\Activate.ps1
+   └─→ Poi reinstalla: pip install -r requirements.txt
 
 5. "Port 5000 already in use"
    └─→ Chiudi altri processi Python o cambia porta in app.py
@@ -171,7 +159,7 @@ Quando hai terminato di usare l'app, nel terminale esegui:
 
     deactivate
 
-Il (venv) scomparirà dal prompt.
+Il (.venv) scomparirà dal prompt.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

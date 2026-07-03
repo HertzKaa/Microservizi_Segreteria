@@ -10,8 +10,8 @@ from rdflib import Graph
 print("🔄 Conversione Turtle → RDF/XML\n")
 
 # File di input e output
-ttl_file = "Protege0-.ttl"
-rdf_file = "Protege0-.rdf"
+ttl_file = "../ontology/Protege0-.ttl"
+rdf_file = "../ontology/Protege0-.rdf"
 
 if not os.path.exists(ttl_file):
     print(f"❌ ERRORE: {ttl_file} non trovato!")

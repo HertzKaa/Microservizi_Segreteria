@@ -25,7 +25,7 @@ for file in ontology_files:
 if not ontology_file:
     print(f"   ❌ ERRORE: Nessun file ontologia trovato")
     print(f"   📂 Directory corrente: {os.getcwd()}")
-    print(f"   📂 File disponibili: {os.listdir('.')}")
+    print(f"   📂 File disponibili: {os.listdir('..')}")
     sys.exit(1)
 
 print("\n2️⃣  Verifico che owlready2 sia installato...")

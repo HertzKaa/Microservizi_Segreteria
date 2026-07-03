@@ -12,11 +12,11 @@ print("🔍 DIAGNOSTICA DEL BACKEND\n")
 # 1. Verifica file ontologia
 print("1️⃣  Verifico file ontologia...")
 required_files = ["Protege0-.rdf", "Protege0-.ttl"]
-rdf_exists = os.path.exists("Protege0-.rdf")
-ttl_exists = os.path.exists("Protege0-.ttl")
+rdf_exists = os.path.exists("../ontology/Protege0-.rdf")
+ttl_exists = os.path.exists("../ontology/Protege0-.ttl")
 
 if rdf_exists:
-    print(f"   ✅ Protege0-.rdf trovato ({os.path.getsize('Protege0-.rdf') / 1024:.1f} KB)")
+    print(f"   ✅ Protege0-.rdf trovato ({os.path.getsize('../ontology/Protege0-.rdf') / 1024:.1f} KB)")
 else:
     print(f"   ❌ Protege0-.rdf NON trovato")
     if ttl_exists:
@@ -24,7 +24,7 @@ else:
         print(f"   💡 Soluzione: esegui `python convert_turtle.py`")
 
 if ttl_exists:
-    print(f"   ✅ Protege0-.ttl trovato ({os.path.getsize('Protege0-.ttl') / 1024:.1f} KB)")
+    print(f"   ✅ Protege0-.ttl trovato ({os.path.getsize('../ontology/Protege0-.ttl') / 1024:.1f} KB)")
 else:
     print(f"   ❌ Protege0-.ttl NON trovato")
 
@@ -57,7 +57,7 @@ try:
         print(f"      2. python convert_turtle.py")
         sys.exit(1)
 
-    onto = get_ontology(f"file:///{os.path.abspath('Protege0-.rdf')}").load()
+    onto = get_ontology(f"file:///{os.path.abspath('../ontology/Protege0-.rdf')}").load()
     print(f"   ✅ Ontologia caricata!")
 
     # Verifica classi

@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifica Ammissione - Ontologia OWL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .verification-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 550px;
+            width: 100%;
+            padding: 40px;
+            transition: max-width 0.4s ease;
+        }
+
+        /* Allarga il contenitore se mostriamo la tabella dei risultati massivi */
+        .verification-container.wide {
+            max-width: 900px;
+        }
+
+        .verification-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .verification-header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .verification-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="password"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23667eea" d="M6 9L1 4h10z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 12px;
+            padding-right: 36px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .button-wrapper {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        button {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-verify {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-verify:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-verify:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-reset {
+            background: #f0f0f0;
+            color: #333;
+            flex: 1;
+        }
+
+        .btn-reset:hover {
+            background: #e0e0e0;
+        }
+
+        .info-box {
+            background: #f0f5ff;
+            border-left: 4px solid #667eea;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .result-box {
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 24px;
+            display: none;
+            animation: slideDown 0.3s ease;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .result-box.admitted {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 2px solid #28a745;
+            color: #155724;
+        }
+
+        .result-box.rejected {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border: 2px solid #dc3545;
+            color: #721c24;
+        }
+
+        .result-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(102, 126, 234, 0.3);
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .form-section-title {
+            color: #667eea;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+            margin-bottom: 16px;
+            padding-top: 12px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        /* STILI DELL'AREA AMMINISTRATORE (BETA) */
+        .admin-switch-container {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .admin-switch-btn {
+            font-size: 13px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px dashed rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .admin-switch-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.03);
+        }
+
+        .admin-panel {
+            background: #fafafb;
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 24px;
+            margin-top: 20px;
+            animation: slideDown 0.4s ease;
+        }
+
+        .admin-panel h2 {
+            font-size: 18px;
+            color: #764ba2;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .format-info {
+            background: #f1f5f9;
+            border-radius: 6px;
+            padding: 10px 14px;
+            font-size: 12px;
+            color: #475569;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        /* Tabella Esiti Batch */
+        .batch-table-container {
+            margin-top: 24px;
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .batch-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+            background: white;
+        }
+
+        .batch-table th, .batch-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .batch-table th {
+            background: #f8fafc;
+            color: #475569;
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .badge.admitted {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge.rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        @media (max-width: 480px) {
+            .verification-container {
+                padding: 24px;
+            }
+
+            .verification-header h1 {
+                font-size: 24px;
+            }
+
+            .button-wrapper {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="verification-container" id="container">
+    <div class="verification-header">
+        <h1>🔍 Verifica Ammissione</h1>
+        <p>Controlla la tua ammissione tramite ontologia OWL</p>
+    </div>
+
+    <div class="success-message" id="successMessage"></div>
+    <div class="error-message" id="errorMessage"></div>
+
+    <div class="info-box" id="infoBoxMain">
+        Compila il modulo e clicca "Verifica Ammissione" per controllare se sei idoneo ai tuoi corsi di destinazione.
+    </div>
+
+    <!-- FORM STANDARD DI VERIFICA -->
+    <form id="verificationForm">
+        <!-- Sezione: Informazioni Personali -->
+        <div class="form-section-title">📋 Informazioni Personali</div>
+
+        <div class="form-group">
+            <label for="studentName" class="required">Nome Studente</label>
+            <input
+                    type="text"
+                    id="studentName"
+                    name="studentName"
+                    placeholder="es. Mario Rossi"
+                    required
+            >
+        </div>
+
+        <!-- Sezione: Selezione Corso e Paese -->
+        <div class="form-section-title">🎓 Corso e Paese</div>
+
+        <div class="form-group">
+            <label for="course" class="required">Corso di Destinazione</label>
+            <select id="course" name="course" required>
+                <option value="">-- Seleziona corso --</option>
+                <option value="Undergraduate">Triennale (Undergraduate)</option>
+                <option value="Postgraduate">Magistrale (Postgraduate)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="country" class="required">Paese di Provenienza</label>
+            <select id="country" name="country" required>
+                <option value="">-- Seleziona paese --</option>
+                <option value="India">India</option>
+                <option value="Iran">Iran</option>
+            </select>
+        </div>
+
+        <!-- Sezione: Titolo di Studio -->
+        <div class="form-section-title">📜 Titolo di Studio</div>
+
+        <div class="form-group">
+            <label for="qualification" class="required">Titolo di Studio</label>
+            <select id="qualification" name="qualification" required disabled>
+                <option value="">-- Seleziona paese e corso prima --</option>
+            </select>
+        </div>
+
+        <!-- Durata in anni (condizionale) -->
+        <div class="form-group hidden" id="durationGroup">
+            <label for="duration">Durata in anni</label>
+            <input
+                    type="number"
+                    id="duration"
+                    name="duration"
+                    min="1"
+                    max="10"
+                    placeholder="es. 4"
+            >
+        </div>
+
+        <!-- Sezione: Voti e Prestazioni -->
+        <div class="form-section-title">📊 Voti e Prestazioni</div>
+
+        <div class="form-group">
+            <label for="gpa" class="required">GPA (Voto Medio)</label>
+            <input
+                    type="number"
+                    id="gpa"
+                    name="gpa"
+                    step="0.01"
+                    min="0"
+                    placeholder="es. 3.5"
+                    required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="gpaScale" class="required">Scala del Voto</label>
+            <select id="gpaScale" name="gpaScale" required disabled>
+                <option value="">-- Seleziona paese prima --</option>
+            </select>
+        </div>
+
+        <!-- Pulsanti -->
+        <div class="button-wrapper">
+            <button type="submit" class="btn-verify" id="verifyBtn">🔍 Verifica Ammissione</button>
+            <button type="reset" class="btn-reset">🔄 Ripulisci</button>
+        </div>
+    </form>
+
+    <!-- Box dei risultati della verifica singola -->
+    <div class="result-box" id="resultBox">
+        <div class="result-icon" id="resultIcon"></div>
+        <div id="resultText"></div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- AREA RISERVATA AMMINISTRATORE (TASK 2) -->
+    <!-- ========================================== -->
+    <div class="admin-panel hidden" id="adminPanel">
+        <h2>🔑 Area Segreteria (Caricamento Massivo)</h2>
+        <div class="format-info">
+            <strong>Formato del file supportato (.json, .xlsx):</strong><br>
+            • <strong>JSON:</strong> Array di oggetti con chiavi: <code>name, course, country, qualification, duration, gpa, gpaScale</code>.<br>
+            • <strong>Excel:</strong> Colonne ordinate o nominate: Nome, Corso (Undergraduate/Postgraduate), Paese (India/Iran), Qualifica (key), Durata, GPA, Scala.
+        </div>
+
+        <form id="adminBatchForm">
+            <div class="form-group">
+                <label for="batchFileInput" class="required">Seleziona File (Excel o JSON)</label>
+                <input type="file" id="batchFileInput" accept=".json, .xlsx, .xls" required>
+            </div>
+            <button type="submit" class="btn-verify" id="batchSubmitBtn" style="background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); width: 100%;">
+                📤 Avvia Verifica Massiva
+            </button>
+        </form>
+
+        <!-- Tabella per i Risultati Massivi -->
+        <div class="batch-table-container hidden" id="batchResultsContainer">
+            <table class="batch-table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Studente</th>
+                    <th>Corso</th>
+                    <th>Paese</th>
+                    <th>Esito</th>
+                    <th>Nota / Errore</th>
+                </tr>
+                </thead>
+                <tbody id="batchResultsBody">
+                <!-- Righe popolate dinamicamente da JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Bottone di sblocco in fondo alla pagina -->
+<div class="admin-switch-container">
+    <button class="admin-switch-btn" id="adminToggleBtn">🔐 Accedi come Amministratore (Segreteria)</button>
+</div>
+
+<script>
+    // URL del backend
+    const BACKEND_URL = 'http://localhost:5000';
+
+    // Mapping di qualifiche per paese/corso
+    const qualificationsByCountryCourse = {
+        "India": {
+            "Undergraduate": [
+                { key: "AllIndiaSeniorSchool", label: "All-India Senior School", requiresDuration: false },
+                { key: "IndianSchoolCert", label: "Indian School Certificate", requiresDuration: false },
+                { key: "IntermediateExam", label: "Intermediate Examination", requiresDuration: false },
+                { key: "HigherSecondarySchool", label: "Higher Secondary School", requiresDuration: false },
+                { key: "HigherSecondaryPartII", label: "Higher Secondary Examination Part II", requiresDuration: false }
+            ],
+            "Postgraduate": [
+                { key: "HonoursBachelor", label: "Honours Bachelor", requiresDuration: true },
+                { key: "ProfessionalBachelor", label: "Professional Bachelor", requiresDuration: true },
+                { key: "PassGeneralBachelor", label: "Pass/General Bachelor", requiresDuration: false },
+                { key: "MasterDegree", label: "Master's Degree", requiresDuration: false },
+                { key: "PostgraduateBachelor", label: "Postgraduate Bachelor", requiresDuration: false }
+            ]
+        },
+        "Iran": {
+            "Undergraduate": [
+                { key: "DiplomMotevasete", label: "Diplom-e-Motevasete", requiresDuration: false },
+                { key: "SecondaryEdu2018", label: "Secondary Education from 2018", requiresDuration: false },
+                { key: "Kardani", label: "Associate Degree (Kardani)", requiresDuration: false }
+            ],
+            "Postgraduate": [
+                { key: "Karshenasi", label: "Bachelor Degree (Karshenasi)", requiresDuration: true },
+                { key: "KarshenasiNapayvasteh", label: "Discontinuous Degree (Karshenasi-napayvasteh)", requiresDuration: true }
+            ]
+        }
+    };
+
+    // Elementi DOM
+    const container = document.getElementById('container');
+    const form = document.getElementById('verificationForm');
+    const studentNameInput = document.getElementById('studentName');
+    const courseSelect = document.getElementById('course');
+    const countrySelect = document.getElementById('country');
+    const qualificationSelect = document.getElementById('qualification');
+    const durationGroup = document.getElementById('durationGroup');
+    const durationInput = document.getElementById('duration');
+    const gpaInput = document.getElementById('gpa');
+    const gpaScaleSelect = document.getElementById('gpaScale');
+    const verifyBtn = document.getElementById('verifyBtn');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
+    const resultBox = document.getElementById('resultBox');
+    const resultIcon = document.getElementById('resultIcon');
+    const resultText = document.getElementById('resultText');
+
+    // Nuovi elementi DOM per il Task 2 (Amministratore)
+    const adminToggleBtn = document.getElementById('adminToggleBtn');
+    const adminPanel = document.getElementById('adminPanel');
+    const adminBatchForm = document.getElementById('adminBatchForm');
+    const batchFileInput = document.getElementById('batchFileInput');
+    const batchSubmitBtn = document.getElementById('batchSubmitBtn');
+    const batchResultsContainer = document.getElementById('batchResultsContainer');
+    const batchResultsBody = document.getElementById('batchResultsBody');
+
+    // Event Listeners
+    courseSelect.addEventListener('change', updateQualifications);
+    countrySelect.addEventListener('change', updateQualificationsAndScales);
+    qualificationSelect.addEventListener('change', updateDurationField);
+    form.addEventListener('submit', handleVerification);
+    form.addEventListener('reset', resetForm);
+
+    // Toggle della visualizzazione Area Admin (protetto da password "admin")
+    adminToggleBtn.addEventListener('click', () => {
+        if (adminPanel.classList.contains('hidden')) {
+            const psw = prompt("Inserisci la password dell'amministratore:");
+            if (psw === "admin") {
+                adminPanel.classList.remove('hidden');
+                adminToggleBtn.textContent = "🔓 Esci dall'Area Amministratore";
+                adminToggleBtn.style.background = "#dc2626";
+                showSuccess("Accesso Amministratore consentito!");
+            } else if (psw !== null) {
+                showError("Password errata!");
+            }
+        } else {
+            adminPanel.classList.add('hidden');
+            container.classList.remove('wide');
+            batchResultsContainer.classList.add('hidden');
+            adminToggleBtn.textContent = "🔐 Accedi come Amministratore (Segreteria)";
+            adminToggleBtn.style.background = "rgba(255, 255, 255, 0.2)";
+            adminBatchForm.reset();
+        }
+    });
+
+    // Invio file Batch sul server (JSON o Excel)
+    adminBatchForm.addEventListener('submit', handleBatchUpload);
+
+    async function handleBatchUpload(e) {
+        e.preventDefault();
+        errorMessage.style.display = 'none';
+        successMessage.style.display = 'none';
+        batchResultsContainer.classList.add('hidden');
+
+        const file = batchFileInput.files[0];
+        if (!file) {
+            showError("Seleziona un file valido.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            batchSubmitBtn.disabled = true;
+            batchSubmitBtn.innerHTML = '<span class="loading"></span> Elaborazione batch in corso...';
+
+            const response = await fetch(`${BACKEND_URL}/check-admission-batch`, {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Errore durante l\'elaborazione del file.');
+            }
+
+            showSuccess(`Elaborazione batch completata con successo! ${result.total} studenti verificati.`);
+            renderBatchResults(result.results);
+
+        } catch (error) {
+            console.error(error);
+            showError(error.message);
+        } finally {
+            batchSubmitBtn.disabled = false;
+            batchSubmitBtn.innerHTML = '📤 Avvia Verifica Massiva';
+        }
+    }
+
+    // Render dei risultati del batch all'interno della tabella
+    function renderBatchResults(results) {
+        // Allarga il layout per mostrare la tabella comodamente
+        container.classList.add('wide');
+        batchResultsContainer.classList.remove('hidden');
+        batchResultsBody.innerHTML = '';
+
+        results.forEach((res, index) => {
+            const tr = document.createElement('tr');
+
+            const tdIndex = document.createElement('td');
+            tdIndex.textContent = index + 1;
+
+            const tdName = document.createElement('td');
+            tdName.innerHTML = `<strong>${res.name}</strong>`;
+
+            const tdCourse = document.createElement('td');
+            tdCourse.textContent = res.course ? res.course : '-';
+
+            const tdCountry = document.createElement('td');
+            tdCountry.textContent = res.country ? res.country : '-';
+
+            const tdStatus = document.createElement('td');
+            const badge = document.createElement('span');
+            badge.className = 'badge';
+            if (res.admitted) {
+                badge.classList.add('admitted');
+                badge.textContent = 'AMMESSO';
+            } else {
+                badge.classList.add('rejected');
+                badge.textContent = 'NON AMMESSO';
+            }
+            tdStatus.appendChild(badge);
+
+            const tdError = document.createElement('td');
+            tdError.style.fontSize = '11px';
+            tdError.style.color = '#ef4444';
+            tdError.textContent = res.error ? `⚠️ ${res.error}` : '-';
+
+            tr.appendChild(tdIndex);
+            tr.appendChild(tdName);
+            tr.appendChild(tdCourse);
+            tr.appendChild(tdCountry);
+            tr.appendChild(tdStatus);
+            tr.appendChild(tdError);
+
+            batchResultsBody.appendChild(tr);
+        });
+    }
+
+    // Aggiorna le qualifiche disponibili
+    function updateQualificationsAndScales() {
+        updateQualifications();
+        updateGpaScale();
+    }
+
+    function updateQualifications() {
+        const course = courseSelect.value;
+        const country = countrySelect.value;
+
+        qualificationSelect.innerHTML = '<option value="">-- Seleziona titolo --</option>';
+        durationGroup.classList.add('hidden');
+
+        if (!course || !country) {
+            qualificationSelect.disabled = true;
+            return;
+        }
+
+        qualificationSelect.disabled = false;
+        const qualifications = qualificationsByCountryCourse[country]?.[course] || [];
+
+        qualifications.forEach(qual => {
+            const option = document.createElement('option');
+            option.value = qual.key;
+            option.textContent = qual.label;
+            option.dataset.requiresDuration = qual.requiresDuration;
+            qualificationSelect.appendChild(option);
+        });
+    }
+
+    function updateDurationField() {
+        const selectedOption = qualificationSelect.options[qualificationSelect.selectedIndex];
+        const requiresDuration = selectedOption?.dataset.requiresDuration === 'true';
+
+        if (requiresDuration && qualificationSelect.value) {
+            durationGroup.classList.remove('hidden');
+            durationInput.required = true;
+        } else {
+            durationGroup.classList.add('hidden');
+            durationInput.value = '';
+            durationInput.required = false;
+        }
+    }
+
+    function updateGpaScale() {
+        const country = countrySelect.value;
+
+        gpaScaleSelect.innerHTML = '<option value="">-- Seleziona scala --</option>';
+
+        if (!country) {
+            gpaScaleSelect.disabled = true;
+            return;
+        }
+
+        gpaScaleSelect.disabled = false;
+
+        if (country === 'Iran') {
+            const option = document.createElement('option');
+            option.value = 'Base20';
+            option.textContent = 'Su 20';
+            option.selected = true;
+            gpaScaleSelect.appendChild(option);
+        } else if (country === 'India') {
+            const scales = [
+                { value: 'Base100', label: 'Su 100' },
+                { value: 'Base10', label: 'Su 10' },
+                { value: 'Base8', label: 'Su 8' },
+                { value: 'Base4', label: 'Su 4' }
+            ];
+            scales.forEach(scale => {
+                const option = document.createElement('option');
+                option.value = scale.value;
+                option.textContent = scale.label;
+                gpaScaleSelect.appendChild(option);
+            });
+        }
+    }
+
+    function resetForm() {
+        durationGroup.classList.add('hidden');
+        qualificationSelect.disabled = true;
+        gpaScaleSelect.disabled = true;
+        resultBox.style.display = 'none'; // Correctly hide the result box on reset
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+    }
+
+    async function handleVerification(e) {
+        e.preventDefault();
+
+        // Validazione base
+        const name = studentNameInput.value.trim();
+        const course = courseSelect.value;
+        const country = countrySelect.value;
+        const qualification = qualificationSelect.value;
+        const duration = durationInput.value || null;
+        const gpa = gpaInput.value;
+        const gpaScale = gpaScaleSelect.value;
+
+        if (!name || !course || !country || !qualification || !gpa || !gpaScale) {
+            showError('Completa tutti i campi obbligatori.');
+            return;
+        }
+
+        // Verifica che la durata sia presente se richiesta
+        const selectedQual = qualificationsByCountryCourse[country][course]
+            .find(q => q.key === qualification);
+
+        if (selectedQual?.requiresDuration && !duration) {
+            showError('La durata è obbligatoria per questa qualifica.');
+            return;
+        }
+
+        // Invia la richiesta al backend
+        await sendVerificationRequest({
+            name,
+            course,
+            country,
+            qualification,
+            duration: duration ? parseInt(duration) : null,
+            gpa: parseFloat(gpa),
+            gpaScale
+        });
+    }
+
+    async function sendVerificationRequest(data) {
+        try {
+            verifyBtn.disabled = true;
+            resultBox.style.display = 'none'; // Hide the result box before sending
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+
+            // Mostra il caricamento
+            verifyBtn.innerHTML = '<span class="loading"></span> Verifica in corso...';
+
+            const response = await fetch(`${BACKEND_URL}/check-admission`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Errore durante la verifica');
+            }
+
+            // Mostra il risultato
+            showResult(result.admitted, data);
+            showSuccess(`Verifica completata per ${data.name}`);
+
+        } catch (error) {
+            console.error('Errore:', error);
+            showError(`Errore: ${error.message}`);
+        } finally {
+            verifyBtn.disabled = false;
+            verifyBtn.innerHTML = '🔍 Verifica Ammissione';
+        }
+    }
+
+    function showResult(admitted, data) {
+        // Correctly show the result box by setting its display style
+        resultBox.style.display = 'block';
+        resultBox.classList.remove('admitted', 'rejected');
+
+        if (admitted) {
+            resultBox.classList.add('admitted');
+            resultIcon.textContent = '✅';
+            resultText.innerHTML = `
+                    <strong>${data.name}</strong> è <strong>AMMESSO/A</strong><br>
+                    <small>${data.country} • ${data.course}</small>
+                `;
+        } else {
+            resultBox.classList.add('rejected');
+            resultIcon.textContent = '❌';
+            resultText.innerHTML = `
+                    <strong>${data.name}</strong> è <strong>NON AMMESSO/A</strong><br>
+                    <small>${data.country} • ${data.course}</small>
+                `;
+        }
+    }
+
+    function showSuccess(message) {
+        successMessage.textContent = '✓ ' + message;
+        successMessage.style.display = 'block';
+        setTimeout(() => {
+            successMessage.style.display = 'none';
+        }, 5000);
+    }
+
+    // Test di connessione al backend all'avvio
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const response = await fetch(`${BACKEND_URL}/health`);
+            if (response.ok) {
+                console.log('✓ Backend connesso correttamente');
+            } else {
+                console.warn('⚠ Backend non risponde correttamente');
+            }
+        } catch (error) {
+            console.error('✗ Impossibile connettersi al backend:', error);
+            showError('Impossibile connettersi al backend. Assicurati che il server sia avviato su http://localhost:5000');
+        }
+    });
+</script>
+</body>
+</html>
