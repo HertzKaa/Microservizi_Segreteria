@@ -11,6 +11,8 @@ import logging
 from datetime import datetime
 import threading
 import json
+from rdflib import Graph
+
 
 # Tentativo di importare openpyxl per il caricamento massivo tramite file Excel
 try:
@@ -462,7 +464,7 @@ def clear_registered_ttl():
 @app.route('/check-admission-batch', methods=['POST'])
 def check_admission_batch():
     """
-    Endpoint per il caricamento massivo e la verifica in batch di studenti (JSON o Excel)
+    Endpoint per il caricamento massivo e la verifica in batch di studenti (JSON, Excel o Turtle)
     """
     try:
         # Verifica la presenza del file nella richiesta
@@ -481,7 +483,6 @@ def check_admission_batch():
             try:
                 file_content = file.read().decode('utf-8')
                 students_to_check = json.loads(file_content)
-                # Se è un singolo oggetto anziché un array, lo inseriamo in una lista
                 if isinstance(students_to_check, dict):
                     students_to_check = [students_to_check]
             except Exception as e:
@@ -496,10 +497,8 @@ def check_admission_batch():
                 wb = openpyxl.load_workbook(file, data_only=True)
                 sheet = wb.active
 
-                # Leggiamo la prima riga per mappare le intestazioni delle colonne
                 headers = [str(cell.value).strip().lower() if cell.value else "" for cell in sheet[1]]
 
-                # Associazione flessibile delle colonne basata sul nome della colonna
                 mapping = {
                     "name": -1, "course": -1, "country": -1,
                     "qualification": -1, "duration": -1, "gpa": -1, "gpaScale": -1
@@ -514,7 +513,6 @@ def check_admission_batch():
                     elif "gpa" in h or "voto" in h or "media" in h: mapping["gpa"] = idx
                     elif "scale" in h or "scala" in h: mapping["gpaScale"] = idx
 
-                # Se mancano intestazioni chiare, usiamo l'ordine posizionale di default (Colonne A-G)
                 if mapping["name"] == -1:
                     logger.info("Intestazioni Excel non riconosciute chiaramente, uso l'ordine posizionale predefinito (A: Nome, B: Corso, C: Paese, D: Qualifica, E: Durata, F: GPA, G: Scala)")
                     mapping = {
@@ -522,15 +520,14 @@ def check_admission_batch():
                         "qualification": 3, "duration": 4, "gpa": 5, "gpaScale": 6
                     }
 
-                # Scorre le righe a partire dalla seconda (salta l'header)
                 for row_idx, row in enumerate(sheet.iter_rows(min_row=2, values_only=True), start=2):
-                    if not any(row):  # Salta righe completamente vuote
+                    if not any(row):
                         continue
 
                     try:
                         name_val = row[mapping["name"]] if mapping["name"] < len(row) else None
                         if not name_val:
-                            continue  # Salta se manca il nome dello studente
+                            continue
 
                         student = {
                             "name": str(name_val).strip(),
@@ -547,13 +544,98 @@ def check_admission_batch():
                         continue
             except Exception as e:
                 return jsonify({"error": f"Errore nella lettura del file Excel: {str(e)}"}), 400
+
+        # 3. PARSING FILE TURTLE (.ttl)
+        elif filename.endswith('.ttl'):
+            try:
+                file_content = file.read().decode('utf-8')
+                g = Graph()
+                g.parse(data=file_content, format="turtle")
+
+                # Query SPARQL per estrarre gli studenti e le loro relazioni dal file TTL
+                sparql_query = """
+                PREFIX : <http://example.org/university-admission#>
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                
+                SELECT ?student ?studentClass ?courseType ?qualType ?duration ?gpaProp ?gpa
+                WHERE {
+                    ?student rdf:type ?studentClass .
+                    FILTER (?studentClass IN (:IndianStudent, :IranianStudent))
+                    
+                    ?student :hasAppliedFor ?course .
+                    ?course rdf:type ?courseType .
+                    FILTER (?courseType IN (:UndergraduateCourse, :PostgraduateCourse))
+                    
+                    OPTIONAL {
+                        ?student :hasQualification ?cert .
+                        ?cert rdf:type ?qualType .
+                        FILTER (?qualType != owl:NamedIndividual)
+                        
+                        OPTIONAL { ?cert :hasDurationInYears ?duration . }
+                        OPTIONAL {
+                            ?cert ?gpaProp ?gpa .
+                            FILTER (STRSTARTS(STR(?gpaProp), "http://example.org/university-admission#hasGPA_"))
+                        }
+                    }
+                }
+                """
+
+                qres = g.query(sparql_query)
+                for row in qres:
+                    student_uri = str(row[0])
+                    student_class_uri = str(row[1])
+                    course_type_uri = str(row[2])
+                    qual_type_uri = str(row[3]) if row[3] is not None else None
+                    duration_val = row[4]
+                    gpa_prop_uri = str(row[5]) if row[5] is not None else None
+                    gpa_val = row[6]
+
+                    # Estrazione dei nomi locali dall'URI completo (tutto ciò che segue il carattere '#')
+                    student_name = student_uri.split("#")[-1].replace("_", " ")
+                    country = "India" if student_class_uri.split("#")[-1] == "IndianStudent" else "Iran"
+                    course = "Postgraduate" if course_type_uri.split("#")[-1] == "PostgraduateCourse" else "Undergraduate"
+
+                    # Mappatura della classe OWL della qualifica nella stringa attesa dal backend
+                    qualification_key = "NoCertificate"
+                    if qual_type_uri:
+                        local_qual_name = qual_type_uri.split("#")[-1]
+                        # Ricerchiamo la chiave corrispondente nel nostro QUALIFICATIONS_MAP
+                        for country_name, courses in QUALIFICATIONS_MAP.items():
+                            for course_name, quals in courses.items():
+                                for key, class_name, _ in quals:
+                                    if class_name == local_qual_name:
+                                        qualification_key = key
+                                        break
+                        if qualification_key == "NoCertificate":
+                            qualification_key = local_qual_name
+
+                    # Estrazione della scala del GPA dalla proprietà RDF (es. :hasGPA_Base100 -> Base100)
+                    gpa_scale = ""
+                    if gpa_prop_uri:
+                        gpa_scale = gpa_prop_uri.split("#")[-1].replace("hasGPA_", "")
+
+                    student_dict = {
+                        "name": student_name,
+                        "course": course,
+                        "country": country,
+                        "qualification": qualification_key,
+                        "duration": int(duration_val) if duration_val is not None else None,
+                        "gpa": float(gpa_val) if gpa_val is not None else 0.0,
+                        "gpaScale": gpa_scale
+                    }
+                    students_to_check.append(student_dict)
+
+            except Exception as e:
+                logger.error(f"Errore di parsing del file Turtle: {str(e)}", exc_info=True)
+                return jsonify({"error": f"Errore nel parsing del file Turtle (.ttl): {str(e)}"}), 400
         else:
-            return jsonify({"error": "Formato file non supportato. Carica solo file con estensione .json o .xlsx"}), 400
+            return jsonify({"error": "Formato file non supportato. Carica solo file .json, .xlsx o .ttl"}), 400
 
         if not students_to_check:
             return jsonify({"error": "Nessuno studente valido trovato nel file."}), 400
 
-        # 3. ELABORAZIONE DI CIASCUN RECORD TRAMITE RAGIONATORE
+        # 4. ELABORAZIONE DI CIASCUN RECORD TRAMITE RAGIONATORE
         batch_results = []
         for student in students_to_check:
             try:
@@ -565,7 +647,6 @@ def check_admission_batch():
                 gpa = float(student.get('gpa', 0))
                 gpa_scale = student.get('gpaScale')
 
-                # Validazione minima dei campi necessari
                 if not all([name, course, country, qualification_key]):
                     batch_results.append({
                         "name": name.replace('_', ' '),
@@ -574,7 +655,6 @@ def check_admission_batch():
                     })
                     continue
 
-                # Cerca la classe ontologica corrispondente alla qualifica
                 found_qual = False
                 qual_class_name = None
                 requires_duration = False
@@ -607,7 +687,6 @@ def check_admission_batch():
                     })
                     continue
 
-                # Esegui il reasoning per il singolo studente
                 admitted = create_individuals_and_check(
                     onto, name, country, course,
                     qual_class_name, duration, gpa, gpa_scale
@@ -626,7 +705,7 @@ def check_admission_batch():
                 batch_results.append({
                     "name": student.get('name', 'Sconosciuto'),
                     "admitted": False,
-                    "error": f"Errore interno di elaborazione: {str(student_error)}"
+                    "error": f"Errore interno di lavoro: {str(student_error)}"
                 })
 
         return jsonify({
@@ -638,6 +717,55 @@ def check_admission_batch():
     except Exception as e:
         logger.error(f"Errore generale nell'elaborazione batch: {str(e)}", exc_info=True)
         return jsonify({"error": f"Errore interno del server: {str(e)}"}), 500
+
+
+
+@app.route('/delete-students', methods=['POST'])
+def delete_students():
+    """
+    Rimuove selettivamente solo gli studenti specificati (quelli della sessione corrente)
+    dal file Turtle unico sul server senza toccare gli altri.
+    """
+    try:
+        data = request.get_json()
+        student_names = data.get('names', []) # Riceve la lista dei nomi da cancellare
+
+        if not student_names:
+            return jsonify({"status": "success", "message": "Nessuno studente da eliminare."}), 200
+
+        if not os.path.exists(TTL_FILE_PATH):
+            return jsonify({"status": "error", "message": "Nessun archivio studenti trovato sul server."}), 404
+
+        from rdflib import Graph, URIRef
+
+        with file_lock:
+            # Carica il file di registro corrente come grafo RDF
+            g = Graph()
+            g.parse(TTL_FILE_PATH, format="turtle")
+
+            for name in student_names:
+                # Ricostruisce gli URI degli individui usati nel file Turtle
+                student_uri = name.strip().replace(' ', '_')
+                student_ref = URIRef(f"http://example.org/university-admission#{student_uri}")
+                cert_ref = URIRef(f"http://example.org/university-admission#Cert_{student_uri}")
+
+                # Rimuove dal grafo tutte le triple che descrivono lo studente e la sua qualifica
+                g.remove((student_ref, None, None))
+                g.remove((cert_ref, None, None))
+
+            # Salva nuovamente il file senza le triple rimosse
+            g.serialize(destination=TTL_FILE_PATH, format="turtle")
+
+        logger.info(f"Rimosso/i dal server solo lo/gli studente/i della sessione: {student_names}")
+        return jsonify({
+            "status": "success",
+            "message": "Studenti inseriti in questa sessione rimossi con successo dal server!"
+        }), 200
+
+    except Exception as e:
+        logger.error(f"Errore durante la rimozione mirata: {str(e)}", exc_info=True)
+        return jsonify({"status": "error", "message": f"Errore sul server: {str(e)}"}), 500
+
 
 
 if __name__ == '__main__':

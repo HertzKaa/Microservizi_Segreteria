@@ -131,6 +131,7 @@
             display: flex;
             gap: 12px;
             margin-top: 32px;
+            margin-bottom: 25px;
         }
 
         .button-group-vertical {
@@ -462,6 +463,12 @@
             </div>
         </form>
 
+        <!-- Banner di collegamento per la verifica immediata (Task 1 -> Task 2) -->
+        <div class="info-box hidden" id="verificationRedirectBanner" style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); border-left: 4px solid #4f46e5; margin-bottom: 24px; font-size: 14px; color: #3730a3; padding: 16px;">
+            <div style="font-weight: 600; margin-bottom: 6px;">💡 Vuoi verificare subito se lo studente potrebbe essere ammesso?</div>
+            <div style="font-size: 13px; margin-bottom: 12px; color: #4338ca;">I dati di <strong id="redirectStudentName"></strong> verranno passati automaticamente alla pagina di test.</div>
+            <button type="button" id="redirectVerifyBtn" style="padding: 10px 18px; font-size: 13px; background: #4f46e5; color: white; border-radius: 4px; border: none; font-weight: 600; width: auto; display: inline-block;">🔍 Verifica Ammissione Subito</button>
+        </div>
         <!-- Lista Studenti Inseriti -->
         <div id="studentsListContainer" class="students-list hidden">
             <div class="students-list-header">
@@ -474,7 +481,7 @@
         <!-- Pulsanti di Generazione -->
         <div class="button-group-vertical" id="generateButtonsContainer" style="display: none;">
             <button type="button" class="btn-generate" id="finalGenerateBtn">📥 Genera e Scarica File Turtle</button>
-            <button type="button" class="btn-clear-all" id="clearAllBtn">🗑️ Elimina Tutti gli Studenti</button>
+            <button type="button" class="btn-clear-all" id="clearAllBtn">🗑️ Elimina Tutti gli Studenti Inseriti</button>
         </div>
     </div>
 
@@ -716,9 +723,44 @@
             }
         }
 
-        // Aggiorna visivamente la lista nell'interfaccia
         function updateStudentsList() {
             studentCount.textContent = studentsData.length;
+
+            const redirectBanner = document.getElementById('verificationRedirectBanner');
+            const redirectStudentName = document.getElementById('redirectStudentName');
+            const redirectVerifyBtn = document.getElementById('redirectVerifyBtn');
+
+            // Controlla se è presente esattamente uno studente
+            if (studentsData.length === 1) {
+                const student = studentsData[0];
+                redirectBanner.classList.remove('hidden');
+                redirectStudentName.textContent = student.name;
+
+                // Handler sul click del pulsante per effettuare il redirect con i parametri
+                redirectVerifyBtn.onclick = function() {
+                    const queryCourse = student.course === 'Magistrale' ? 'Postgraduate' : 'Undergraduate';
+                    const queryCountry = student.country;
+                    const queryQual = getQueryQualKey(student.country, student.qualificationTitle);
+                    const queryDuration = student.duration ? student.duration : '';
+                    const queryGpa = student.gpa ? student.gpa : '';
+                    const queryScale = student.gpaScale ? student.gpaScale : '';
+
+                    // Creazione della query string
+                    const params = new URLSearchParams({
+                        name: student.name,
+                        course: queryCourse,
+                        country: queryCountry,
+                        qualification: queryQual,
+                        duration: queryDuration,
+                        gpa: queryGpa,
+                        gpaScale: queryScale
+                    });
+
+                    window.location.href = `admission_verification_form.html?${params.toString()}`;
+                };
+            } else {
+                redirectBanner.classList.add('hidden');
+            }
 
             if (studentsData.length === 0) {
                 studentsListContainer.classList.add('hidden');
@@ -785,26 +827,67 @@
             });
         }
 
-        // Azzeramento totale della lista studenti sia in locale che sul server
+        // Mappa la classe OWL usata in registrazione sulla chiave breve usata nel form di verifica
+        function getQueryQualKey(country, title) {
+            const mappings = {
+                India: {
+                    'NoCertificate': 'NoCertificate',
+                    'AllIndiaSeniorSchool': 'AllIndiaSeniorSchool',
+                    'IndianSchoolCertificate': 'IndianSchoolCert',
+                    'IntermediateExamination': 'IntermediateExam',
+                    'HigherSecondarySchool': 'HigherSecondarySchool',
+                    'HigherSecondaryExaminationPartII': 'HigherSecondaryPartII',
+                    'HonoursBachelorDegree': 'HonoursBachelor',
+                    'ProfessionalBachelorDegree': 'ProfessionalBachelor',
+                    'PassGeneralBachelorDegree': 'PassGeneralBachelor',
+                    'MastersDegree': 'MasterDegree',
+                    'PostgraduateBachelorDegree': 'PostgraduateBachelor'
+                },
+                Iran: {
+                    'NoCertificate': 'NoCertificate',
+                    'DiplomMotevasetePreUniversitary': 'DiplomMotevasete',
+                    'Certificate2018_2019': 'SecondaryEdu2018',
+                    'AssociateDegreeKardani': 'Kardani',
+                    'BachelorDegreeKarshenasi': 'Karshenasi',
+                    'DiscontinuousDegreeKarshenasi': 'KarshenasiNapayvasteh'
+                }
+            };
+            return mappings[country]?.[title] || title;
+        }
+
+        // Rimuove solo gli studenti di questa sessione sia in locale che sul server
         async function clearAllStudentsServer(e) {
             e.preventDefault();
-            if (confirm('Sei sicuro di voler eliminare tutti gli studenti registrati sul server? Verrà cancellato il file unico.')) {
+
+            if (studentsData.length === 0) {
+                showError("Non ci sono studenti inseriti in questa sessione da eliminare.");
+                return;
+            }
+
+            if (confirm('Sei sicuro di voler eliminare dal server solo gli studenti aggiunti in questa sessione?')) {
                 try {
-                    const response = await fetch(`${BACKEND_URL}/clear-registered-ttl`, {
-                        method: 'POST'
+                    // Estrae la lista dei soli nomi inseriti nella sessione corrente
+                    const namesToDelete = studentsData.map(s => s.name);
+
+                    const response = await fetch(`${BACKEND_URL}/delete-students`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ names: namesToDelete })
                     });
+
                     const result = await response.json();
 
                     if (!response.ok) {
                         throw new Error(result.message);
                     }
 
+                    // Svuota la lista locale e aggiorna la UI
                     studentsData = [];
                     updateStudentsList();
                     showSuccess(result.message);
 
                 } catch (error) {
-                    showError('Errore durante l\'azzeramento: ' + error.message);
+                    showError('Errore durante l\'eliminazione mirata: ' + error.message);
                 }
             }
         }

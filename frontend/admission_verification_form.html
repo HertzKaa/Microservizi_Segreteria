@@ -478,13 +478,14 @@
         <div class="format-info">
             <strong>Formato del file supportato (.json, .xlsx):</strong><br>
             • <strong>JSON:</strong> Array di oggetti con chiavi: <code>name, course, country, qualification, duration, gpa, gpaScale</code>.<br>
-            • <strong>Excel:</strong> Colonne ordinate o nominate: Nome, Corso (Undergraduate/Postgraduate), Paese (India/Iran), Qualifica (key), Durata, GPA, Scala.
+            • <strong>Excel:</strong> Colonne ordinate o nominate: Nome, Corso (Undergraduate/Postgraduate), Paese (India/Iran), Qualifica (key), Durata, GPA, Scala.<br>
+            • <strong>Turtle (.ttl):</strong> Carica direttamente il file generato dall'altra pagina (es. <code>students_registered.ttl</code>).
         </div>
 
         <form id="adminBatchForm">
             <div class="form-group">
-                <label for="batchFileInput" class="required">Seleziona File (Excel o JSON)</label>
-                <input type="file" id="batchFileInput" accept=".json, .xlsx, .xls" required>
+                <label for="batchFileInput" class="required">Seleziona File (Excel, JSON o Turtle)</label>
+                <input type="file" id="batchFileInput" accept=".json, .xlsx, .xls, .ttl" required>
             </div>
             <button type="submit" class="btn-verify" id="batchSubmitBtn" style="background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); width: 100%;">
                 📤 Avvia Verifica Massiva
@@ -895,7 +896,7 @@
         }, 5000);
     }
 
-    // Test di connessione al backend all'avvio
+    // Test di connessione al backend all'avvio e autocompilazione se presente query string
     document.addEventListener('DOMContentLoaded', async () => {
         try {
             const response = await fetch(`${BACKEND_URL}/health`);
@@ -907,6 +908,45 @@
         } catch (error) {
             console.error('✗ Impossibile connettersi al backend:', error);
             showError('Impossibile connettersi al backend. Assicurati che il server sia avviato su http://localhost:5000');
+        }
+
+        // ==========================================================
+        // AUTOCOMPILAZIONE DA PARAMETRI URL (REDIRECT DA PAGINA REGISTRAZIONE)
+        // ==========================================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name');
+
+        if (name) {
+            // Riempi i campi base
+            studentNameInput.value = name;
+
+            const course = urlParams.get('course');
+            const country = urlParams.get('country');
+            const qualification = urlParams.get('qualification');
+            const duration = urlParams.get('duration');
+            const gpa = urlParams.get('gpa');
+            const gpaScale = urlParams.get('gpaScale');
+
+            if (course) courseSelect.value = course;
+            if (country) countrySelect.value = country;
+
+            // Innesca il caricamento asincrono di qualifiche e scale di voto
+            updateQualificationsAndScales();
+
+            // Compila i campi condizionali
+            if (qualification) {
+                qualificationSelect.value = qualification;
+                updateDurationField();
+            }
+
+            if (duration) durationInput.value = duration;
+            if (gpa) gpaInput.value = gpa;
+
+            if (gpaScale) {
+                gpaScaleSelect.value = gpaScale;
+            }
+
+            showSuccess(`Dati dello studente '${name}' precompilati con successo! Clicca su 'Verifica Ammissione' per eseguire il test.`);
         }
     });
 </script>
