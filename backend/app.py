@@ -72,6 +72,91 @@ QUALIFICATIONS_MAP = {
     }
 }
 
+# Soglie minime (Thresholds) di ammissione codificate per Paese e Livello
+# (Allineate meticolosamente con le classi di idoneità logica in Protégé)
+ADMISSION_THRESHOLDS = {
+    "India": {
+        "Undergraduate": {
+            "eligible_qualifications": ["AllIndiaSeniorSchool", "IndianSchoolCert", "IntermediateExam", "HigherSecondarySchool", "HigherSecondaryPartII"],
+            "min_gpa": {
+                "Base100": 50.0  # Voto minimo per diplomati indiani
+            }
+        },
+        "Postgraduate": {
+            "eligible_qualifications": ["HonoursBachelor", "ProfessionalBachelor", "PassGeneralBachelor", "MasterDegree", "PostgraduateBachelor"],
+            "min_duration": {
+                "HonoursBachelor": 3,
+                "ProfessionalBachelor": 4,      # Un Professional Bachelor richiede almeno 4 anni
+                "PassGeneralBachelor": 3,
+                "PostgraduateBachelor": 1,
+                "MasterDegree": 1
+            },
+            "min_gpa": {
+                "Base100": 60.0,
+                "Base10": 6.0,
+                "Base8": 5.0,
+                "Base4": 2.5
+            }
+        }
+    },
+    "Iran": {
+        "Undergraduate": {
+            # DiplomMotevasete (11 anni) non è ammesso alla triennale se non integrato con Kardani o Pish-Daneshgahi
+            "eligible_qualifications": ["SecondaryEdu2018", "Kardani"],
+            "min_gpa": {
+                "Base20": 10.0  # Voto minimo su 20 in Iran per l'undergraduate
+            }
+        },
+        "Postgraduate": {
+            "eligible_qualifications": ["Karshenasi", "KarshenasiNapayvasteh"],
+            "min_duration": {
+                "Karshenasi": 4,
+                "KarshenasiNapayvasteh": 2     # Karshenasi Napayvasteh richiede minimo 2 anni
+            },
+            "min_gpa": {
+                "Base20": 12.0                  # Voto minimo su 20 in Iran per l'ammissione magistrale
+            }
+        }
+    }
+}
+
+def check_rejection_reason(country, course, qualification, duration, gpa, gpa_scale):
+    """
+    Analizza i dati dello studente rispetto alle soglie configurate
+    e restituisce una stringa con la motivazione dell'eventuale esclusione.
+    """
+    rules = ADMISSION_THRESHOLDS.get(country, {}).get(course, {})
+    if not rules:
+        return "Criteri formali non configurati per questo tipo di corso."
+
+    # 1. Controllo dei titoli di studio abilitanti per il livello di corso
+    eligible_quals = rules.get("eligible_qualifications", [])
+    if eligible_quals and qualification not in eligible_quals:
+        if country == "Iran" and course == "Undergraduate" and qualification == "DiplomMotevasete":
+            return "Il titolo 'DiplomMotevasete' (11 anni di scolarità) non è sufficiente. In Italia sono richiesti almeno 12 anni (es. DiplomMotevasetePreUniversitary o il diploma post-2018/19)."
+        return f"Il titolo '{qualification}' non è abilitante per l'accesso a un corso {course} per studenti provenienti da {country}."
+
+    # 2. Controllo della media voti (GPA)
+    min_gpa_rules = rules.get("min_gpa", {})
+    if gpa_scale in min_gpa_rules:
+        required_gpa = min_gpa_rules[gpa_scale]
+        if gpa is not None and gpa < required_gpa:
+            return f"Media voti (GPA) insufficiente: ottenuto {gpa}, richiesto minimo {required_gpa} ({gpa_scale})."
+
+    # 3. Controllo della durata del titolo di studio (se prevista per la specifica qualifica)
+    min_dur_rules = rules.get("min_duration", {})
+    if min_dur_rules:
+        if isinstance(min_dur_rules, dict):
+            required_dur = min_dur_rules.get(qualification)
+        else:
+            required_dur = min_dur_rules
+
+        if required_dur is not None:
+            if duration is not None and duration < required_dur:
+                return f"Durata del titolo insufficiente per '{qualification}': inseriti {duration} anni, richiesto minimo {required_dur}."
+
+    return "Requisiti formali superati, ma idoneità negata dal ragionatore logico (vincoli ontologici non soddisfatti)."
+
 def load_ontology():
     """Carica l'ontologia OWL dal file locale"""
     global onto, onto_path, onto_loaded
@@ -206,6 +291,12 @@ def check_admission():
         )
 
         logger.info(f"Risultato ammissione: {admitted}")
+
+        # === CALCOLA IL MOTIVO SE NON AMMESSO ===
+        explanation = None
+        if not admitted:
+            # Riconverti i nomi per la visualizzazione corretta delle note
+            explanation = check_rejection_reason(country, course, qualification_key, duration, gpa, gpa_scale)
 
         return jsonify({
             "admitted": admitted,
@@ -497,22 +588,26 @@ def check_admission_batch():
                 wb = openpyxl.load_workbook(file, data_only=True)
                 sheet = wb.active
 
+                # Leggiamo la prima riga per mappare le intestazioni delle colonne
                 headers = [str(cell.value).strip().lower() if cell.value else "" for cell in sheet[1]]
 
+                # Associazione flessibile delle colonne basata sul nome della colonna
                 mapping = {
                     "name": -1, "course": -1, "country": -1,
                     "qualification": -1, "duration": -1, "gpa": -1, "gpaScale": -1
                 }
 
+                # Ordine invertito: controlliamo "scale" prima di "gpa" per evitare conflitti di sottostringhe
                 for idx, h in enumerate(headers):
                     if "name" in h or "nome" in h: mapping["name"] = idx
                     elif "course" in h or "corso" in h: mapping["course"] = idx
                     elif "country" in h or "paese" in h: mapping["country"] = idx
                     elif "qualification" in h or "titolo" in h: mapping["qualification"] = idx
                     elif "duration" in h or "durata" in h: mapping["duration"] = idx
+                    elif "scale" in h or "scala" in h or "gpascale" in h: mapping["gpaScale"] = idx
                     elif "gpa" in h or "voto" in h or "media" in h: mapping["gpa"] = idx
-                    elif "scale" in h or "scala" in h: mapping["gpaScale"] = idx
 
+                # Se mancano intestazioni chiare, usiamo l'ordine posizionale di default (Colonne A-G)
                 if mapping["name"] == -1:
                     logger.info("Intestazioni Excel non riconosciute chiaramente, uso l'ordine posizionale predefinito (A: Nome, B: Corso, C: Paese, D: Qualifica, E: Durata, F: GPA, G: Scala)")
                     mapping = {
@@ -520,23 +615,50 @@ def check_admission_batch():
                         "qualification": 3, "duration": 4, "gpa": 5, "gpaScale": 6
                     }
 
+                # Scorre le righe a partire dalla seconda (salta l'header)
                 for row_idx, row in enumerate(sheet.iter_rows(min_row=2, values_only=True), start=2):
-                    if not any(row):
+                    if not any(row):  # Salta righe completamente vuote
                         continue
 
                     try:
                         name_val = row[mapping["name"]] if mapping["name"] < len(row) else None
-                        if not name_val:
-                            continue
+                        if not name_val or str(name_val).strip() == "":
+                            continue  # Salta se manca il nome dello studente
+
+                        # Parsing sicuro di Corso, Paese, Qualifica
+                        course_val = str(row[mapping["course"]]).strip() if mapping["course"] < len(row) and row[mapping["course"]] else ""
+                        country_val = str(row[mapping["country"]]).strip() if mapping["country"] < len(row) and row[mapping["country"]] else ""
+                        qualification_val = str(row[mapping["qualification"]]).strip() if mapping["qualification"] < len(row) and row[mapping["qualification"]] else ""
+
+                        # Parsing sicuro di Duration (tollera celle vuote o stringhe vuote)
+                        duration_val = row[mapping["duration"]] if mapping["duration"] < len(row) else None
+                        duration_int = None
+                        if duration_val is not None and str(duration_val).strip() != "":
+                            try:
+                                duration_int = int(float(duration_val))  # Converte anche se Excel scrive "4.0"
+                            except (ValueError, TypeError):
+                                duration_int = None
+
+                        # Parsing sicuro di GPA (tollera formati diversi)
+                        gpa_val = row[mapping["gpa"]] if mapping["gpa"] < len(row) else None
+                        gpa_float = 0.0
+                        if gpa_val is not None and str(gpa_val).strip() != "":
+                            try:
+                                gpa_float = float(gpa_val)
+                            except (ValueError, TypeError):
+                                gpa_float = 0.0
+
+                        # Parsing sicuro di GPAScale
+                        gpa_scale_val = str(row[mapping["gpaScale"]]).strip() if mapping["gpaScale"] >= 0 and mapping["gpaScale"] < len(row) and row[mapping["gpaScale"]] else ""
 
                         student = {
                             "name": str(name_val).strip(),
-                            "course": str(row[mapping["course"]]).strip() if mapping["course"] < len(row) and row[mapping["course"]] else "",
-                            "country": str(row[mapping["country"]]).strip() if mapping["country"] < len(row) and row[mapping["country"]] else "",
-                            "qualification": str(row[mapping["qualification"]]).strip() if mapping["qualification"] < len(row) and row[mapping["qualification"]] else "",
-                            "duration": int(row[mapping["duration"]]) if mapping["duration"] < len(row) and row[mapping["duration"]] is not None else None,
-                            "gpa": float(row[mapping["gpa"]]) if mapping["gpa"] < len(row) and row[mapping["gpa"]] is not None else 0.0,
-                            "gpaScale": str(row[mapping["gpaScale"]]).strip() if mapping["gpaScale"] < len(row) and row[mapping["gpaScale"]] else ""
+                            "course": course_val,
+                            "country": country_val,
+                            "qualification": qualification_val,
+                            "duration": duration_int,
+                            "gpa": gpa_float,
+                            "gpaScale": gpa_scale_val
                         }
                         students_to_check.append(student)
                     except Exception as row_error:
@@ -544,6 +666,7 @@ def check_admission_batch():
                         continue
             except Exception as e:
                 return jsonify({"error": f"Errore nella lettura del file Excel: {str(e)}"}), 400
+
 
         # 3. PARSING FILE TURTLE (.ttl)
         elif filename.endswith('.ttl'):
@@ -692,13 +815,19 @@ def check_admission_batch():
                     qual_class_name, duration, gpa, gpa_scale
                 )
 
+                # Calcola il motivo se il ragionatore ha negato l'ammissione
+                explanation = None
+                if not admitted:
+                    explanation = check_rejection_reason(country, course, qualification_key, duration, gpa, gpa_scale)
+
                 batch_results.append({
                     "name": name.replace('_', ' '),
                     "course": course,
                     "country": country,
                     "qualification": qualification_key,
                     "admitted": admitted,
-                    "status": "Ammesso" if admitted else "Non Ammesso"
+                    "status": "Ammesso" if admitted else "Non Ammesso",
+                    "error": explanation
                 })
 
             except Exception as student_error:
@@ -765,8 +894,6 @@ def delete_students():
     except Exception as e:
         logger.error(f"Errore durante la rimozione mirata: {str(e)}", exc_info=True)
         return jsonify({"status": "error", "message": f"Errore sul server: {str(e)}"}), 500
-
-
 
 if __name__ == '__main__':
     logger.info("Avvio del backend Flask...")
