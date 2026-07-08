@@ -14,6 +14,7 @@ import json
 from rdflib import Graph
 
 
+
 # Tentativo di importare openpyxl per il caricamento massivo tramite file Excel
 try:
     import openpyxl

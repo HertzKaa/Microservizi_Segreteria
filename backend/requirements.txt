@@ -1,0 +1,5 @@
+Flask
+Flask-Cors
+owlready2
+rdflib
+openpyxl

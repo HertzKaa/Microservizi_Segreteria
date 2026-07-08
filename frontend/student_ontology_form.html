@@ -22,6 +22,28 @@
             padding-top: 30px;
         }
 
+        .language-switcher {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 100;
+        }
+
+        .language-switcher button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 5px;
+        }
+
+        .language-switcher button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
         .container {
             background: white;
             border-radius: 12px;
@@ -356,23 +378,27 @@
     </style>
 </head>
 <body>
+    <div class="language-switcher">
+        <button id="lang-it">🇮🇹 IT</button>
+        <button id="lang-en">🇬🇧 EN</button>
+    </div>
     <div class="container">
         <div class="header">
-            <h1>📚 Generatore Ontologia</h1>
-            <p>Crea file Turtle (OWL) per l'ammissione studenti</p>
+            <h1 data-i18n="title">📚 Generatore Ontologia</h1>
+            <p data-i18n="subtitle">Crea file Turtle (OWL) per l'ammissione studenti</p>
         </div>
 
         <div class="success-message" id="successMessage"></div>
         <div class="error-message" id="errorMessage"></div>
 
-        <div class="info-box">
+        <div class="info-box" data-i18n="infoBox">
             Compila il modulo per aggiungere studenti. Al termine, scarica il file Turtle con tutti i dati.
         </div>
 
         <form id="studentForm">
             <!-- Nome Studente -->
             <div class="form-group">
-                <label for="studentName" class="required">Nome Studente</label>
+                <label for="studentName" class="required" data-i18n="studentName">Nome Studente</label>
                 <input
                     type="text"
                     id="studentName"
@@ -384,19 +410,19 @@
 
             <!-- Corso di Destinazione -->
             <div class="form-group">
-                <label for="course" class="required">Corso di Destinazione</label>
+                <label for="course" class="required" data-i18n="destinationCourse">Corso di Destinazione</label>
                 <select id="course" name="course" required>
-                    <option value="">-- Seleziona corso --</option>
-                    <option value="Triennale">Triennale</option>
-                    <option value="Magistrale">Magistrale</option>
+                    <option value="" data-i18n="selectCourse">-- Seleziona corso --</option>
+                    <option value="Triennale" data-i18n="undergraduate">Triennale</option>
+                    <option value="Magistrale" data-i18n="postgraduate">Magistrale</option>
                 </select>
             </div>
 
             <!-- Paese di Provenienza -->
             <div class="form-group">
-                <label for="country" class="required">Paese di Provenienza</label>
+                <label for="country" class="required" data-i18n="countryOfOrigin">Paese di Provenienza</label>
                 <select id="country" name="country" required>
-                    <option value="">-- Seleziona paese --</option>
+                    <option value="" data-i18n="selectCountry">-- Seleziona paese --</option>
                     <option value="India">India</option>
                     <option value="Iran">Iran</option>
                 </select>
@@ -404,15 +430,15 @@
 
             <!-- Titolo di Studio -->
             <div class="form-group">
-                <label for="qualificationTitle" class="required">Titolo di Studio</label>
+                <label for="qualificationTitle" class="required" data-i18n="qualificationTitle">Titolo di Studio</label>
                 <select id="qualificationTitle" name="qualificationTitle" required disabled>
-                    <option value="">-- Seleziona paese prima --</option>
+                    <option value="" data-i18n="selectCountryFirst">-- Seleziona paese prima --</option>
                 </select>
             </div>
 
             <!-- Durata in anni -->
             <div class="form-group hidden" id="durationGroup">
-                <label for="duration">Durata in anni</label>
+                <label for="duration" data-i18n="duration">Durata in anni</label>
                 <input
                     type="number"
                     id="duration"
@@ -425,7 +451,7 @@
 
             <!-- GPA -->
             <div class="form-group hidden" id="gpaGroup">
-                <label for="gpa">GPA (Voto)</label>
+                <label for="gpa" data-i18n="gpa">GPA (Voto)</label>
                 <input
                     type="number"
                     id="gpa"
@@ -439,39 +465,39 @@
                 <div id="gpaScaleContainer" class="gpa-scale-container hidden">
                     <div class="scale-option">
                         <input type="radio" id="scale100" name="gpaScale" value="Base100">
-                        <label for="scale100" style="margin: 0; font-weight: 400;">Su 100</label>
+                        <label for="scale100" style="margin: 0; font-weight: 400;" data-i18n="gpaScale100">Su 100</label>
                     </div>
                     <div class="scale-option">
                         <input type="radio" id="scale10" name="gpaScale" value="Base10">
-                        <label for="scale10" style="margin: 0; font-weight: 400;">Su 10</label>
+                        <label for="scale10" style="margin: 0; font-weight: 400;" data-i18n="gpaScale10">Su 10</label>
                     </div>
                     <div class="scale-option">
                         <input type="radio" id="scale8" name="gpaScale" value="Base8">
-                        <label for="scale8" style="margin: 0; font-weight: 400;">Su 8</label>
+                        <label for="scale8" style="margin: 0; font-weight: 400;" data-i18n="gpaScale8">Su 8</label>
                     </div>
                     <div class="scale-option">
                         <input type="radio" id="scale4" name="gpaScale" value="Base4">
-                        <label for="scale4" style="margin: 0; font-weight: 400;">Su 4</label>
+                        <label for="scale4" style="margin: 0; font-weight: 400;" data-i18n="gpaScale4">Su 4</label>
                     </div>
                 </div>
             </div>
 
             <!-- Pulsanti Azione Form -->
             <div class="button-group">
-                <button type="button" class="btn-add" id="addStudentBtn">➕ Aggiungi Studente</button>
-                <button type="reset" class="btn-reset">🔄 Pulisci Modulo</button>
+                <button type="button" class="btn-add" id="addStudentBtn" data-i18n="addStudent">➕ Aggiungi Studente</button>
+                <button type="reset" class="btn-reset" data-i18n="resetForm">🔄 Pulisci Modulo</button>
             </div>
         </form>
 
         <!-- Banner di collegamento per la verifica immediata (Task 1 -> Task 2) -->
         <div class="info-box hidden" id="verificationRedirectBanner" style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); border-left: 4px solid #4f46e5; margin-bottom: 24px; font-size: 14px; color: #3730a3; padding: 16px;">
-            <div style="font-weight: 600; margin-bottom: 6px;">💡 Vuoi verificare subito se lo studente potrebbe essere ammesso?</div>
-            <div style="font-size: 13px; margin-bottom: 12px; color: #4338ca;">I dati di <strong id="redirectStudentName"></strong> verranno passati automaticamente alla pagina di test.</div>
-            <button type="button" id="redirectVerifyBtn" style="padding: 10px 18px; font-size: 13px; background: #4f46e5; color: white; border-radius: 4px; border: none; font-weight: 600; width: auto; display: inline-block;">🔍 Verifica Ammissione Subito</button>
+            <div style="font-weight: 600; margin-bottom: 6px;" data-i18n="verifyImmediatelyTitle">💡 Vuoi verificare subito se lo studente potrebbe essere ammesso?</div>
+            <div style="font-size: 13px; margin-bottom: 12px; color: #4338ca;" data-i18n="verifyImmediatelySubtitle">I dati di <strong id="redirectStudentName"></strong> verranno passati automaticamente alla pagina di test.</div>
+            <button type="button" id="redirectVerifyBtn" style="padding: 10px 18px; font-size: 13px; background: #4f46e5; color: white; border-radius: 4px; border: none; font-weight: 600; width: auto; display: inline-block;" data-i18n="verifyImmediatelyButton">🔍 Verifica Ammissione Subito</button>
         </div>
         <!-- Lista Studenti Inseriti -->
         <div id="studentsListContainer" class="students-list hidden">
-            <div class="students-list-header">
+            <div class="students-list-header" data-i18n="insertedStudents">
                 📋 Studenti Inseriti
                 <span class="student-count-badge" id="studentCount">0</span>
             </div>
@@ -480,12 +506,87 @@
 
         <!-- Pulsanti di Generazione -->
         <div class="button-group-vertical" id="generateButtonsContainer" style="display: none;">
-            <button type="button" class="btn-generate" id="finalGenerateBtn">📥 Genera e Scarica File Turtle</button>
-            <button type="button" class="btn-clear-all" id="clearAllBtn">🗑️ Elimina Tutti gli Studenti Inseriti</button>
+            <button type="button" class="btn-generate" id="finalGenerateBtn" data-i18n="generateAndDownload">📥 Genera e Scarica File Turtle</button>
+            <button type="button" class="btn-clear-all" id="clearAllBtn" data-i18n="deleteAllStudents">🗑️ Elimina Tutti gli Studenti Inseriti</button>
         </div>
     </div>
 
     <script>
+        const translations = {
+            en: {
+                title: "📚 Ontology Generator",
+                subtitle: "Create Turtle (OWL) files for student admission",
+                infoBox: "Fill out the form to add students. When finished, download the Turtle file with all the data.",
+                studentName: "Student Name",
+                destinationCourse: "Destination Course",
+                selectCourse: "-- Select course --",
+                undergraduate: "Undergraduate",
+                postgraduate: "Postgraduate",
+                countryOfOrigin: "Country of Origin",
+                selectCountry: "-- Select country --",
+                qualificationTitle: "Qualification Title",
+                selectCountryFirst: "-- Select country first --",
+                duration: "Duration in years",
+                gpa: "GPA (Grade)",
+                gpaScale100: "On 100",
+                gpaScale10: "On 10",
+                gpaScale8: "On 8",
+                gpaScale4: "On 4",
+                addStudent: "➕ Add Student",
+                resetForm: "🔄 Clear Form",
+                verifyImmediatelyTitle: "💡 Want to check immediately if the student could be admitted?",
+                verifyImmediatelySubtitle: "The data of <strong id='redirectStudentName'></strong> will be automatically passed to the test page.",
+                verifyImmediatelyButton: "🔍 Verify Admission Now",
+                insertedStudents: "📋 Inserted Students",
+                generateAndDownload: "📥 Generate and Download Turtle File",
+                deleteAllStudents: "🗑️ Delete All Inserted Students",
+            },
+            it: {
+                title: "📚 Generatore Ontologia",
+                subtitle: "Crea file Turtle (OWL) per l'ammissione studenti",
+                infoBox: "Compila il modulo per aggiungere studenti. Al termine, scarica il file Turtle con tutti i dati.",
+                studentName: "Nome Studente",
+                destinationCourse: "Corso di Destinazione",
+                selectCourse: "-- Seleziona corso --",
+                undergraduate: "Triennale",
+                postgraduate: "Magistrale",
+                countryOfOrigin: "Paese di Provenienza",
+                selectCountry: "-- Seleziona paese --",
+                qualificationTitle: "Titolo di Studio",
+                selectCountryFirst: "-- Seleziona paese prima --",
+                duration: "Durata in anni",
+                gpa: "GPA (Voto)",
+                gpaScale100: "Su 100",
+                gpaScale10: "Su 10",
+                gpaScale8: "Su 8",
+                gpaScale4: "Su 4",
+                addStudent: "➕ Aggiungi Studente",
+                resetForm: "🔄 Pulisci Modulo",
+                verifyImmediatelyTitle: "💡 Vuoi verificare subito se lo studente potrebbe essere ammesso?",
+                verifyImmediatelySubtitle: "I dati di <strong id='redirectStudentName'></strong> verranno passati automaticamente alla pagina di test.",
+                verifyImmediatelyButton: "🔍 Verifica Ammissione Subito",
+                insertedStudents: "📋 Studenti Inseriti",
+                generateAndDownload: "📥 Genera e Scarica File Turtle",
+                deleteAllStudents: "🗑️ Elimina Tutti gli Studenti Inseriti",
+            }
+        };
+
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+            document.documentElement.lang = lang;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('lang-it').addEventListener('click', () => setLanguage('it'));
+            document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+            setLanguage('it');
+        });
+
         // Configurazione URL del Backend Flask
         const BACKEND_URL = 'http://localhost:5000';
 
@@ -921,4 +1022,3 @@
     </script>
 </body>
 </html>
-

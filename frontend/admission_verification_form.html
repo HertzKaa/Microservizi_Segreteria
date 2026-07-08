@@ -23,6 +23,28 @@
             gap: 20px;
         }
 
+        .language-switcher {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 100;
+        }
+
+        .language-switcher button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 5px;
+        }
+
+        .language-switcher button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
         .verification-container {
             background: white;
             border-radius: 12px;
@@ -361,26 +383,30 @@
     </style>
 </head>
 <body>
+<div class="language-switcher">
+    <button id="lang-it">🇮🇹 IT</button>
+    <button id="lang-en">🇬🇧 EN</button>
+</div>
 <div class="verification-container" id="container">
     <div class="verification-header">
-        <h1>🔍 Verifica Ammissione</h1>
-        <p>Controlla la tua ammissione tramite ontologia OWL</p>
+        <h1 data-i18n="title">🔍 Verifica Ammissione</h1>
+        <p data-i18n="subtitle">Controlla la tua ammissione tramite ontologia OWL</p>
     </div>
 
     <div class="success-message" id="successMessage"></div>
     <div class="error-message" id="errorMessage"></div>
 
-    <div class="info-box" id="infoBoxMain">
+    <div class="info-box" id="infoBoxMain" data-i18n="infoBoxMain">
         Compila il modulo e clicca "Verifica Ammissione" per controllare se sei idoneo ai tuoi corsi di destinazione.
     </div>
 
     <!-- FORM STANDARD DI VERIFICA -->
     <form id="verificationForm">
         <!-- Sezione: Informazioni Personali -->
-        <div class="form-section-title">📋 Informazioni Personali</div>
+        <div class="form-section-title" data-i18n="personalInfo">📋 Informazioni Personali</div>
 
         <div class="form-group">
-            <label for="studentName" class="required">Nome Studente</label>
+            <label for="studentName" class="required" data-i18n="studentName">Nome Studente</label>
             <input
                     type="text"
                     id="studentName"
@@ -391,39 +417,39 @@
         </div>
 
         <!-- Sezione: Selezione Corso e Paese -->
-        <div class="form-section-title">🎓 Corso e Paese</div>
+        <div class="form-section-title" data-i18n="courseAndCountry">🎓 Corso e Paese</div>
 
         <div class="form-group">
-            <label for="course" class="required">Corso di Destinazione</label>
+            <label for="course" class="required" data-i18n="destinationCourse">Corso di Destinazione</label>
             <select id="course" name="course" required>
-                <option value="">-- Seleziona corso --</option>
-                <option value="Undergraduate">Triennale (Undergraduate)</option>
-                <option value="Postgraduate">Magistrale (Postgraduate)</option>
+                <option value="" data-i18n="selectCourse">-- Seleziona corso --</option>
+                <option value="Undergraduate" data-i18n="undergraduate">Triennale (Undergraduate)</option>
+                <option value="Postgraduate" data-i18n="postgraduate">Magistrale (Postgraduate)</option>
             </select>
         </div>
 
         <div class="form-group">
-            <label for="country" class="required">Paese di Provenienza</label>
+            <label for="country" class="required" data-i18n="countryOfOrigin">Paese di Provenienza</label>
             <select id="country" name="country" required>
-                <option value="">-- Seleziona paese --</option>
+                <option value="" data-i18n="selectCountry">-- Seleziona paese --</option>
                 <option value="India">India</option>
                 <option value="Iran">Iran</option>
             </select>
         </div>
 
         <!-- Sezione: Titolo di Studio -->
-        <div class="form-section-title">📜 Titolo di Studio</div>
+        <div class="form-section-title" data-i18n="qualification">📜 Titolo di Studio</div>
 
         <div class="form-group">
-            <label for="qualification" class="required">Titolo di Studio</label>
+            <label for="qualification" class="required" data-i18n="qualificationTitle">Titolo di Studio</label>
             <select id="qualification" name="qualification" required disabled>
-                <option value="">-- Seleziona paese e corso prima --</option>
+                <option value="" data-i18n="selectCountryAndCourseFirst">-- Seleziona paese e corso prima --</option>
             </select>
         </div>
 
         <!-- Durata in anni (condizionale) -->
         <div class="form-group hidden" id="durationGroup">
-            <label for="duration">Durata in anni</label>
+            <label for="duration" data-i18n="duration">Durata in anni</label>
             <input
                     type="number"
                     id="duration"
@@ -435,10 +461,10 @@
         </div>
 
         <!-- Sezione: Voti e Prestazioni -->
-        <div class="form-section-title">📊 Voti e Prestazioni</div>
+        <div class="form-section-title" data-i18n="gradesAndPerformance">📊 Voti e Prestazioni</div>
 
         <div class="form-group">
-            <label for="gpa" class="required">GPA (Voto Medio)</label>
+            <label for="gpa" class="required" data-i18n="gpa">GPA (Voto Medio)</label>
             <input
                     type="number"
                     id="gpa"
@@ -451,16 +477,16 @@
         </div>
 
         <div class="form-group">
-            <label for="gpaScale" class="required">Scala del Voto</label>
+            <label for="gpaScale" class="required" data-i18n="gpaScale">Scala del Voto</label>
             <select id="gpaScale" name="gpaScale" required disabled>
-                <option value="">-- Seleziona paese prima --</option>
+                <option value="" data-i18n="selectCountryFirst">-- Seleziona paese prima --</option>
             </select>
         </div>
 
         <!-- Pulsanti -->
         <div class="button-wrapper">
-            <button type="submit" class="btn-verify" id="verifyBtn">🔍 Verifica Ammissione</button>
-            <button type="reset" class="btn-reset">🔄 Ripulisci</button>
+            <button type="submit" class="btn-verify" id="verifyBtn" data-i18n="verifyAdmission">🔍 Verifica Ammissione</button>
+            <button type="reset" class="btn-reset" data-i18n="reset">🔄 Ripulisci</button>
         </div>
     </form>
 
@@ -474,20 +500,20 @@
     <!-- AREA RISERVATA AMMINISTRATORE (TASK 2) -->
     <!-- ========================================== -->
     <div class="admin-panel hidden" id="adminPanel">
-        <h2>🔑 Area Segreteria (Caricamento Massivo)</h2>
+        <h2 data-i18n="adminArea">🔑 Area Segreteria (Caricamento Massivo)</h2>
         <div class="format-info">
-            <strong>Formato del file supportato (.json, .xlsx, .ttl):</strong><br>
-            • <strong>JSON:</strong> Array di oggetti con chiavi: <code>name, course, country, qualification, duration, gpa, gpaScale</code>.<br>
-            • <strong>Excel:</strong> Colonne ordinate o nominate: Nome, Corso (Undergraduate/Postgraduate), Paese (India/Iran), Qualifica (key), Durata, GPA, Scala.<br>
-            • <strong>Turtle (.ttl):</strong> Carica direttamente il file generato dall'altra pagina (es. <code>students_registered.ttl</code>).
+            <strong data-i18n="supportedFormats">Formato del file supportato (.json, .xlsx, .ttl):</strong><br>
+            • <strong data-i18n="jsonFormat">JSON:</strong> Array di oggetti con chiavi: <code>name, course, country, qualification, duration, gpa, gpaScale</code>.<br>
+            • <strong data-i18n="excelFormat">Excel:</strong> Colonne ordinate o nominate: Nome, Corso (Undergraduate/Postgraduate), Paese (India/Iran), Qualifica (key), Durata, GPA, Scala.<br>
+            • <strong data-i18n="turtleFormat">Turtle (.ttl):</strong> Carica direttamente il file generato dall'altra pagina (es. <code>students_registered.ttl</code>).
         </div>
 
         <form id="adminBatchForm">
             <div class="form-group">
-                <label for="batchFileInput" class="required">Seleziona File (Excel, JSON o Turtle)</label>
+                <label for="batchFileInput" class="required" data-i18n="selectFile">Seleziona File (Excel, JSON o Turtle)</label>
                 <input type="file" id="batchFileInput" accept=".json, .xlsx, .xls, .ttl" required>
             </div>
-            <button type="submit" class="btn-verify" id="batchSubmitBtn" style="background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); width: 100%;">
+            <button type="submit" class="btn-verify" id="batchSubmitBtn" style="background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); width: 100%;" data-i18n="startBatchVerification">
                 📤 Avvia Verifica Massiva
             </button>
         </form>
@@ -497,12 +523,12 @@
             <table class="batch-table">
                 <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Studente</th>
-                    <th>Corso</th>
-                    <th>Paese</th>
-                    <th>Esito</th>
-                    <th>Nota / Errore</th>
+                    <th data-i18n="tableIndex">#</th>
+                    <th data-i18n="tableStudent">Studente</th>
+                    <th data-i18n="tableCourse">Corso</th>
+                    <th data-i18n="tableCountry">Paese</th>
+                    <th data-i18n="tableResult">Esito</th>
+                    <th data-i18n="tableNotes">Nota / Errore</th>
                 </tr>
                 </thead>
                 <tbody id="batchResultsBody">
@@ -515,12 +541,101 @@
 
 <!-- Bottone di sblocco in fondo alla pagina -->
 <div class="admin-switch-container">
-    <button class="admin-switch-btn" id="adminToggleBtn">🔐 Accedi come Amministratore (Segreteria)</button>
+    <button class="admin-switch-btn" id="adminToggleBtn" data-i18n="adminAccess">🔐 Accedi come Amministratore (Segreteria)</button>
 </div>
 
 <script>
     // URL del backend
     const BACKEND_URL = 'http://localhost:5000';
+
+    const translations = {
+        en: {
+            title: "🔍 Admission Verification",
+            subtitle: "Check your admission via OWL ontology",
+            infoBoxMain: "Fill out the form and click 'Verify Admission' to check if you are eligible for your destination courses.",
+            personalInfo: "📋 Personal Information",
+            studentName: "Student Name",
+            courseAndCountry: "🎓 Course and Country",
+            destinationCourse: "Destination Course",
+            selectCourse: "-- Select course --",
+            undergraduate: "Undergraduate",
+            postgraduate: "Postgraduate",
+            countryOfOrigin: "Country of Origin",
+            selectCountry: "-- Select country --",
+            qualification: "📜 Qualification",
+            qualificationTitle: "Qualification Title",
+            selectCountryAndCourseFirst: "-- Select country and course first --",
+            duration: "Duration in years",
+            gradesAndPerformance: "📊 Grades and Performance",
+            gpa: "GPA (Grade Point Average)",
+            gpaScale: "GPA Scale",
+            selectCountryFirst: "-- Select country first --",
+            verifyAdmission: "🔍 Verify Admission",
+            reset: "🔄 Reset",
+            adminArea: "🔑 Secretary Area (Bulk Upload)",
+            supportedFormats: "Supported file formats (.json, .xlsx, .ttl):",
+            jsonFormat: "JSON:",
+            excelFormat: "Excel:",
+            turtleFormat: "Turtle (.ttl):",
+            selectFile: "Select File (Excel, JSON or Turtle)",
+            startBatchVerification: "📤 Start Batch Verification",
+            tableIndex: "#",
+            tableStudent: "Student",
+            tableCourse: "Course",
+            tableCountry: "Country",
+            tableResult: "Result",
+            tableNotes: "Note / Error",
+            adminAccess: "🔐 Access as Administrator (Secretary)",
+        },
+        it: {
+            title: "🔍 Verifica Ammissione",
+            subtitle: "Controlla la tua ammissione tramite ontologia OWL",
+            infoBoxMain: "Compila il modulo e clicca 'Verifica Ammissione' per controllare se sei idoneo ai tuoi corsi di destinazione.",
+            personalInfo: "📋 Informazioni Personali",
+            studentName: "Nome Studente",
+            courseAndCountry: "🎓 Corso e Paese",
+            destinationCourse: "Corso di Destinazione",
+            selectCourse: "-- Seleziona corso --",
+            undergraduate: "Triennale (Undergraduate)",
+            postgraduate: "Magistrale (Postgraduate)",
+            countryOfOrigin: "Paese di Provenienza",
+            selectCountry: "-- Seleziona paese --",
+            qualification: "📜 Titolo di Studio",
+            qualificationTitle: "Titolo di Studio",
+            selectCountryAndCourseFirst: "-- Seleziona paese e corso prima --",
+            duration: "Durata in anni",
+            gradesAndPerformance: "📊 Voti e Prestazioni",
+            gpa: "GPA (Voto Medio)",
+            gpaScale: "Scala del Voto",
+            selectCountryFirst: "-- Seleziona paese prima --",
+            verifyAdmission: "🔍 Verifica Ammissione",
+            reset: "🔄 Ripulisci",
+            adminArea: "🔑 Area Segreteria (Caricamento Massivo)",
+            supportedFormats: "Formato del file supportato (.json, .xlsx, .ttl):",
+            jsonFormat: "JSON:",
+            excelFormat: "Excel:",
+            turtleFormat: "Turtle (.ttl):",
+            selectFile: "Seleziona File (Excel, JSON o Turtle)",
+            startBatchVerification: "📤 Avvia Verifica Massiva",
+            tableIndex: "#",
+            tableStudent: "Studente",
+            tableCourse: "Corso",
+            tableCountry: "Paese",
+            tableResult: "Esito",
+            tableNotes: "Nota / Errore",
+            adminAccess: "🔐 Accedi come Amministratore (Segreteria)",
+        }
+    };
+
+    function setLanguage(lang) {
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            if (translations[lang] && translations[lang][key]) {
+                element.innerHTML = translations[lang][key];
+            }
+        });
+        document.documentElement.lang = lang;
+    }
 
     // Mapping di qualifiche per paese/corso
     const qualificationsByCountryCourse = {
@@ -553,339 +668,343 @@
         }
     };
 
-    // Elementi DOM
-    const container = document.getElementById('container');
-    const form = document.getElementById('verificationForm');
-    const studentNameInput = document.getElementById('studentName');
-    const courseSelect = document.getElementById('course');
-    const countrySelect = document.getElementById('country');
-    const qualificationSelect = document.getElementById('qualification');
-    const durationGroup = document.getElementById('durationGroup');
-    const durationInput = document.getElementById('duration');
-    const gpaInput = document.getElementById('gpa');
-    const gpaScaleSelect = document.getElementById('gpaScale');
-    const verifyBtn = document.getElementById('verifyBtn');
-    const successMessage = document.getElementById('successMessage');
-    const errorMessage = document.getElementById('errorMessage');
-    const resultBox = document.getElementById('resultBox');
-    const resultIcon = document.getElementById('resultIcon');
-    const resultText = document.getElementById('resultText');
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Elementi DOM
+        const container = document.getElementById('container');
+        const form = document.getElementById('verificationForm');
+        const studentNameInput = document.getElementById('studentName');
+        const courseSelect = document.getElementById('course');
+        const countrySelect = document.getElementById('country');
+        const qualificationSelect = document.getElementById('qualification');
+        const durationGroup = document.getElementById('durationGroup');
+        const durationInput = document.getElementById('duration');
+        const gpaInput = document.getElementById('gpa');
+        const gpaScaleSelect = document.getElementById('gpaScale');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const resultBox = document.getElementById('resultBox');
+        const resultIcon = document.getElementById('resultIcon');
+        const resultText = document.getElementById('resultText');
 
-    // Nuovi elementi DOM per il Task 2 (Amministratore)
-    const adminToggleBtn = document.getElementById('adminToggleBtn');
-    const adminPanel = document.getElementById('adminPanel');
-    const adminBatchForm = document.getElementById('adminBatchForm');
-    const batchFileInput = document.getElementById('batchFileInput');
-    const batchSubmitBtn = document.getElementById('batchSubmitBtn');
-    const batchResultsContainer = document.getElementById('batchResultsContainer');
-    const batchResultsBody = document.getElementById('batchResultsBody');
+        // Nuovi elementi DOM per il Task 2 (Amministratore)
+        const adminToggleBtn = document.getElementById('adminToggleBtn');
+        const adminPanel = document.getElementById('adminPanel');
+        const adminBatchForm = document.getElementById('adminBatchForm');
+        const batchFileInput = document.getElementById('batchFileInput');
+        const batchSubmitBtn = document.getElementById('batchSubmitBtn');
+        const batchResultsContainer = document.getElementById('batchResultsContainer');
+        const batchResultsBody = document.getElementById('batchResultsBody');
 
-    // Event Listeners
-    courseSelect.addEventListener('change', updateQualifications);
-    countrySelect.addEventListener('change', updateQualificationsAndScales);
-    qualificationSelect.addEventListener('change', updateDurationField);
-    form.addEventListener('submit', handleVerification);
-    form.addEventListener('reset', resetForm);
+        // Event Listeners
+        document.getElementById('lang-it').addEventListener('click', () => setLanguage('it'));
+        document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+        courseSelect.addEventListener('change', updateQualifications);
+        countrySelect.addEventListener('change', updateQualificationsAndScales);
+        qualificationSelect.addEventListener('change', updateDurationField);
+        form.addEventListener('submit', handleVerification);
+        form.addEventListener('reset', resetForm);
 
-    // Toggle della visualizzazione Area Admin (protetto da password "admin")
-    adminToggleBtn.addEventListener('click', () => {
-        if (adminPanel.classList.contains('hidden')) {
-            const psw = prompt("Inserisci la password dell'amministratore:");
-            if (psw === "admin") {
-                adminPanel.classList.remove('hidden');
-                adminToggleBtn.textContent = "🔓 Esci dall'Area Amministratore";
-                adminToggleBtn.style.background = "#dc2626";
-                showSuccess("Accesso Amministratore consentito!");
-            } else if (psw !== null) {
-                showError("Password errata!");
-            }
-        } else {
-            adminPanel.classList.add('hidden');
-            container.classList.remove('wide');
-            batchResultsContainer.classList.add('hidden');
-            adminToggleBtn.textContent = "🔐 Accedi come Amministratore (Segreteria)";
-            adminToggleBtn.style.background = "rgba(255, 255, 255, 0.2)";
-            adminBatchForm.reset();
-        }
-    });
-
-    // Invio file Batch sul server (JSON o Excel)
-    adminBatchForm.addEventListener('submit', handleBatchUpload);
-
-    async function handleBatchUpload(e) {
-        e.preventDefault();
-        errorMessage.style.display = 'none';
-        successMessage.style.display = 'none';
-        batchResultsContainer.classList.add('hidden');
-
-        const file = batchFileInput.files[0];
-        if (!file) {
-            showError("Seleziona un file valido.");
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('file', file);
-
-        try {
-            batchSubmitBtn.disabled = true;
-            batchSubmitBtn.innerHTML = '<span class="loading"></span> Elaborazione batch in corso...';
-
-            const response = await fetch(`${BACKEND_URL}/check-admission-batch`, {
-                method: 'POST',
-                body: formData
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.error || 'Errore durante l\'elaborazione del file.');
-            }
-
-            showSuccess(`Elaborazione batch completata con successo! ${result.total} studenti verificati.`);
-            renderBatchResults(result.results);
-
-        } catch (error) {
-            console.error(error);
-            showError(error.message);
-        } finally {
-            batchSubmitBtn.disabled = false;
-            batchSubmitBtn.innerHTML = '📤 Avvia Verifica Massiva';
-        }
-    }
-
-    // Render dei risultati del batch all'interno della tabella
-    function renderBatchResults(results) {
-        // Allarga il layout per mostrare la tabella comodamente
-        container.classList.add('wide');
-        batchResultsContainer.classList.remove('hidden');
-        batchResultsBody.innerHTML = '';
-
-        results.forEach((res, index) => {
-            const tr = document.createElement('tr');
-
-            const tdIndex = document.createElement('td');
-            tdIndex.textContent = index + 1;
-
-            const tdName = document.createElement('td');
-            tdName.innerHTML = `<strong>${res.name}</strong>`;
-
-            const tdCourse = document.createElement('td');
-            tdCourse.textContent = res.course ? res.course : '-';
-
-            const tdCountry = document.createElement('td');
-            tdCountry.textContent = res.country ? res.country : '-';
-
-            const tdStatus = document.createElement('td');
-            const badge = document.createElement('span');
-            badge.className = 'badge';
-            if (res.admitted) {
-                badge.classList.add('admitted');
-                badge.textContent = 'AMMESSO';
+        // Toggle della visualizzazione Area Admin (protetto da password "admin")
+        adminToggleBtn.addEventListener('click', () => {
+            if (adminPanel.classList.contains('hidden')) {
+                const psw = prompt("Inserisci la password dell'amministratore:");
+                if (psw === "admin") {
+                    adminPanel.classList.remove('hidden');
+                    adminToggleBtn.textContent = "🔓 Esci dall'Area Amministratore";
+                    adminToggleBtn.style.background = "#dc2626";
+                    showSuccess("Accesso Amministratore consentito!");
+                } else if (psw !== null) {
+                    showError("Password errata!");
+                }
             } else {
-                badge.classList.add('rejected');
-                badge.textContent = 'NON AMMESSO';
+                adminPanel.classList.add('hidden');
+                container.classList.remove('wide');
+                batchResultsContainer.classList.add('hidden');
+                adminToggleBtn.textContent = "🔐 Accedi come Amministratore (Segreteria)";
+                adminToggleBtn.style.background = "rgba(255, 255, 255, 0.2)";
+                adminBatchForm.reset();
             }
-            tdStatus.appendChild(badge);
-
-            const tdError = document.createElement('td');
-            tdError.style.fontSize = '11px';
-            tdError.style.color = '#333';
-            tdError.textContent = res.error ? `⚠️ ${res.error}` : '-';
-
-            tr.appendChild(tdIndex);
-            tr.appendChild(tdName);
-            tr.appendChild(tdCourse);
-            tr.appendChild(tdCountry);
-            tr.appendChild(tdStatus);
-            tr.appendChild(tdError);
-
-            batchResultsBody.appendChild(tr);
         });
-    }
 
-    // Aggiorna le qualifiche disponibili
-    function updateQualificationsAndScales() {
-        updateQualifications();
-        updateGpaScale();
-    }
+        // Invio file Batch sul server (JSON o Excel)
+        adminBatchForm.addEventListener('submit', handleBatchUpload);
 
-    function updateQualifications() {
-        const course = courseSelect.value;
-        const country = countrySelect.value;
+        async function handleBatchUpload(e) {
+            e.preventDefault();
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            batchResultsContainer.classList.add('hidden');
 
-        qualificationSelect.innerHTML = '<option value="">-- Seleziona titolo --</option>';
-        durationGroup.classList.add('hidden');
+            const file = batchFileInput.files[0];
+            if (!file) {
+                showError("Seleziona un file valido.");
+                return;
+            }
 
-        if (!course || !country) {
-            qualificationSelect.disabled = true;
-            return;
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                batchSubmitBtn.disabled = true;
+                batchSubmitBtn.innerHTML = '<span class="loading"></span> Elaborazione batch in corso...';
+
+                const response = await fetch(`${BACKEND_URL}/check-admission-batch`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Errore durante l\'elaborazione del file.');
+                }
+
+                showSuccess(`Elaborazione batch completata con successo! ${result.total} studenti verificati.`);
+                renderBatchResults(result.results);
+
+            } catch (error) {
+                console.error(error);
+                showError(error.message);
+            } finally {
+                batchSubmitBtn.disabled = false;
+                batchSubmitBtn.innerHTML = '📤 Avvia Verifica Massiva';
+            }
         }
 
-        qualificationSelect.disabled = false;
-        const qualifications = qualificationsByCountryCourse[country]?.[course] || [];
+        // Render dei risultati del batch all'interno della tabella
+        function renderBatchResults(results) {
+            // Allarga il layout per mostrare la tabella comodamente
+            container.classList.add('wide');
+            batchResultsContainer.classList.remove('hidden');
+            batchResultsBody.innerHTML = '';
 
-        qualifications.forEach(qual => {
-            const option = document.createElement('option');
-            option.value = qual.key;
-            option.textContent = qual.label;
-            option.dataset.requiresDuration = qual.requiresDuration;
-            qualificationSelect.appendChild(option);
-        });
-    }
+            results.forEach((res, index) => {
+                const tr = document.createElement('tr');
 
-    function updateDurationField() {
-        const selectedOption = qualificationSelect.options[qualificationSelect.selectedIndex];
-        const requiresDuration = selectedOption?.dataset.requiresDuration === 'true';
+                const tdIndex = document.createElement('td');
+                tdIndex.textContent = index + 1;
 
-        if (requiresDuration && qualificationSelect.value) {
-            durationGroup.classList.remove('hidden');
-            durationInput.required = true;
-        } else {
-            durationGroup.classList.add('hidden');
-            durationInput.value = '';
-            durationInput.required = false;
-        }
-    }
+                const tdName = document.createElement('td');
+                tdName.innerHTML = `<strong>${res.name}</strong>`;
 
-    function updateGpaScale() {
-        const country = countrySelect.value;
+                const tdCourse = document.createElement('td');
+                tdCourse.textContent = res.course ? res.course : '-';
 
-        gpaScaleSelect.innerHTML = '<option value="">-- Seleziona scala --</option>';
+                const tdCountry = document.createElement('td');
+                tdCountry.textContent = res.country ? res.country : '-';
 
-        if (!country) {
-            gpaScaleSelect.disabled = true;
-            return;
-        }
+                const tdStatus = document.createElement('td');
+                const badge = document.createElement('span');
+                badge.className = 'badge';
+                if (res.admitted) {
+                    badge.classList.add('admitted');
+                    badge.textContent = 'AMMESSO';
+                } else {
+                    badge.classList.add('rejected');
+                    badge.textContent = 'NON AMMESSO';
+                }
+                tdStatus.appendChild(badge);
 
-        gpaScaleSelect.disabled = false;
+                const tdError = document.createElement('td');
+                tdError.style.fontSize = '11px';
+                tdError.style.color = '#333';
+                tdError.textContent = res.error ? `⚠️ ${res.error}` : '-';
 
-        if (country === 'Iran') {
-            const option = document.createElement('option');
-            option.value = 'Base20';
-            option.textContent = 'Su 20';
-            option.selected = true;
-            gpaScaleSelect.appendChild(option);
-        } else if (country === 'India') {
-            const scales = [
-                { value: 'Base100', label: 'Su 100' },
-                { value: 'Base10', label: 'Su 10' },
-                { value: 'Base8', label: 'Su 8' },
-                { value: 'Base4', label: 'Su 4' }
-            ];
-            scales.forEach(scale => {
-                const option = document.createElement('option');
-                option.value = scale.value;
-                option.textContent = scale.label;
-                gpaScaleSelect.appendChild(option);
+                tr.appendChild(tdIndex);
+                tr.appendChild(tdName);
+                tr.appendChild(tdCourse);
+                tr.appendChild(tdCountry);
+                tr.appendChild(tdStatus);
+                tr.appendChild(tdError);
+
+                batchResultsBody.appendChild(tr);
             });
         }
-    }
 
-    function resetForm() {
-        durationGroup.classList.add('hidden');
-        qualificationSelect.disabled = true;
-        gpaScaleSelect.disabled = true;
-        resultBox.style.display = 'none'; // Correctly hide the result box on reset
-        successMessage.style.display = 'none';
-        errorMessage.style.display = 'none';
-    }
-
-    async function handleVerification(e) {
-        e.preventDefault();
-
-        // Validazione base
-        const name = studentNameInput.value.trim();
-        const course = courseSelect.value;
-        const country = countrySelect.value;
-        const qualification = qualificationSelect.value;
-        const duration = durationInput.value || null;
-        const gpa = gpaInput.value;
-        const gpaScale = gpaScaleSelect.value;
-
-        if (!name || !course || !country || !qualification || !gpa || !gpaScale) {
-            showError('Completa tutti i campi obbligatori.');
-            return;
+        // Aggiorna le qualifiche disponibili
+        function updateQualificationsAndScales() {
+            updateQualifications();
+            updateGpaScale();
         }
 
-        // ... codice rimosso per brevità, ma showError è chiamata ...
-    }
+        function updateQualifications() {
+            const course = courseSelect.value;
+            const country = countrySelect.value;
 
-    async function sendVerificationRequest(data) {
-        try {
-            verifyBtn.disabled = true;
-            resultBox.style.display = 'none'; // Hide the result box before sending
+            qualificationSelect.innerHTML = '<option value="">-- Seleziona titolo --</option>';
+            durationGroup.classList.add('hidden');
+
+            if (!course || !country) {
+                qualificationSelect.disabled = true;
+                return;
+            }
+
+            qualificationSelect.disabled = false;
+            const qualifications = qualificationsByCountryCourse[country]?.[course] || [];
+
+            qualifications.forEach(qual => {
+                const option = document.createElement('option');
+                option.value = qual.key;
+                option.textContent = qual.label;
+                option.dataset.requiresDuration = qual.requiresDuration;
+                qualificationSelect.appendChild(option);
+            });
+        }
+
+        function updateDurationField() {
+            const selectedOption = qualificationSelect.options[qualificationSelect.selectedIndex];
+            const requiresDuration = selectedOption?.dataset.requiresDuration === 'true';
+
+            if (requiresDuration && qualificationSelect.value) {
+                durationGroup.classList.remove('hidden');
+                durationInput.required = true;
+            } else {
+                durationGroup.classList.add('hidden');
+                durationInput.value = '';
+                durationInput.required = false;
+            }
+        }
+
+        function updateGpaScale() {
+            const country = countrySelect.value;
+
+            gpaScaleSelect.innerHTML = '<option value="">-- Seleziona scala --</option>';
+
+            if (!country) {
+                gpaScaleSelect.disabled = true;
+                return;
+            }
+
+            gpaScaleSelect.disabled = false;
+
+            if (country === 'Iran') {
+                const option = document.createElement('option');
+                option.value = 'Base20';
+                option.textContent = 'Su 20';
+                option.selected = true;
+                gpaScaleSelect.appendChild(option);
+            } else if (country === 'India') {
+                const scales = [
+                    { value: 'Base100', label: 'Su 100' },
+                    { value: 'Base10', label: 'Su 10' },
+                    { value: 'Base8', label: 'Su 8' },
+                    { value: 'Base4', label: 'Su 4' }
+                ];
+                scales.forEach(scale => {
+                    const option = document.createElement('option');
+                    option.value = scale.value;
+                    option.textContent = scale.label;
+                    gpaScaleSelect.appendChild(option);
+                });
+            }
+        }
+
+        function resetForm() {
+            durationGroup.classList.add('hidden');
+            qualificationSelect.disabled = true;
+            gpaScaleSelect.disabled = true;
+            resultBox.style.display = 'none'; // Correctly hide the result box on reset
             successMessage.style.display = 'none';
             errorMessage.style.display = 'none';
+        }
 
-            // Mostra il caricamento
-            verifyBtn.innerHTML = '<span class="loading"></span> Verifica in corso...';
+        async function handleVerification(e) {
+            e.preventDefault();
 
-            const response = await fetch(`${BACKEND_URL}/check-admission`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
+            // Validazione base
+            const name = studentNameInput.value.trim();
+            const course = courseSelect.value;
+            const country = countrySelect.value;
+            const qualification = qualificationSelect.value;
+            const duration = durationInput.value || null;
+            const gpa = gpaInput.value;
+            const gpaScale = gpaScaleSelect.value;
 
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.error || 'Errore durante la verifica');
+            if (!name || !course || !country || !qualification || !gpa || !gpaScale) {
+                showError('Completa tutti i campi obbligatori.');
+                return;
             }
 
-            // Mostra il risultato
-            showResult(result.admitted, data);
-            showSuccess(`Verifica completata per ${data.name}`);
-
-        } catch (error) {
-            console.error('Errore:', error);
-            showError(`Errore: ${error.message}`);
-        } finally {
-            verifyBtn.disabled = false;
-            verifyBtn.innerHTML = '🔍 Verifica Ammissione';
+            // ... codice rimosso per brevità, ma showError è chiamata ...
         }
-    }
 
-    function showResult(admitted, data) {
-        // Correctly show the result box by setting its display style
-        resultBox.style.display = 'block';
-        resultBox.classList.remove('admitted', 'rejected');
+        async function sendVerificationRequest(data) {
+            try {
+                verifyBtn.disabled = true;
+                resultBox.style.display = 'none'; // Hide the result box before sending
+                successMessage.style.display = 'none';
+                errorMessage.style.display = 'none';
 
-        if (admitted) {
-            resultBox.classList.add('admitted');
-            resultIcon.textContent = '✅';
-            resultText.innerHTML = `
-                    <strong>${data.name}</strong> è <strong>AMMESSO/A</strong><br>
-                    <small>${data.country} • ${data.course}</small>
-                `;
-        } else {
-            resultBox.classList.add('rejected');
-            resultIcon.textContent = '❌';
-            resultText.innerHTML = `
-                    <strong>${data.name}</strong> è <strong>NON AMMESSO/A</strong><br>
-                    <small>${data.country} • ${data.course}</small>
-                `;
+                // Mostra il caricamento
+                verifyBtn.innerHTML = '<span class="loading"></span> Verifica in corso...';
+
+                const response = await fetch(`${BACKEND_URL}/check-admission`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Errore durante la verifica');
+                }
+
+                // Mostra il risultato
+                showResult(result.admitted, data);
+                showSuccess(`Verifica completata per ${data.name}`);
+
+            } catch (error) {
+                console.error('Errore:', error);
+                showError(`Errore: ${error.message}`);
+            } finally {
+                verifyBtn.disabled = false;
+                verifyBtn.innerHTML = '🔍 Verifica Ammissione';
+            }
         }
-    }
 
-    function showSuccess(message) {
-        successMessage.textContent = '✓ ' + message;
-        successMessage.style.display = 'block';
-        setTimeout(() => {
-            successMessage.style.display = 'none';
-        }, 5000);
-    }
+        function showResult(admitted, data) {
+            // Correctly show the result box by setting its display style
+            resultBox.style.display = 'block';
+            resultBox.classList.remove('admitted', 'rejected');
 
-    // LA FUNZIONE showError(message)
-    function showError(message) {
-        errorMessage.textContent = '✗ ' + message;
-        errorMessage.style.display = 'block';
-    }
+            if (admitted) {
+    .
+                resultBox.classList.add('admitted');
+                resultIcon.textContent = '✅';
+                resultText.innerHTML = `
+                        <strong>${data.name}</strong> è <strong>AMMESSO/A</strong><br>
+                        <small>${data.country} • ${data.course}</small>
+                    `;
+            } else {
+                resultBox.classList.add('rejected');
+                resultIcon.textContent = '❌';
+                resultText.innerHTML = `
+                        <strong>${data.name}</strong> è <strong>NON AMMESSO/A</strong><br>
+                        <small>${data.country} • ${data.course}</small>
+                    `;
+            }
+        }
 
-    // Test di connessione al backend all'avvio e autocompilazione se presente query string
-    document.addEventListener('DOMContentLoaded', async () => {
+        function showSuccess(message) {
+            successMessage.textContent = '✓ ' + message;
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        // LA FUNZIONE showError(message)
+        function showError(message) {
+            errorMessage.textContent = '✗ ' + message;
+            errorMessage.style.display = 'block';
+        }
+
+        // Test di connessione al backend all'avvio e autocompilazione se presente query string
+        setLanguage('it');
         try {
             const response = await fetch(`${BACKEND_URL}/health`);
             if (response.ok) {

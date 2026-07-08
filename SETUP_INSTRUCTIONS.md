@@ -33,6 +33,7 @@ Open a **new terminal** window, navigate to the frontend folder, and run:
 
 ```bash
 cd frontend
+py -m http.server 8000  
 
 # Go to the page
 http://localhost:8000/admission_verification_form.html
