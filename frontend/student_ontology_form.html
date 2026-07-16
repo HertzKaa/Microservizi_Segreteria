@@ -34,16 +34,25 @@
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 20px;
-            padding: 8px 16px;
+            padding: 6px 14px;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-left: 5px;
-        }
 
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
         .language-switcher button:hover {
             background: rgba(255, 255, 255, 0.3);
         }
-
+        .language-switcher button img {
+            width: 20px;
+            height: auto;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
         .container {
             background: white;
             border-radius: 12px;
@@ -378,9 +387,12 @@
     </style>
 </head>
 <body>
+<body>
     <div class="language-switcher">
-        <button id="lang-it">🇮🇹 IT</button>
-        <button id="lang-en">🇬🇧 EN</button>
+        <button id="lang-it">
+            <img src="https://flagcdn.com/w20/it.png" alt="IT Flag"> IT</button>
+        <button id="lang-en">
+            <img src="https://flagcdn.com/w20/gb.png" alt="UK Flag">EN</button>
     </div>
     <div class="container">
         <div class="header">
