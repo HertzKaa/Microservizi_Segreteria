@@ -11,7 +11,7 @@ import os
 
 # 1. ACQUISIZIONE DATI
 script_dir = os.path.dirname(os.path.abspath(__file__))
-dataset_path = os.path.join(script_dir, 'dataset_ammissioni.csv')
+dataset_path = os.path.join(script_dir, 'elenco_domande_pre_admission_titoli.csv')
 df = pd.read_csv(dataset_path, encoding='latin1', sep=';')
 
 # 2. DATA CLEANING E PREPROCESSING
@@ -49,18 +49,38 @@ except Exception as e:
     print("Impossibile stampare l'EDA sulle cittadinanze:", e)
 
 # 1. PREPROCESSING AVANZATO PER NAZIONALITÀ
-# Invece di LabelEncoder, usiamo la media del target per cittadinanza.
-target_mean = df.groupby('CITTADINANZA')['TARGET'].mean()
-df['CITTADINANZA_ENCODED'] = df['CITTADINANZA'].map(target_mean)
+# Calcolo statistiche per cittadinanza (media e conteggio)
+stats = df.groupby('CITTADINANZA')['TARGET'].agg(['mean', 'count'])
+global_mean = df['TARGET'].mean()
 
-# 2. NORMALIZZAZIONE VOTO "COUNTRY-AWARE"
-# Creiamo il VOTO_NORM come scostamento dalla media della specifica nazionalità
-df['VOTO_NORM'] = df.groupby('CITTADINANZA')['VOTO_PERCENTUALE'].transform(
-    lambda x: (x - x.mean()) / x.std() if (x.std() is not None and x.std() > 0) else 0
-)
+# Applichiamo smoothing (m-estimate) per evitare overfitting sulle nazioni con pochi studenti
+m = 10  # parametro di smoothing
+target_smooth = (stats['count'] * stats['mean'] + m * global_mean) / (stats['count'] + m)
+df['CITTADINANZA_ENCODED'] = df['CITTADINANZA'].map(target_smooth)
 
-# 3. ANALISI DELLA VARIABILITÀ (CLUSTERING DI NAZIONALITÀ)
-df['MEDIA_VOTO_NAZ'] = df.groupby('CITTADINANZA')['VOTO_PERCENTUALE'].transform('mean')
+# 2. NORMALIZZAZIONE VOTO "COUNTRY-AWARE" E MEDIA VOTO LEVIGATA
+voto_stats = df.groupby('CITTADINANZA')['VOTO_PERCENTUALE'].agg(['mean', 'count', 'std'])
+global_voto_mean = df['VOTO_PERCENTUALE'].mean()
+global_voto_std = df['VOTO_PERCENTUALE'].std()
+
+# Media voto levigata
+voto_mean_smooth = (voto_stats['count'] * voto_stats['mean'] + m * global_voto_mean) / (voto_stats['count'] + m)
+df['MEDIA_VOTO_NAZ'] = df['CITTADINANZA'].map(voto_mean_smooth)
+
+# VOTO_NORM con fallback su deviazione standard globale se la nazionalità ha troppi pochi dati o deviazione nulla
+def normalize_voto(row):
+    cit = row['CITTADINANZA']
+    v = row['VOTO_PERCENTUALE']
+    c_mean = voto_mean_smooth[cit]
+    c_std = voto_stats.loc[cit, 'std']
+    c_count = voto_stats.loc[cit, 'count']
+    if pd.isna(c_std) or c_std == 0 or c_count < 5:
+        std_val = global_voto_std if (not pd.isna(global_voto_std) and global_voto_std > 0) else 1.0
+    else:
+        std_val = c_std
+    return (v - c_mean) / std_val
+
+df['VOTO_NORM'] = df.apply(normalize_voto, axis=1)
 
 # Rimuoviamo le vecchie colonne non normalizzate prima dell'encoding delle altre categoriche
 df = df.drop(columns=['CITTADINANZA', 'VOTO_PERCENTUALE'], errors='ignore')
