@@ -1,0 +1,126 @@
+import pandas as pd
+import numpy as np
+from datetime import datetime
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier, export_text, plot_tree
+from sklearn.preprocessing import LabelEncoder
+import matplotlib.pyplot as plt
+
+
+import os
+
+# 1. ACQUISIZIONE DATI
+script_dir = os.path.dirname(os.path.abspath(__file__))
+dataset_path = os.path.join(script_dir, 'dataset_ammissioni.csv')
+df = pd.read_csv(dataset_path, encoding='latin1', sep=';')
+
+# 2. DATA CLEANING E PREPROCESSING
+# Rimozione identificativi diretti
+df = df.drop(columns=['COGNOME', 'NOME'], errors='ignore')
+
+# Trasformazione DATA_NASC in età (feature più utile per il modello)
+current_year = datetime.now().year
+df['DATA_NASC'] = pd.to_datetime(df['DATA_NASC'], errors='coerce').dt.year
+df['ETA'] = current_year - df['DATA_NASC']
+df = df.drop(columns=['DATA_NASC'], errors='ignore')
+
+# Pulizia Voto: convertiamo VOTO in numerico, gestendo eventuali valori sporchi
+df['VOTO'] = pd.to_numeric(df['VOTO'], errors='coerce')
+df['BASE_VOTO'] = pd.to_numeric(df['BASE_VOTO'], errors='coerce')
+# Creiamo una feature normalizzata (Percentuale di voto)
+df['VOTO_PERCENTUALE'] = df['VOTO'] / df['BASE_VOTO']
+df = df.drop(columns=['VOTO', 'BASE_VOTO'], errors='ignore')
+
+# Filtro target: manteniamo solo stati definitivi (A, R, X)
+# A = Approvata (1), R/X = Non Approvata (0)
+df = df[df['STATO_DOMANDA'].isin(['A', 'R', 'X'])].copy()
+df['TARGET'] = df['STATO_DOMANDA'].apply(lambda x: 1 if x == 'A' else 0)
+df = df.drop(columns=['STATO_DOMANDA', 'PAGATO_STATO_DOMANDA'], errors='ignore') # PAGATO spesso è ridondante con STATO
+
+# Gestione NaN nelle categoriche
+cat_cols = df.select_dtypes(include=['object']).columns
+df[cat_cols] = df[cat_cols].fillna('NON_SPECIFICATO')
+
+# Verifica se esistono differenze sostanziali tra nazionalità (EDA)
+print("--- ANALISI DIFFERENZE DI VOTO PER CITTADINANZA ---")
+try:
+    print(df.groupby('CITTADINANZA')['VOTO_PERCENTUALE'].describe()[['mean', 'std', 'count']].sort_values(by='mean'))
+except Exception as e:
+    print("Impossibile stampare l'EDA sulle cittadinanze:", e)
+
+# 1. PREPROCESSING AVANZATO PER NAZIONALITÀ
+# Invece di LabelEncoder, usiamo la media del target per cittadinanza.
+target_mean = df.groupby('CITTADINANZA')['TARGET'].mean()
+df['CITTADINANZA_ENCODED'] = df['CITTADINANZA'].map(target_mean)
+
+# 2. NORMALIZZAZIONE VOTO "COUNTRY-AWARE"
+# Creiamo il VOTO_NORM come scostamento dalla media della specifica nazionalità
+df['VOTO_NORM'] = df.groupby('CITTADINANZA')['VOTO_PERCENTUALE'].transform(
+    lambda x: (x - x.mean()) / x.std() if (x.std() is not None and x.std() > 0) else 0
+)
+
+# 3. ANALISI DELLA VARIABILITÀ (CLUSTERING DI NAZIONALITÀ)
+df['MEDIA_VOTO_NAZ'] = df.groupby('CITTADINANZA')['VOTO_PERCENTUALE'].transform('mean')
+
+# Rimuoviamo le vecchie colonne non normalizzate prima dell'encoding delle altre categoriche
+df = df.drop(columns=['CITTADINANZA', 'VOTO_PERCENTUALE'], errors='ignore')
+
+# Aggiorniamo la lista delle colonne categoriche rimaste per l'encoding
+cat_cols = df.select_dtypes(include=['object']).columns
+
+# Encoding categoriche rimaste
+le = LabelEncoder()
+for col in cat_cols:
+    df[col] = le.fit_transform(df[col])
+
+# Gestione NaN nei numerici residui
+df = df.fillna(0)
+
+# 4. MODELLAZIONE (Decision Tree con parametri aggiornati)
+X = df.drop(columns=['TARGET'])
+y = df['TARGET']
+
+clf = DecisionTreeClassifier(max_depth=5, min_samples_leaf=10, random_state=42)
+clf.fit(X, y)
+
+
+# Feature Importance
+importances = pd.DataFrame({'Feature': X.columns, 'Importance': clf.feature_importances_})
+print("--- IMPORTANZA DELLE FEATURE ---")
+print(importances.sort_values(by='Importance', ascending=False))
+
+# 4. ESTRAZIONE SOGLIE
+print("\n--- REGOLE LOGICHE PER L'APPROVAZIONE ---")
+# Nota: sostituisci X.columns con le feature effettive post-encoding
+tree_rules = export_text(clf, feature_names=list(X.columns))
+print(tree_rules)
+
+# 5. SALVATAGGIO DEI RISULTATI GRAFICI
+output_dir = os.path.join(script_dir, 'output')
+os.makedirs(output_dir, exist_ok=True)
+
+# Grafico 1: Importanza delle feature
+plt.figure(figsize=(10, 6))
+importances_sorted = importances.sort_values(by='Importance', ascending=True)
+plt.barh(importances_sorted['Feature'], importances_sorted['Importance'], color='skyblue')
+plt.xlabel('Importanza')
+plt.title('Importanza delle Feature per la classificazione delle domande')
+plt.tight_layout()
+plt.savefig(os.path.join(output_dir, 'feature_importance.png'), dpi=300)
+plt.close()
+
+# Grafico 2: Albero Decisionale
+plt.figure(figsize=(20, 10))
+plot_tree(
+    clf, 
+    feature_names=list(X.columns), 
+    class_names=['Rifiutata', 'Approvata'], 
+    filled=True, 
+    rounded=True, 
+    fontsize=8
+)
+plt.title("Albero delle decisioni per l'approvazione delle domande", fontsize=14)
+plt.savefig(os.path.join(output_dir, 'decision_tree.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
+print(f"\nGrafici salvati con successo nella cartella: {output_dir}")
