@@ -1,0 +1,19 @@
+# Ambienti Virtuali
+venv/
+.venv/
+
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Output
+*.log
+progetto_flask_completo.txt
+MergeProject.py

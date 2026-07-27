@@ -1,10 +1,46 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verifica Ammissione - Ontologia OWL</title>
+    <title>Verifica Ammissione - Portale Accademico</title>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
+        :root {
+            --bg-primary: #0b0f19;
+            /* Deep dark page background */
+            --bg-surface: #1e293b;
+            /* Metallic slate card background */
+            --bg-input: #0f172a;
+            /* Slightly darker input background */
+            --border-color: #334155;
+            /* Subtle card border */
+            --border-input: #475569;
+            /* Defined input border */
+            --border-focus: #ef4444;
+            /* Vibrant brand red focus state */
+            --text-primary: #ffffff;
+            /* Pure white headings */
+            --text-secondary: #e2e8f0;
+            /* Light grey labels */
+            --text-muted: #94a3b8;
+            /* Placeholders and subtexts */
+            --accent-color: #ef4444;
+            /* Brand red accent */
+            --accent-gradient: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            --success-bg: rgba(16, 185, 129, 0.1);
+            --success-border: #10b981;
+            --success-text: #34d399;
+            --error-bg: rgba(239, 68, 68, 0.1);
+            --error-border: #ef4444;
+            --error-text: #fca5a5;
+            --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+            --font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,94 +48,376 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-color: var(--bg-primary);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.03) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(239, 68, 68, 0.02) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-secondary);
+            font-family: var(--font-family);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* HEADER & NAVIGATION */
+        .app-header {
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 0 40px;
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 70px;
+        }
+
+        .app-logo {
+            position: absolute;
+            left: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-logo-img {
+            max-height: 36px;
+            object-fit: contain;
+        }
+
+        .app-footer {
+            width: 100%;
+            margin-top: auto;
+            background-color: var(--bg-surface);
+            border-top: 1px solid var(--border-color);
+            padding: 24px 0;
+            box-sizing: border-box;
+        }
+
+        .footer-container {
+            width: 100%;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 32px;
+            box-sizing: border-box;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .footer-logo {
+            max-height: 48px;
+            object-fit: contain;
+        }
+
+        .footer-left-info {
+            border-left: 2px solid #EF4444;
+            padding-left: 16px;
+            display: flex;
             flex-direction: column;
+            gap: 2px;
+            text-align: left;
+        }
+
+        .footer-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-subtitle {
+            font-size: 12px;
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+
+        .footer-meta {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .footer-right {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .footer-credits-main {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .developer-name {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .footer-credits-sub {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+                padding: 0 20px;
+            }
+
+            .footer-left {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .footer-left-info {
+                border-left: none;
+                border-top: 2px solid #EF4444;
+                padding-left: 0;
+                padding-top: 12px;
+                text-align: center;
+            }
+
+            .footer-right {
+                text-align: center;
+            }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            justify-content: center;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            padding: 24px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #ffffff;
+        }
+
+        .nav-link.active {
+            border-bottom-color: var(--accent-color);
+        }
+
+        .language-switcher-header {
+            position: absolute;
+            right: 40px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .lang-btn.active {
+            border-color: var(--accent-color);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* PAGE LAYOUT */
+        .page-container {
+            max-width: 800px;
+            /* Target width for central column */
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .hero-section h1 {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-section p {
+            color: var(--text-muted);
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+
+        /* INFO BOX */
+        .info-box {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-color);
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            text-align: left;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .info-box::before {
+            content: "ℹ";
+            color: var(--accent-color);
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .success-message,
+        .error-message {
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .success-message {
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: var(--success-text);
+        }
+
+        .error-message {
+            background: var(--error-bg);
+            border: 1px solid var(--error-border);
+            color: var(--error-text);
+        }
+
+        /* FORM CARDS */
+        .scroll-section {
+            width: 100%;
+            margin-bottom: 24px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .scroll-section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-card {
+            width: 100%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            transition: border-color 0.3s ease;
+        }
+
+        .section-card:hover {
+            border-color: #475569;
+        }
+
+        .form-section-title {
+            color: var(--text-primary);
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 12px;
+            line-height: 1.2;
+        }
+
+        /* GRID LAYOUTS FOR COMPACT FIELDS */
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
 
-        .language-switcher {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 100;
+        /* If duration group is hidden, let the first element span full width */
+        .form-grid-2:has(#durationGroup.hidden) .form-group:first-child {
+            grid-column: 1 / -1;
         }
 
-        .language-switcher button {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 20px;
-            padding: 6px 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-left: 5px;
+        @media (max-width: 640px) {
+            .form-grid-2 {
+                grid-template-columns: 1fr;
+            }
 
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 600;
-        }
-        .language-switcher button:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        .language-switcher button img {
-            width: 20px;
-            height: auto;
-            border-radius: 2px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-        }
-        .verification-container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 550px;
-            width: 100%;
-            padding: 40px;
-            transition: max-width 0.4s ease;
-        }
-
-        /* Allarga il contenitore se mostriamo la tabella dei risultati massivi */
-        .verification-container.wide {
-            max-width: 900px;
-        }
-
-        .verification-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .verification-header h1 {
-            color: #333;
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-
-        .verification-header p {
-            color: #666;
-            font-size: 14px;
+            .form-grid-2:has(#durationGroup.hidden) .form-group:first-child {
+                grid-column: auto;
+            }
         }
 
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 0;
+        }
+
+        /* Traditional spacing when grid is not used */
+        .section-card>.form-group {
+            margin-bottom: 20px;
+        }
+
+        .section-card>.form-group:last-child {
+            margin-bottom: 0;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
-            color: #333;
+            color: var(--text-secondary);
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .required::after {
             content: " *";
-            color: #e74c3c;
+            color: var(--accent-color);
         }
 
         input[type="text"],
@@ -108,12 +426,20 @@
         input[type="file"],
         select {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 14px;
+            padding: 12px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-input);
+            border-radius: 8px;
+            color: #ffffff;
             font-family: inherit;
-            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]::placeholder,
+        input[type="number"]::placeholder {
+            color: var(--text-muted);
         }
 
         input[type="text"]:focus,
@@ -121,49 +447,65 @@
         input[type="password"]:focus,
         select:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
         }
 
         select {
             cursor: pointer;
             appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23667eea" d="M6 9L1 4h10z"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23ef4444" d="M6 9L1 4h10z"/></svg>');
             background-repeat: no-repeat;
-            background-position: right 12px center;
+            background-position: right 16px center;
             background-size: 12px;
-            padding-right: 36px;
+            padding-right: 44px;
+        }
+
+        select:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: rgba(0, 0, 0, 0.2);
         }
 
         .hidden {
             display: none !important;
         }
 
+        /* VERIFICATION SUBMIT & RESULTS CARD */
+        .verification-action-card {
+            width: 100%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
         .button-wrapper {
             display: flex;
-            gap: 12px;
-            margin-top: 32px;
+            gap: 16px;
         }
 
         button {
-            padding: 14px 24px;
+            padding: 14px 28px;
             border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .btn-verify {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--accent-gradient);
             color: white;
-            flex: 1;
+            flex: 2;
         }
 
         .btn-verify:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
         }
 
         .btn-verify:disabled {
@@ -172,171 +514,116 @@
         }
 
         .btn-reset {
-            background: #f0f0f0;
-            color: #333;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
             flex: 1;
         }
 
         .btn-reset:hover {
-            background: #e0e0e0;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border-color: #475569;
         }
 
-        .info-box {
-            background: #f0f5ff;
-            border-left: 4px solid #667eea;
-            padding: 12px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: #555;
-            line-height: 1.5;
-        }
-
-        .success-message {
-            background: #d4edda;
-            border: 2px solid #28a745;
-            color: #155724;
-            padding: 16px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            display: none;
-            animation: slideDown 0.3s ease;
-        }
-
-        .error-message {
-            background: #f8d7da;
-            border: 2px solid #dc3545;
-            color: #721c24;
-            padding: 16px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            display: none;
-            animation: slideDown 0.3s ease;
-        }
-
+        /* RESULT BOXES */
         .result-box {
-            padding: 20px;
-            border-radius: 8px;
+            padding: 24px;
+            border-radius: 12px;
             text-align: center;
             margin-top: 24px;
             display: none;
-            animation: slideDown 0.3s ease;
+            animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             font-weight: 600;
-            font-size: 18px;
         }
 
         .result-box.admitted {
-            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-            border: 2px solid #28a745;
-            color: #155724;
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: var(--success-text);
         }
 
         .result-box.rejected {
-            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
-            border: 2px solid #dc3545;
-            color: #721c24;
+            background: var(--error-bg);
+            border: 1px solid var(--error-border);
+            color: var(--error-text);
         }
 
         .result-icon {
-            font-size: 32px;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: center;
         }
 
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(102, 126, 234, 0.3);
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
+        .result-text {
+            line-height: 1.6;
         }
 
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .form-section-title {
-            color: #667eea;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 20px;
-            margin-bottom: 16px;
-            padding-top: 12px;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        /* STILI DELL'AREA AMMINISTRATORE (BETA) */
+        /* ADMIN PANEL */
         .admin-switch-container {
-            margin-top: 10px;
             text-align: center;
+            margin: 40px 0 20px;
         }
 
         .admin-switch-btn {
             font-size: 13px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px dashed rgba(255, 255, 255, 0.4);
-            border-radius: 20px;
-            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-muted);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 10px 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            font-weight: 600;
         }
 
         .admin-switch-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.03);
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border-color: #475569;
         }
 
         .admin-panel {
-            background: #fafafb;
-            border: 2px dashed #667eea;
-            border-radius: 10px;
-            padding: 24px;
-            margin-top: 20px;
-            animation: slideDown 0.4s ease;
+            width: 100%;
+            margin-bottom: 40px;
         }
 
-        .admin-panel h2 {
-            font-size: 18px;
-            color: #764ba2;
-            margin-bottom: 12px;
+        .admin-card {
+            background: var(--bg-surface);
+            border: 1px dashed var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .admin-card h2 {
+            font-size: 20px;
+            color: var(--text-primary);
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
         }
 
         .format-info {
-            background: #f1f5f9;
-            border-radius: 6px;
-            padding: 10px 14px;
-            font-size: 12px;
-            color: #475569;
-            margin-bottom: 15px;
-            line-height: 1.5;
+            background: var(--bg-input);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.6;
+            border: 1px solid var(--border-color);
+            border-left-width: 4px;
         }
 
-        /* Tabella Esiti Batch */
+        /* BATCH RESULTS TABLE */
         .batch-table-container {
-            margin-top: 24px;
+            margin-top: 32px;
             overflow-x: auto;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
         }
 
         .batch-table {
@@ -344,45 +631,120 @@
             border-collapse: collapse;
             font-size: 13px;
             text-align: left;
-            background: white;
+            background: var(--bg-input);
+            color: #ffffff;
         }
 
-        .batch-table th, .batch-table td {
-            padding: 12px 14px;
-            border-bottom: 1px solid #e2e8f0;
+        .batch-table th,
+        .batch-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .batch-table th {
-            background: #f8fafc;
-            color: #475569;
-            font-weight: 600;
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+
+        .batch-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .badge {
             display: inline-block;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 10px;
             font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .badge.admitted {
-            background: #d1fae5;
-            color: #065f46;
+            background: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid var(--success-border);
         }
 
         .badge.rejected {
-            background: #fee2e2;
-            color: #991b1b;
+            background: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid var(--error-border);
         }
 
-        @media (max-width: 480px) {
-            .verification-container {
+        /* GENERAL UTILITIES & ANIMATIONS */
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        /* RESPONSIVE LAYOUT */
+        @media (max-width: 768px) {
+            .app-header {
+                padding: 0 20px;
+                flex-direction: column;
+                justify-content: center;
+                height: auto;
+                padding: 16px 20px;
+                gap: 12px;
+            }
+
+            .app-logo {
+                position: static;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            .nav-link {
+                padding: 8px 0;
+            }
+
+            .language-switcher-header {
+                position: static;
+                margin-top: 4px;
+            }
+
+            .page-container {
+                padding: 24px 16px 60px;
+            }
+
+            .section-card {
                 padding: 24px;
             }
 
-            .verification-header h1 {
-                font-size: 24px;
+            .hero-section h1 {
+                font-size: 28px;
             }
 
             .button-wrapper {
@@ -391,692 +753,792 @@
         }
     </style>
 </head>
+
 <body>
-    <div class="language-switcher">
-        <button id="lang-it">
-            <img src="https://flagcdn.com/w20/it.png" alt="IT Flag"> IT</button>
-        <button id="lang-en">
-            <img src="https://flagcdn.com/w20/gb.png" alt="UK Flag">EN</button>
-    </div>
-<div class="verification-container" id="container">
-    <div class="verification-header">
-        <h1 data-i18n="title">🔍 Verifica Ammissione</h1>
-        <p data-i18n="subtitle">Controlla la tua ammissione tramite ontologia OWL</p>
-    </div>
-
-    <div class="success-message" id="successMessage"></div>
-    <div class="error-message" id="errorMessage"></div>
-
-    <div class="info-box" id="infoBoxMain" data-i18n="infoBoxMain">
-        Compila il modulo e clicca "Verifica Ammissione" per controllare se sei idoneo ai tuoi corsi di destinazione.
-    </div>
-
-    <!-- FORM STANDARD DI VERIFICA -->
-    <form id="verificationForm">
-        <!-- Sezione: Informazioni Personali -->
-        <div class="form-section-title" data-i18n="personalInfo">📋 Informazioni Personali</div>
-
-        <div class="form-group">
-            <label for="studentName" class="required" data-i18n="studentName">Nome Studente</label>
-            <input
-                    type="text"
-                    id="studentName"
-                    name="studentName"
-                    placeholder="es. Mario Rossi"
-                    required
-            >
+    <header class="app-header">
+        <div class="app-logo">
+            <img src="assets/unicam-logo.png" alt="UNICAM Logo" class="header-logo-img">
+            <span class="logo-text">Academic Portal</span>
         </div>
-
-        <!-- Sezione: Selezione Corso e Paese -->
-        <div class="form-section-title" data-i18n="courseAndCountry">🎓 Corso e Paese</div>
-
-        <div class="form-group">
-            <label for="course" class="required" data-i18n="destinationCourse">Corso di Destinazione</label>
-            <select id="course" name="course" required>
-                <option value="" data-i18n="selectCourse">-- Seleziona corso --</option>
-                <option value="Undergraduate" data-i18n="undergraduate">Triennale (Undergraduate)</option>
-                <option value="Postgraduate" data-i18n="postgraduate">Magistrale (Postgraduate)</option>
-            </select>
+        <nav class="nav-links">
+            <a href="admission_verification_form.html" class="nav-link active">Verifica Ammissione</a>
+            <a href="student_ontology_form.html" class="nav-link">Generatore Ontologia</a>
+        </nav>
+        <div class="language-switcher-header">
+            <button id="lang-it" class="lang-btn active">IT</button>
+            <button id="lang-en" class="lang-btn">EN</button>
         </div>
+    </header>
 
-        <div class="form-group">
-            <label for="country" class="required" data-i18n="countryOfOrigin">Paese di Provenienza</label>
-            <select id="country" name="country" required>
-                <option value="" data-i18n="selectCountry">-- Seleziona paese --</option>
-                <option value="India">India</option>
-                <option value="Iran">Iran</option>
-            </select>
-        </div>
-
-        <!-- Sezione: Titolo di Studio -->
-        <div class="form-section-title" data-i18n="qualification">📜 Titolo di Studio</div>
-
-        <div class="form-group">
-            <label for="qualification" class="required" data-i18n="qualificationTitle">Titolo di Studio</label>
-            <select id="qualification" name="qualification" required disabled>
-                <option value="" data-i18n="selectCountryAndCourseFirst">-- Seleziona paese e corso prima --</option>
-            </select>
-        </div>
-
-        <!-- Durata in anni (condizionale) -->
-        <div class="form-group hidden" id="durationGroup">
-            <label for="duration" data-i18n="duration">Durata in anni</label>
-            <input
-                    type="number"
-                    id="duration"
-                    name="duration"
-                    min="1"
-                    max="10"
-                    placeholder="es. 4"
-            >
-        </div>
-
-        <!-- Sezione: Voti e Prestazioni -->
-        <div class="form-section-title" data-i18n="gradesAndPerformance">📊 Voti e Prestazioni</div>
-
-        <div class="form-group">
-            <label for="gpa" class="required" data-i18n="gpa">GPA (Voto Medio)</label>
-            <input
-                    type="number"
-                    id="gpa"
-                    name="gpa"
-                    step="0.01"
-                    min="0"
-                    placeholder="es. 3.5"
-                    required
-            >
-        </div>
-
-        <div class="form-group">
-            <label for="gpaScale" class="required" data-i18n="gpaScale">Scala del Voto</label>
-            <select id="gpaScale" name="gpaScale" required disabled>
-                <option value="" data-i18n="selectCountryFirst">-- Seleziona paese prima --</option>
-            </select>
-        </div>
-
-        <!-- Pulsanti -->
-        <div class="button-wrapper">
-            <button type="submit" class="btn-verify" id="verifyBtn" data-i18n="verifyAdmission">🔍 Verifica Ammissione</button>
-            <button type="reset" class="btn-reset" data-i18n="reset">🔄 Ripulisci</button>
-        </div>
-    </form>
-
-    <!-- Box dei risultati della verifica singola -->
-    <div class="result-box" id="resultBox">
-        <div class="result-icon" id="resultIcon"></div>
-        <div id="resultText"></div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- AREA RISERVATA AMMINISTRATORE (TASK 2) -->
-    <!-- ========================================== -->
-    <div class="admin-panel hidden" id="adminPanel">
-        <h2 data-i18n="adminArea">🔑 Area Segreteria (Caricamento Massivo)</h2>
-        <div class="format-info">
-            <strong data-i18n="supportedFormats">Formato del file supportato (.json, .xlsx, .ttl):</strong><br>
-            • <strong data-i18n="jsonFormat">JSON:</strong> Array di oggetti con chiavi: <code>name, course, country, qualification, duration, gpa, gpaScale</code>.<br>
-            • <strong data-i18n="excelFormat">Excel:</strong> Colonne ordinate o nominate: Nome, Corso (Undergraduate/Postgraduate), Paese (India/Iran), Qualifica (key), Durata, GPA, Scala.<br>
-            • <strong data-i18n="turtleFormat">Turtle (.ttl):</strong> Carica direttamente il file generato dall'altra pagina (es. <code>students_registered.ttl</code>).
-        </div>
-
-        <form id="adminBatchForm">
-            <div class="form-group">
-                <label for="batchFileInput" class="required" data-i18n="selectFile">Seleziona File (Excel, JSON o Turtle)</label>
-                <input type="file" id="batchFileInput" accept=".json, .xlsx, .xls, .ttl" required>
+    <div class="page-container" id="container">
+        <section class="hero-section">
+            <h1 data-i18n="title">Verifica Ammissione</h1>
+            <p data-i18n="subtitle">Controlla la tua ammissione tramite ontologia OWL</p>
+            <div class="info-box" id="infoBoxMain" data-i18n="infoBoxMain">
+                Compila il modulo e clicca "Verifica Ammissione" per controllare se sei idoneo ai tuoi corsi di
+                destinazione.
             </div>
-            <button type="submit" class="btn-verify" id="batchSubmitBtn" style="background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); width: 100%;" data-i18n="startBatchVerification">
-                📤 Avvia Verifica Massiva
-            </button>
+        </section>
+
+        <div class="success-message" id="successMessage"></div>
+        <div class="error-message" id="errorMessage"></div>
+
+        <!-- FORM STANDARD DI VERIFICA -->
+        <form id="verificationForm">
+            <!-- Sezione 1: Informazioni Personali -->
+            <div class="scroll-section" id="section-student-info">
+                <div class="section-card">
+                    <div class="form-section-title" data-i18n="personalInfo">Informazioni Personali</div>
+                    <div class="form-group">
+                        <label for="studentName" class="required" data-i18n="studentName">Nome Studente</label>
+                        <input type="text" id="studentName" name="studentName" placeholder="es. Mario Rossi" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sezione 2: Corso e Paese -->
+            <div class="scroll-section" id="section-course-country">
+                <div class="section-card">
+                    <div class="form-section-title" data-i18n="courseAndCountry">Corso e Paese</div>
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="course" class="required" data-i18n="destinationCourse">Corso di
+                                Destinazione</label>
+                            <select id="course" name="course" required>
+                                <option value="" data-i18n="selectCourse">-- Seleziona corso --</option>
+                                <option value="Undergraduate" data-i18n="undergraduate">Triennale (Undergraduate)
+                                </option>
+                                <option value="Postgraduate" data-i18n="postgraduate">Magistrale (Postgraduate)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="country" class="required" data-i18n="countryOfOrigin">Paese di
+                                Provenienza</label>
+                            <select id="country" name="country" required>
+                                <option value="" data-i18n="selectCountry">-- Seleziona paese --</option>
+                                <option value="India">India</option>
+                                <option value="Iran">Iran</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sezione 3: Titolo di Studio -->
+            <div class="scroll-section" id="section-qualification">
+                <div class="section-card">
+                    <div class="form-section-title" data-i18n="qualification">Titolo di Studio</div>
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="qualification" class="required" data-i18n="qualificationTitle">Titolo di
+                                Studio</label>
+                            <select id="qualification" name="qualification" required disabled>
+                                <option value="" data-i18n="selectCountryAndCourseFirst">-- Seleziona paese e corso
+                                    prima --</option>
+                            </select>
+                        </div>
+                        <!-- Durata in anni (condizionale) -->
+                        <div class="form-group hidden" id="durationGroup">
+                            <label for="duration" data-i18n="duration">Durata in anni</label>
+                            <input type="number" id="duration" name="duration" min="1" max="10" placeholder="es. 4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sezione 4: Voti e Prestazioni -->
+            <div class="scroll-section" id="section-performance">
+                <div class="section-card">
+                    <div class="form-section-title" data-i18n="gradesAndPerformance">Voti e Prestazioni</div>
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="gpa" class="required" data-i18n="gpa">GPA (Voto Medio)</label>
+                            <input type="number" id="gpa" name="gpa" step="0.01" min="0" placeholder="es. 3.5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gpaScale" class="required" data-i18n="gpaScale">Scala del Voto</label>
+                            <select id="gpaScale" name="gpaScale" required disabled>
+                                <option value="" data-i18n="selectCountryFirst">-- Seleziona paese prima --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sezione 5: Pulsanti e Risultati -->
+            <div class="scroll-section centered-section" id="section-submit">
+                <div class="verification-action-card">
+                    <div class="button-wrapper">
+                        <button type="submit" class="btn-verify" id="verifyBtn" data-i18n="verifyAdmission">Verifica
+                            Ammissione</button>
+                        <button type="reset" class="btn-reset" data-i18n="reset">Ripulisci</button>
+                    </div>
+
+                    <!-- Box dei risultati della verifica singola -->
+                    <div class="result-box" id="resultBox">
+                        <div class="result-icon" id="resultIcon"></div>
+                        <div class="result-text" id="resultText"></div>
+                    </div>
+                </div>
+            </div>
         </form>
 
-        <!-- Tabella per i Risultati Massivi -->
-        <div class="batch-table-container hidden" id="batchResultsContainer">
-            <table class="batch-table">
-                <thead>
-                <tr>
-                    <th data-i18n="tableIndex">#</th>
-                    <th data-i18n="tableStudent">Studente</th>
-                    <th data-i18n="tableCourse">Corso</th>
-                    <th data-i18n="tableCountry">Paese</th>
-                    <th data-i18n="tableResult">Esito</th>
-                    <th data-i18n="tableNotes">Nota / Errore</th>
-                </tr>
-                </thead>
-                <tbody id="batchResultsBody">
-                <!-- Righe popolate dinamicamente da JS -->
-                </tbody>
-            </table>
+        <!-- AREA RISERVATA AMMINISTRATORE -->
+        <div class="admin-switch-container">
+            <button class="admin-switch-btn" id="adminToggleBtn" data-i18n="adminAccess">Accedi come Amministratore
+                (Segreteria)</button>
+        </div>
+
+        <div class="admin-panel hidden" id="adminPanel">
+            <div class="admin-card">
+                <h2 data-i18n="adminArea">Area Segreteria (Caricamento Massivo)</h2>
+                <div class="format-info">
+                    <strong data-i18n="supportedFormats">Formato del file supportato (.json, .xlsx, .ttl):</strong><br>
+                    • <strong data-i18n="jsonFormat">JSON:</strong> Array di oggetti con chiavi:
+                    <code>name, course, country, qualification, duration, gpa, gpaScale</code>.<br>
+                    • <strong data-i18n="excelFormat">Excel:</strong> Colonne ordinate o nominate: Nome, Corso
+                    (Undergraduate/Postgraduate), Paese (India/Iran), Qualifica (key), Durata, GPA, Scala.<br>
+                    • <strong data-i18n="turtleFormat">Turtle (.ttl):</strong> Carica direttamente il file generato
+                    dall'altra pagina (es. <code>students_registered.ttl</code>).
+                </div>
+
+                <form id="adminBatchForm">
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="batchFileInput" class="required" data-i18n="selectFile">Seleziona File (Excel, JSON
+                            o Turtle)</label>
+                        <input type="file" id="batchFileInput" accept=".json, .xlsx, .xls, .ttl" required>
+                    </div>
+                    <button type="submit" class="btn-verify" id="batchSubmitBtn" style="width: 100%;"
+                        data-i18n="startBatchVerification">
+                        Avvia Verifica Massiva
+                    </button>
+                </form>
+
+                <!-- Tabella per i Risultati Massivi -->
+                <div class="batch-table-container hidden" id="batchResultsContainer">
+                    <table class="batch-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="tableIndex">#</th>
+                                <th data-i18n="tableStudent">Studente</th>
+                                <th data-i18n="tableCourse">Corso</th>
+                                <th data-i18n="tableCountry">Paese</th>
+                                <th data-i18n="tableResult">Esito</th>
+                                <th data-i18n="tableNotes">Nota / Errore</th>
+                            </tr>
+                        </thead>
+                        <tbody id="batchResultsBody">
+                            <!-- Righe popolate dinamicamente da JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Bottone di sblocco in fondo alla pagina -->
-<div class="admin-switch-container">
-    <button class="admin-switch-btn" id="adminToggleBtn" data-i18n="adminAccess">🔐 Accedi come Amministratore (Segreteria)</button>
-</div>
+    <footer class="app-footer">
+        <div class="footer-container">
+            <!-- Colonna Sinistra (Info Istituzionali) -->
+            <div class="footer-left">
+                <img src="assets/unicam-logo.png" alt="UNICAM Logo" class="footer-logo">
+                <div class="footer-left-info">
+                    <div class="footer-title">Università di Camerino</div>
+                    <div class="footer-subtitle">Sistema di Verifica Ammissioni &bull; Ontologia OWL</div>
+                    <div class="footer-meta">Copyright &copy; 2026 &bull; Area Segreteria Studenti</div>
+                </div>
+            </div>
 
-<script>
-    // URL del backend
-    const BACKEND_URL = 'http://localhost:5000';
+            <!-- Colonna Destra (Credits Sviluppatori) -->
+            <div class="footer-right">
+                <div class="footer-credits-main">
+                    Sviluppato da <strong class="developer-name">Fabio Grelloni</strong> &amp; <strong
+                        class="developer-name">Claudio Cozzolino</strong>
+                </div>
+                <div class="footer-credits-sub">Corso di Laurea in Computer Science</div>
+            </div>
+        </div>
+    </footer>
 
-    const translations = {
-        en: {
-            title: "🔍 Admission Verification",
-            subtitle: "Check your admission via OWL ontology",
-            infoBoxMain: "Fill out the form and click 'Verify Admission' to check if you are eligible for your destination courses.",
-            personalInfo: "📋 Personal Information",
-            studentName: "Student Name",
-            courseAndCountry: "🎓 Course and Country",
-            destinationCourse: "Destination Course",
-            selectCourse: "-- Select course --",
-            undergraduate: "Undergraduate",
-            postgraduate: "Postgraduate",
-            countryOfOrigin: "Country of Origin",
-            selectCountry: "-- Select country --",
-            qualification: "📜 Qualification",
-            qualificationTitle: "Qualification Title",
-            selectCountryAndCourseFirst: "-- Select country and course first --",
-            duration: "Duration in years",
-            gradesAndPerformance: "📊 Grades and Performance",
-            gpa: "GPA (Grade Point Average)",
-            gpaScale: "GPA Scale",
-            selectCountryFirst: "-- Select country first --",
-            verifyAdmission: "🔍 Verify Admission",
-            reset: "🔄 Reset",
-            adminArea: "🔑 Secretary Area (Bulk Upload)",
-            supportedFormats: "Supported file formats (.json, .xlsx, .ttl):",
-            jsonFormat: "JSON:",
-            excelFormat: "Excel:",
-            turtleFormat: "Turtle (.ttl):",
-            selectFile: "Select File (Excel, JSON or Turtle)",
-            startBatchVerification: "📤 Start Batch Verification",
-            tableIndex: "#",
-            tableStudent: "Student",
-            tableCourse: "Course",
-            tableCountry: "Country",
-            tableResult: "Result",
-            tableNotes: "Note / Error",
-            adminAccess: "🔐 Access as Administrator (Secretary)",
-        },
-        it: {
-            title: "🔍 Verifica Ammissione",
-            subtitle: "Controlla la tua ammissione tramite ontologia OWL",
-            infoBoxMain: "Compila il modulo e clicca 'Verifica Ammissione' per controllare se sei idoneo ai tuoi corsi di destinazione.",
-            personalInfo: "📋 Informazioni Personali",
-            studentName: "Nome Studente",
-            courseAndCountry: "🎓 Corso e Paese",
-            destinationCourse: "Corso di Destinazione",
-            selectCourse: "-- Seleziona corso --",
-            undergraduate: "Triennale (Undergraduate)",
-            postgraduate: "Magistrale (Postgraduate)",
-            countryOfOrigin: "Paese di Provenienza",
-            selectCountry: "-- Seleziona paese --",
-            qualification: "📜 Titolo di Studio",
-            qualificationTitle: "Titolo di Studio",
-            selectCountryAndCourseFirst: "-- Seleziona paese e corso prima --",
-            duration: "Durata in anni",
-            gradesAndPerformance: "📊 Voti e Prestazioni",
-            gpa: "GPA (Voto Medio)",
-            gpaScale: "Scala del Voto",
-            selectCountryFirst: "-- Seleziona paese prima --",
-            verifyAdmission: "🔍 Verifica Ammissione",
-            reset: "🔄 Ripulisci",
-            adminArea: "🔑 Area Segreteria (Caricamento Massivo)",
-            supportedFormats: "Formato del file supportato (.json, .xlsx, .ttl):",
-            jsonFormat: "JSON:",
-            excelFormat: "Excel:",
-            turtleFormat: "Turtle (.ttl):",
-            selectFile: "Seleziona File (Excel, JSON o Turtle)",
-            startBatchVerification: "📤 Avvia Verifica Massiva",
-            tableIndex: "#",
-            tableStudent: "Studente",
-            tableCourse: "Corso",
-            tableCountry: "Paese",
-            tableResult: "Esito",
-            tableNotes: "Nota / Errore",
-            adminAccess: "🔐 Accedi come Amministratore (Segreteria)",
-        }
-    };
+    <script>
+        // URL del backend
+        const BACKEND_URL = 'http://localhost:5000';
 
-    function setLanguage(lang) {
-        document.querySelectorAll('[data-i18n]').forEach(element => {
-            const key = element.getAttribute('data-i18n');
-            if (translations[lang] && translations[lang][key]) {
-                element.innerHTML = translations[lang][key];
+        const translations = {
+            en: {
+                title: "Admission Verification",
+                subtitle: "Check your admission via OWL ontology",
+                infoBoxMain: "Fill out the form and click 'Verify Admission' to check if you are eligible for your destination courses.",
+                personalInfo: "Personal Information",
+                studentName: "Student Name",
+                courseAndCountry: "Course and Country",
+                destinationCourse: "Destination Course",
+                selectCourse: "-- Select course --",
+                undergraduate: "Undergraduate",
+                postgraduate: "Postgraduate",
+                countryOfOrigin: "Country of Origin",
+                selectCountry: "-- Select country --",
+                qualification: "Qualification",
+                qualificationTitle: "Qualification Title",
+                selectCountryAndCourseFirst: "-- Select country and course first --",
+                duration: "Duration in years",
+                gradesAndPerformance: "Grades and Performance",
+                gpa: "GPA (Grade Point Average)",
+                gpaScale: "GPA Scale",
+                selectCountryFirst: "-- Select country first --",
+                verifyAdmission: "Verify Admission",
+                reset: "Reset",
+                adminArea: "Secretary Area (Bulk Upload)",
+                supportedFormats: "Supported file formats (.json, .xlsx, .ttl):",
+                jsonFormat: "JSON:",
+                excelFormat: "Excel:",
+                turtleFormat: "Turtle (.ttl):",
+                selectFile: "Select File (Excel, JSON or Turtle)",
+                startBatchVerification: "Start Batch Verification",
+                tableIndex: "#",
+                tableStudent: "Student",
+                tableCourse: "Course",
+                tableCountry: "Country",
+                tableResult: "Result",
+                tableNotes: "Note / Error",
+                adminAccess: "Access as Administrator (Secretary)",
+            },
+            it: {
+                title: "Verifica Ammissione",
+                subtitle: "Controlla la tua ammissione tramite ontologia OWL",
+                infoBoxMain: "Compila il modulo e clicca 'Verifica Ammissione' per controllare se sei idoneo ai tuoi corsi di destinazione.",
+                personalInfo: "Informazioni Personali",
+                studentName: "Nome Studente",
+                courseAndCountry: "Corso e Paese",
+                destinationCourse: "Corso di Destinazione",
+                selectCourse: "-- Seleziona corso --",
+                undergraduate: "Triennale (Undergraduate)",
+                postgraduate: "Magistrale (Postgraduate)",
+                countryOfOrigin: "Paese di Provenienza",
+                selectCountry: "-- Seleziona paese --",
+                qualification: "Titolo di Studio",
+                qualificationTitle: "Titolo di Studio",
+                selectCountryAndCourseFirst: "-- Seleziona paese e corso prima --",
+                duration: "Durata in anni",
+                gradesAndPerformance: "Voti e Prestazioni",
+                gpa: "GPA (Voto Medio)",
+                gpaScale: "Scala del Voto",
+                selectCountryFirst: "-- Seleziona paese prima --",
+                verifyAdmission: "Verifica Ammissione",
+                reset: "Ripulisci",
+                adminArea: "Area Segreteria (Caricamento Massivo)",
+                supportedFormats: "Formato del file supportato (.json, .xlsx, .ttl):",
+                jsonFormat: "JSON:",
+                excelFormat: "Excel:",
+                turtleFormat: "Turtle (.ttl):",
+                selectFile: "Seleziona File (Excel, JSON o Turtle)",
+                startBatchVerification: "Avvia Verifica Massiva",
+                tableIndex: "#",
+                tableStudent: "Studente",
+                tableCourse: "Corso",
+                tableCountry: "Paese",
+                tableResult: "Esito",
+                tableNotes: "Nota / Errore",
+                adminAccess: "Accedi come Amministratore (Segreteria)",
             }
-        });
-        document.documentElement.lang = lang;
-    }
+        };
 
-    // Mapping di qualifiche per paese/corso
-    const qualificationsByCountryCourse = {
-        "India": {
-            "Undergraduate": [
-                { key: "AllIndiaSeniorSchool", label: "All-India Senior School", requiresDuration: false },
-                { key: "IndianSchoolCert", label: "Indian School Certificate", requiresDuration: false },
-                { key: "IntermediateExam", label: "Intermediate Examination", requiresDuration: false },
-                { key: "HigherSecondarySchool", label: "Higher Secondary School", requiresDuration: false },
-                { key: "HigherSecondaryPartII", label: "Higher Secondary Examination Part II", requiresDuration: false }
-            ],
-            "Postgraduate": [
-                { key: "HonoursBachelor", label: "Honours Bachelor", requiresDuration: true },
-                { key: "ProfessionalBachelor", label: "Professional Bachelor", requiresDuration: true },
-                { key: "PassGeneralBachelor", label: "Pass/General Bachelor", requiresDuration: false },
-                { key: "MasterDegree", label: "Master's Degree", requiresDuration: false },
-                { key: "PostgraduateBachelor", label: "Postgraduate Bachelor", requiresDuration: false }
-            ]
-        },
-        "Iran": {
-            "Undergraduate": [
-                { key: "DiplomMotevasete", label: "Diplom-e-Motevasete", requiresDuration: false },
-                { key: "SecondaryEdu2018", label: "Secondary Education from 2018", requiresDuration: false },
-                { key: "Kardani", label: "Associate Degree (Kardani)", requiresDuration: false }
-            ],
-            "Postgraduate": [
-                { key: "Karshenasi", label: "Bachelor Degree (Karshenasi)", requiresDuration: true },
-                { key: "KarshenasiNapayvasteh", label: "Discontinuous Degree (Karshenasi-napayvasteh)", requiresDuration: true }
-            ]
-        }
-    };
-
-    document.addEventListener('DOMContentLoaded', async () => {
-        // Elementi DOM
-        const container = document.getElementById('container');
-        const form = document.getElementById('verificationForm');
-        const studentNameInput = document.getElementById('studentName');
-        const courseSelect = document.getElementById('course');
-        const countrySelect = document.getElementById('country');
-        const qualificationSelect = document.getElementById('qualification');
-        const durationGroup = document.getElementById('durationGroup');
-        const durationInput = document.getElementById('duration');
-        const gpaInput = document.getElementById('gpa');
-        const gpaScaleSelect = document.getElementById('gpaScale');
-        const verifyBtn = document.getElementById('verifyBtn');
-        const successMessage = document.getElementById('successMessage');
-        const errorMessage = document.getElementById('errorMessage');
-        const resultBox = document.getElementById('resultBox');
-        const resultIcon = document.getElementById('resultIcon');
-        const resultText = document.getElementById('resultText');
-
-        // Nuovi elementi DOM per il Task 2 (Amministratore)
-        const adminToggleBtn = document.getElementById('adminToggleBtn');
-        const adminPanel = document.getElementById('adminPanel');
-        const adminBatchForm = document.getElementById('adminBatchForm');
-        const batchFileInput = document.getElementById('batchFileInput');
-        const batchSubmitBtn = document.getElementById('batchSubmitBtn');
-        const batchResultsContainer = document.getElementById('batchResultsContainer');
-        const batchResultsBody = document.getElementById('batchResultsBody');
-
-        // Event Listeners
-        document.getElementById('lang-it').addEventListener('click', () => setLanguage('it'));
-        document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
-        courseSelect.addEventListener('change', updateQualifications);
-        countrySelect.addEventListener('change', updateQualificationsAndScales);
-        qualificationSelect.addEventListener('change', updateDurationField);
-        form.addEventListener('submit', handleVerification);
-        form.addEventListener('reset', resetForm);
-
-        // Toggle della visualizzazione Area Admin (protetto da password "admin")
-        adminToggleBtn.addEventListener('click', () => {
-            if (adminPanel.classList.contains('hidden')) {
-                const psw = prompt("Inserisci la password dell'amministratore:");
-                if (psw === "admin") {
-                    adminPanel.classList.remove('hidden');
-                    adminToggleBtn.textContent = "🔓 Esci dall'Area Amministratore";
-                    adminToggleBtn.style.background = "#dc2626";
-                    showSuccess("Accesso Amministratore consentito!");
-                } else if (psw !== null) {
-                    showError("Password errata!");
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
                 }
-            } else {
-                adminPanel.classList.add('hidden');
-                container.classList.remove('wide');
-                batchResultsContainer.classList.add('hidden');
-                adminToggleBtn.textContent = "🔐 Accedi come Amministratore (Segreteria)";
-                adminToggleBtn.style.background = "rgba(255, 255, 255, 0.2)";
-                adminBatchForm.reset();
-            }
-        });
+            });
+            document.documentElement.lang = lang;
 
-        // Invio file Batch sul server (JSON o Excel)
-        adminBatchForm.addEventListener('submit', handleBatchUpload);
-
-        async function handleBatchUpload(e) {
-            e.preventDefault();
-            errorMessage.style.display = 'none';
-            successMessage.style.display = 'none';
-            batchResultsContainer.classList.add('hidden');
-
-            const file = batchFileInput.files[0];
-            if (!file) {
-                showError("Seleziona un file valido.");
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append('file', file);
-
-            try {
-                batchSubmitBtn.disabled = true;
-                batchSubmitBtn.innerHTML = '<span class="loading"></span> Elaborazione batch in corso...';
-
-                const response = await fetch(`${BACKEND_URL}/check-admission-batch`, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const result = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(result.error || 'Errore durante l\'elaborazione del file.');
-                }
-
-                showSuccess(`Elaborazione batch completata con successo! ${result.total} studenti verificati.`);
-                renderBatchResults(result.results);
-
-            } catch (error) {
-                console.error(error);
-                showError(error.message);
-            } finally {
-                batchSubmitBtn.disabled = false;
-                batchSubmitBtn.innerHTML = '📤 Avvia Verifica Massiva';
-            }
+            // Aggiorna bottoni attivi nello switcher
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`lang-${lang}`).classList.add('active');
         }
 
-        // Render dei risultati del batch all'interno della tabella
-        function renderBatchResults(results) {
-            // Allarga il layout per mostrare la tabella comodamente
-            container.classList.add('wide');
-            batchResultsContainer.classList.remove('hidden');
-            batchResultsBody.innerHTML = '';
+        // Mapping di qualifiche per paese/corso
+        const qualificationsByCountryCourse = {
+            "India": {
+                "Undergraduate": [
+                    { key: "AllIndiaSeniorSchool", label: "All-India Senior School", requiresDuration: false },
+                    { key: "IndianSchoolCert", label: "Indian School Certificate", requiresDuration: false },
+                    { key: "IntermediateExam", label: "Intermediate Examination", requiresDuration: false },
+                    { key: "HigherSecondarySchool", label: "Higher Secondary School", requiresDuration: false },
+                    { key: "HigherSecondaryPartII", label: "Higher Secondary Examination Part II", requiresDuration: false }
+                ],
+                "Postgraduate": [
+                    { key: "HonoursBachelor", label: "Honours Bachelor", requiresDuration: true },
+                    { key: "ProfessionalBachelor", label: "Professional Bachelor", requiresDuration: true },
+                    { key: "PassGeneralBachelor", label: "Pass/General Bachelor", requiresDuration: false },
+                    { key: "MasterDegree", label: "Master's Degree", requiresDuration: false },
+                    { key: "PostgraduateBachelor", label: "Postgraduate Bachelor", requiresDuration: false }
+                ]
+            },
+            "Iran": {
+                "Undergraduate": [
+                    { key: "DiplomMotevasete", label: "Diplom-e-Motevasete", requiresDuration: false },
+                    { key: "SecondaryEdu2018", label: "Secondary Education from 2018", requiresDuration: false },
+                    { key: "Kardani", label: "Associate Degree (Kardani)", requiresDuration: false }
+                ],
+                "Postgraduate": [
+                    { key: "Karshenasi", label: "Bachelor Degree (Karshenasi)", requiresDuration: true },
+                    { key: "KarshenasiNapayvasteh", label: "Discontinuous Degree (Karshenasi-napayvasteh)", requiresDuration: true }
+                ]
+            }
+        };
 
-            results.forEach((res, index) => {
-                const tr = document.createElement('tr');
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Elementi DOM
+            const container = document.getElementById('container');
+            const form = document.getElementById('verificationForm');
+            const studentNameInput = document.getElementById('studentName');
+            const courseSelect = document.getElementById('course');
+            const countrySelect = document.getElementById('country');
+            const qualificationSelect = document.getElementById('qualification');
+            const durationGroup = document.getElementById('durationGroup');
+            const durationInput = document.getElementById('duration');
+            const gpaInput = document.getElementById('gpa');
+            const gpaScaleSelect = document.getElementById('gpaScale');
+            const verifyBtn = document.getElementById('verifyBtn');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            const resultBox = document.getElementById('resultBox');
+            const resultIcon = document.getElementById('resultIcon');
+            const resultText = document.getElementById('resultText');
 
-                const tdIndex = document.createElement('td');
-                tdIndex.textContent = index + 1;
+            // Elementi DOM Amministratore
+            const adminToggleBtn = document.getElementById('adminToggleBtn');
+            const adminPanel = document.getElementById('adminPanel');
+            const adminBatchForm = document.getElementById('adminBatchForm');
+            const batchFileInput = document.getElementById('batchFileInput');
+            const batchSubmitBtn = document.getElementById('batchSubmitBtn');
+            const batchResultsContainer = document.getElementById('batchResultsContainer');
+            const batchResultsBody = document.getElementById('batchResultsBody');
 
-                const tdName = document.createElement('td');
-                tdName.innerHTML = `<strong>${res.name}</strong>`;
+            // Event Listeners
+            document.getElementById('lang-it').addEventListener('click', () => setLanguage('it'));
+            document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+            courseSelect.addEventListener('change', updateQualifications);
+            countrySelect.addEventListener('change', updateQualificationsAndScales);
+            qualificationSelect.addEventListener('change', updateDurationField);
+            form.addEventListener('submit', handleVerification);
+            form.addEventListener('reset', resetForm);
 
-                const tdCourse = document.createElement('td');
-                tdCourse.textContent = res.course ? res.course : '-';
+            // Toggle della visualizzazione Area Admin
+            adminToggleBtn.addEventListener('click', () => {
+                const currentLang = document.documentElement.lang || 'it';
+                if (adminPanel.classList.contains('hidden')) {
+                    const promptMsg = currentLang === 'en'
+                        ? "Enter administrator password:"
+                        : "Inserisci la password dell'amministratore:";
+                    const psw = prompt(promptMsg);
+                    if (psw === "admin") {
+                        adminPanel.classList.remove('hidden');
+                        adminToggleBtn.textContent = currentLang === 'en'
+                            ? "Exit Administrator Area"
+                            : "Esci dall'Area Amministratore";
+                        adminToggleBtn.style.background = "#fff1f2";
+                        adminToggleBtn.style.color = "var(--error-text)";
+                        adminToggleBtn.style.borderColor = "var(--error-border)";
+                        showSuccess(currentLang === 'en' ? "Administrator access granted!" : "Accesso Amministratore consentito!");
 
-                const tdCountry = document.createElement('td');
-                tdCountry.textContent = res.country ? res.country : '-';
-
-                const tdStatus = document.createElement('td');
-                const badge = document.createElement('span');
-                badge.className = 'badge';
-                if (res.admitted) {
-                    badge.classList.add('admitted');
-                    badge.textContent = 'AMMESSO';
+                        // Scroll down to admin panel
+                        setTimeout(() => {
+                            adminPanel.scrollIntoView({ behavior: 'smooth' });
+                        }, 100);
+                    } else if (psw !== null) {
+                        showError(currentLang === 'en' ? "Wrong password!" : "Password errata!");
+                    }
                 } else {
-                    badge.classList.add('rejected');
-                    badge.textContent = 'NON AMMESSO';
+                    adminPanel.classList.add('hidden');
+                    batchResultsContainer.classList.add('hidden');
+                    adminToggleBtn.textContent = translations[currentLang].adminAccess;
+                    adminToggleBtn.style.background = "rgba(255, 255, 255, 0.03)";
+                    adminToggleBtn.style.color = "#94a3b8";
+                    adminToggleBtn.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                    adminBatchForm.reset();
                 }
-                tdStatus.appendChild(badge);
-
-                const tdError = document.createElement('td');
-                tdError.style.fontSize = '11px';
-                tdError.style.color = '#333';
-                tdError.textContent = res.error ? `⚠️ ${res.error}` : '-';
-
-                tr.appendChild(tdIndex);
-                tr.appendChild(tdName);
-                tr.appendChild(tdCourse);
-                tr.appendChild(tdCountry);
-                tr.appendChild(tdStatus);
-                tr.appendChild(tdError);
-
-                batchResultsBody.appendChild(tr);
             });
-        }
 
-        // Aggiorna le qualifiche disponibili
-        function updateQualificationsAndScales() {
-            updateQualifications();
-            updateGpaScale();
-        }
+            // Invio file Batch sul server (JSON o Excel)
+            adminBatchForm.addEventListener('submit', handleBatchUpload);
 
-        function updateQualifications() {
-            const course = courseSelect.value;
-            const country = countrySelect.value;
+            async function handleBatchUpload(e) {
+                e.preventDefault();
+                errorMessage.style.display = 'none';
+                successMessage.style.display = 'none';
+                batchResultsContainer.classList.add('hidden');
 
-            qualificationSelect.innerHTML = '<option value="">-- Seleziona titolo --</option>';
-            durationGroup.classList.add('hidden');
+                const file = batchFileInput.files[0];
+                if (!file) {
+                    showError("Seleziona un file valido.");
+                    return;
+                }
 
-            if (!course || !country) {
-                qualificationSelect.disabled = true;
-                return;
+                const formData = new FormData();
+                formData.append('file', file);
+
+                try {
+                    batchSubmitBtn.disabled = true;
+                    batchSubmitBtn.innerHTML = '<span class="loading"></span>';
+
+                    const response = await fetch(`${BACKEND_URL}/check-admission-batch`, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(result.error || 'Errore durante l\'elaborazione del file.');
+                    }
+
+                    showSuccess(`Elaborazione batch completata con successo! ${result.total} studenti verificati.`);
+                    renderBatchResults(result.results);
+
+                } catch (error) {
+                    console.error(error);
+                    showError(error.message);
+                } finally {
+                    batchSubmitBtn.disabled = false;
+                    batchSubmitBtn.textContent = document.documentElement.lang === 'en' ? 'Start Batch Verification' : 'Avvia Verifica Massiva';
+                }
             }
 
-            qualificationSelect.disabled = false;
-            const qualifications = qualificationsByCountryCourse[country]?.[course] || [];
+            // Render dei risultati del batch all'interno della tabella
+            function renderBatchResults(results) {
+                batchResultsContainer.classList.remove('hidden');
+                batchResultsBody.innerHTML = '';
 
-            qualifications.forEach(qual => {
-                const option = document.createElement('option');
-                option.value = qual.key;
-                option.textContent = qual.label;
-                option.dataset.requiresDuration = qual.requiresDuration;
-                qualificationSelect.appendChild(option);
-            });
-        }
+                results.forEach((res, index) => {
+                    const tr = document.createElement('tr');
 
-        function updateDurationField() {
-            const selectedOption = qualificationSelect.options[qualificationSelect.selectedIndex];
-            const requiresDuration = selectedOption?.dataset.requiresDuration === 'true';
+                    const tdIndex = document.createElement('td');
+                    tdIndex.textContent = index + 1;
 
-            if (requiresDuration && qualificationSelect.value) {
-                durationGroup.classList.remove('hidden');
-                durationInput.required = true;
-            } else {
+                    const tdName = document.createElement('td');
+                    tdName.innerHTML = `<strong>${res.name}</strong>`;
+
+                    const tdCourse = document.createElement('td');
+                    tdCourse.textContent = res.course ? res.course : '-';
+
+                    const tdCountry = document.createElement('td');
+                    tdCountry.textContent = res.country ? res.country : '-';
+
+                    const tdStatus = document.createElement('td');
+                    const badge = document.createElement('span');
+                    badge.className = 'badge';
+                    if (res.admitted) {
+                        badge.classList.add('admitted');
+                        badge.textContent = document.documentElement.lang === 'en' ? 'Admitted' : 'AMMESSO';
+                    } else {
+                        badge.classList.add('rejected');
+                        badge.textContent = document.documentElement.lang === 'en' ? 'Rejected' : 'NON AMMESSO';
+                    }
+                    tdStatus.appendChild(badge);
+
+                    const tdError = document.createElement('td');
+                    tdError.style.fontSize = '11px';
+                    tdError.textContent = res.error ? res.error : '-';
+
+                    tr.appendChild(tdIndex);
+                    tr.appendChild(tdName);
+                    tr.appendChild(tdCourse);
+                    tr.appendChild(tdCountry);
+                    tr.appendChild(tdStatus);
+                    tr.appendChild(tdError);
+
+                    batchResultsBody.appendChild(tr);
+                });
+
+                // Scroll layout smoothly to table
+                setTimeout(() => {
+                    batchResultsContainer.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            }
+
+            // Aggiorna le qualifiche disponibili
+            function updateQualificationsAndScales() {
+                updateQualifications();
+                updateGpaScale();
+            }
+
+            function updateQualifications() {
+                const course = courseSelect.value;
+                const country = countrySelect.value;
+
+                qualificationSelect.innerHTML = '<option value="">-- Seleziona titolo --</option>';
                 durationGroup.classList.add('hidden');
-                durationInput.value = '';
-                durationInput.required = false;
-            }
-        }
 
-        function updateGpaScale() {
-            const country = countrySelect.value;
+                if (!course || !country) {
+                    qualificationSelect.disabled = true;
+                    return;
+                }
 
-            gpaScaleSelect.innerHTML = '<option value="">-- Seleziona scala --</option>';
+                qualificationSelect.disabled = false;
+                const qualifications = qualificationsByCountryCourse[country]?.[course] || [];
 
-            if (!country) {
-                gpaScaleSelect.disabled = true;
-                return;
-            }
-
-            gpaScaleSelect.disabled = false;
-
-            if (country === 'Iran') {
-                const option = document.createElement('option');
-                option.value = 'Base20';
-                option.textContent = 'Su 20';
-                option.selected = true;
-                gpaScaleSelect.appendChild(option);
-            } else if (country === 'India') {
-                const scales = [
-                    { value: 'Base100', label: 'Su 100' },
-                    { value: 'Base10', label: 'Su 10' },
-                    { value: 'Base8', label: 'Su 8' },
-                    { value: 'Base4', label: 'Su 4' }
-                ];
-                scales.forEach(scale => {
+                qualifications.forEach(qual => {
                     const option = document.createElement('option');
-                    option.value = scale.value;
-                    option.textContent = scale.label;
-                    gpaScaleSelect.appendChild(option);
+                    option.value = qual.key;
+                    option.textContent = qual.label;
+                    option.dataset.requiresDuration = qual.requiresDuration;
+                    qualificationSelect.appendChild(option);
                 });
             }
-        }
 
-        function resetForm() {
-            durationGroup.classList.add('hidden');
-            qualificationSelect.disabled = true;
-            gpaScaleSelect.disabled = true;
-            resultBox.style.display = 'none'; // Correctly hide the result box on reset
-            successMessage.style.display = 'none';
-            errorMessage.style.display = 'none';
-        }
+            function updateDurationField() {
+                const selectedOption = qualificationSelect.options[qualificationSelect.selectedIndex];
+                const requiresDuration = selectedOption?.dataset.requiresDuration === 'true';
 
-        async function handleVerification(e) {
-            e.preventDefault();
-
-            // Validazione base
-            const name = studentNameInput.value.trim();
-            const course = courseSelect.value;
-            const country = countrySelect.value;
-            const qualification = qualificationSelect.value;
-            const duration = durationInput.value || null;
-            const gpa = gpaInput.value;
-            const gpaScale = gpaScaleSelect.value;
-
-            if (!name || !course || !country || !qualification || !gpa || !gpaScale) {
-                showError('Completa tutti i campi obbligatori.');
-                return;
+                if (requiresDuration && qualificationSelect.value) {
+                    durationGroup.classList.remove('hidden');
+                    durationInput.required = true;
+                } else {
+                    durationGroup.classList.add('hidden');
+                    durationInput.value = '';
+                    durationInput.required = false;
+                }
             }
 
-            // Costruzione del payload per la richiesta di verifica
-            const data = {
-                name,
-                course,
-                country,
-                qualification,
-                duration: duration ? parseInt(duration, 10) : null,
-                gpa: parseFloat(gpa),
-                gpaScale
-            };
+            // Aggiorna la scala dei voti
+            function updateGpaScale() {
+                const country = countrySelect.value;
 
-            await sendVerificationRequest(data);
-        }
+                gpaScaleSelect.innerHTML = '<option value="">-- Seleziona scala --</option>';
 
-        async function sendVerificationRequest(data) {
-            try {
-                verifyBtn.disabled = true;
-                resultBox.style.display = 'none'; // Hide the result box before sending
+                if (!country) {
+                    gpaScaleSelect.disabled = true;
+                    return;
+                }
+
+                gpaScaleSelect.disabled = false;
+
+                if (country === 'Iran') {
+                    const option = document.createElement('option');
+                    option.value = 'Base20';
+                    option.textContent = 'Su 20';
+                    option.selected = true;
+                    gpaScaleSelect.appendChild(option);
+                } else if (country === 'India') {
+                    const scales = [
+                        { value: 'Base100', label: 'Su 100' },
+                        { value: 'Base10', label: 'Su 10' },
+                        { value: 'Base8', label: 'Su 8' },
+                        { value: 'Base4', label: 'Su 4' }
+                    ];
+                    scales.forEach(scale => {
+                        const option = document.createElement('option');
+                        option.value = scale.value;
+                        option.textContent = scale.label;
+                        gpaScaleSelect.appendChild(option);
+                    });
+                }
+            }
+
+            function resetForm() {
+                durationGroup.classList.add('hidden');
+                qualificationSelect.disabled = true;
+                gpaScaleSelect.disabled = true;
+                resultBox.style.display = 'none';
                 successMessage.style.display = 'none';
                 errorMessage.style.display = 'none';
+            }
 
-                // Mostra il caricamento
-                verifyBtn.innerHTML = '<span class="loading"></span> Verifica in corso...';
+            async function handleVerification(e) {
+                e.preventDefault();
 
-                const response = await fetch(`${BACKEND_URL}/check-admission`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
+                // Validazione base
+                const name = studentNameInput.value.trim();
+                const course = courseSelect.value;
+                const country = countrySelect.value;
+                const qualification = qualificationSelect.value;
+                const duration = durationInput.value || null;
+                const gpa = gpaInput.value;
+                const gpaScale = gpaScaleSelect.value;
 
-                const result = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(result.error || 'Errore durante la verifica');
+                if (!name || !course || !country || !qualification || !gpa || !gpaScale) {
+                    showError('Completa tutti i campi obbligatori.');
+                    return;
                 }
 
-                // Mostra il risultato
-                showResult(result.admitted, data);
-                showSuccess(`Verifica completata per ${data.name}`);
+                // Costruzione del payload
+                const data = {
+                    name,
+                    course,
+                    country,
+                    qualification,
+                    duration: duration ? parseInt(duration, 10) : null,
+                    gpa: parseFloat(gpa),
+                    gpaScale
+                };
 
+                await sendVerificationRequest(data);
+            }
+
+            async function sendVerificationRequest(data) {
+                try {
+                    verifyBtn.disabled = true;
+                    resultBox.style.display = 'none';
+                    successMessage.style.display = 'none';
+                    errorMessage.style.display = 'none';
+
+                    // Mostra il caricamento
+                    verifyBtn.innerHTML = '<span class="loading"></span>';
+
+                    const response = await fetch(`${BACKEND_URL}/check-admission`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(result.error || 'Errore durante la verifica');
+                    }
+
+                    // Mostra il risultato
+                    showResult(result.admitted, data);
+                    showSuccess(`Verifica completata per ${data.name}`);
+
+                } catch (error) {
+                    console.error('Errore:', error);
+                    showError(`Errore: ${error.message}`);
+                } finally {
+                    verifyBtn.disabled = false;
+                    verifyBtn.textContent = document.documentElement.lang === 'en' ? 'Verify Admission' : 'Verifica Ammissione';
+                }
+            }
+
+            function showResult(admitted, data) {
+                resultBox.style.display = 'block';
+                resultBox.classList.remove('admitted', 'rejected');
+
+                const currentLang = document.documentElement.lang || 'it';
+                if (admitted) {
+                    resultBox.classList.add('admitted');
+                    resultIcon.innerHTML = `
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success-text);">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <path d="m22 4-10 10.01-3-3"/>
+                        </svg>
+                    `;
+                    resultText.innerHTML = `
+                        <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--success-text);">${currentLang === 'en' ? 'Admitted' : 'Ammesso/a'}</div>
+                        <strong>${data.name}</strong> ${currentLang === 'en' ? 'is eligible for the destination course' : 'è idoneo/a per il corso di destinazione'}.<br>
+                        <small style="color: var(--text-secondary); font-size: 12px;">${data.country} &bull; ${data.course}</small>
+                    `;
+                } else {
+                    resultBox.classList.add('rejected');
+                    resultIcon.innerHTML = `
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--error-text);">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                    `;
+                    resultText.innerHTML = `
+                        <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--error-text);">${currentLang === 'en' ? 'Not Admitted' : 'Non ammesso/a'}</div>
+                        <strong>${data.name}</strong> ${currentLang === 'en' ? 'is not eligible for the destination course' : 'non è idoneo/a per il corso di destinazione'}.<br>
+                        <small style="color: var(--text-secondary); font-size: 12px;">${data.country} &bull; ${data.course}</small>
+                    `;
+                }
+
+                // Scroll smoothly to results
+                setTimeout(() => {
+                    resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            }
+
+            // Mostra messaggio di successo
+            function showSuccess(message) {
+                successMessage.textContent = message;
+                successMessage.style.display = 'block';
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }
+
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+            }
+
+            // Intersection Observer for scroll reveal animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.scroll-section').forEach(section => {
+                observer.observe(section);
+            });
+
+            // Test di connessione al backend all'avvio e autocompilazione se presente query string
+            setLanguage('it');
+            try {
+                const response = await fetch(`${BACKEND_URL}/health`);
+                if (response.ok) {
+                    console.log('✓ Backend connesso correttamente');
+                } else {
+                    console.warn('⚠ Backend non risponde correttamente');
+                }
             } catch (error) {
-                console.error('Errore:', error);
-                showError(`Errore: ${error.message}`);
-            } finally {
-                verifyBtn.disabled = false;
-                verifyBtn.innerHTML = '🔍 Verifica Ammissione';
-            }
-        }
-
-        function showResult(admitted, data) {
-            // Correctly show the result box by setting its display style
-            resultBox.style.display = 'block';
-            resultBox.classList.remove('admitted', 'rejected');
-
-            if (admitted) {
-                resultBox.classList.add('admitted');
-                resultIcon.textContent = '✅';
-                resultText.innerHTML = `
-                        <strong>${data.name}</strong> è <strong>AMMESSO/A</strong><br>
-                        <small>${data.country} • ${data.course}</small>
-                    `;
-            } else {
-                resultBox.classList.add('rejected');
-                resultIcon.textContent = '❌';
-                resultText.innerHTML = `
-                        <strong>${data.name}</strong> è <strong>NON AMMESSO/A</strong><br>
-                        <small>${data.country} • ${data.course}</small>
-                    `;
-            }
-        }
-
-        function showSuccess(message) {
-            successMessage.textContent = '✓ ' + message;
-            successMessage.style.display = 'block';
-            setTimeout(() => {
-                successMessage.style.display = 'none';
-            }, 5000);
-        }
-
-        // LA FUNZIONE showError(message)
-        function showError(message) {
-            errorMessage.textContent = '✗ ' + message;
-            errorMessage.style.display = 'block';
-        }
-
-        // Test di connessione al backend all'avvio e autocompilazione se presente query string
-        setLanguage('it');
-        try {
-            const response = await fetch(`${BACKEND_URL}/health`);
-            if (response.ok) {
-                console.log('✓ Backend connesso correttamente');
-            } else {
-                console.warn('⚠ Backend non risponde correttamente');
-            }
-        } catch (error) {
-            console.error('✗ Impossibile connettersi al backend:', error);
-            showError('Impossibile connettersi al backend. Assicurati che il server sia avviato su http://localhost:5000');
-        }
-
-        // ==========================================================
-        // AUTOCOMPILAZIONE DA PARAMETRI URL (REDIRECT DA PAGINA REGISTRAZIONE)
-        // ==========================================================
-        const urlParams = new URLSearchParams(window.location.search);
-        const name = urlParams.get('name');
-
-        if (name) {
-            // Riempi i campi base
-            studentNameInput.value = name;
-
-            const course = urlParams.get('course');
-            const country = urlParams.get('country');
-            const qualification = urlParams.get('qualification');
-            const duration = urlParams.get('duration');
-            const gpa = urlParams.get('gpa');
-            const gpaScale = urlParams.get('gpaScale');
-
-            if (course) courseSelect.value = course;
-            if (country) countrySelect.value = country;
-
-            // Innesca il caricamento asincrono di qualifiche e scale di voto
-            updateQualificationsAndScales();
-
-            // Compila i campi condizionali
-            if (qualification) {
-                qualificationSelect.value = qualification;
-                updateDurationField();
+                console.error('✗ Impossibile connettersi al backend:', error);
+                showError('Impossibile connettersi al backend. Assicurati che il server sia avviato su http://localhost:5000');
             }
 
-            if (duration) durationInput.value = duration;
-            if (gpa) gpaInput.value = gpa;
+            // AUTOCOMPILAZIONE DA PARAMETRI URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name');
 
-            if (gpaScale) {
-                gpaScaleSelect.value = gpaScale;
+            if (name) {
+                // Riempi i campi base
+                studentNameInput.value = name;
+
+                const course = urlParams.get('course');
+                const country = urlParams.get('country');
+                const qualification = urlParams.get('qualification');
+                const duration = urlParams.get('duration');
+                const gpa = urlParams.get('gpa');
+                const gpaScale = urlParams.get('gpaScale');
+
+                if (course) courseSelect.value = course;
+                if (country) countrySelect.value = country;
+
+                // Innesca il caricamento asincrono di qualifiche e scale di voto
+                updateQualificationsAndScales();
+
+                // Compila i campi condizionali
+                if (qualification) {
+                    qualificationSelect.value = qualification;
+                    updateDurationField();
+                }
+
+                if (duration) durationInput.value = duration;
+                if (gpa) gpaInput.value = gpa;
+
+                if (gpaScale) {
+                    gpaScaleSelect.value = gpaScale;
+                }
+
+                showSuccess(`Dati dello studente '${name}' precompilati con successo! Clicca su 'Verifica Ammissione' per eseguire il test.`);
             }
-
-            showSuccess(`Dati dello studente '${name}' precompilati con successo! Clicca su 'Verifica Ammissione' per eseguire il test.`);
-        }
-    });
-</script>
+        });
+    </script>
 </body>
+
 </html>
