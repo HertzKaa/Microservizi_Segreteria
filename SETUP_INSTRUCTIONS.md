@@ -14,11 +14,17 @@ To run this project, you will need to set up both the **Backend** and the **Fron
 Open a terminal in the root folder and run the following commands:
 
 ```bash
-# Create and activate virtual environment
-python -m venv venv
+# Create virtual environment using Python Launcher (Windows)
+py -m venv venv
+
+# If you get an 'ensurepip' error on Windows, use this alternative:
+# py -m venv --without-pip venv
+
+# Activate virtual environment
 .\venv\Scripts\Activate.ps1  # On macOS/Linux use: source venv/bin/activate
 
-# Install dependencies
+# Upgrade pip and install dependencies
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 
 # Run the backend
