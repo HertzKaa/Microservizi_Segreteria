@@ -761,8 +761,8 @@
             <span class="logo-text">Academic Portal</span>
         </div>
         <nav class="nav-links">
-            <a href="admission_verification_form.html" class="nav-link active">Verifica Ammissione</a>
-            <a href="student_ontology_form.html" class="nav-link">Generatore Ontologia</a>
+            <a href="admission_verification_form.html" class="nav-link active" data-i18n="navVerify">Verifica Ammissione</a>
+            <a href="student_ontology_form.html" class="nav-link" data-i18n="navGenerator">Generatore Ontologia</a>
         </nav>
         <div class="language-switcher-header">
             <button id="lang-it" class="lang-btn active">IT</button>
@@ -942,19 +942,19 @@
             <div class="footer-left">
                 <img src="assets/unicam-logo.png" alt="UNICAM Logo" class="footer-logo">
                 <div class="footer-left-info">
-                    <div class="footer-title">Università di Camerino</div>
-                    <div class="footer-subtitle">Sistema di Verifica Ammissioni &bull; Ontologia OWL</div>
-                    <div class="footer-meta">Copyright &copy; 2026 &bull; Area Segreteria Studenti</div>
+                    <div class="footer-title" data-i18n="footerUniversity">Università di Camerino</div>
+                    <div class="footer-subtitle" data-i18n="footerSubtitle">Sistema di Verifica Ammissioni &bull; Ontologia OWL</div>
+                    <div class="footer-meta" data-i18n="footerMeta">Copyright &copy; 2026 &bull; Area Segreteria Studenti</div>
                 </div>
             </div>
 
             <!-- Colonna Destra (Credits Sviluppatori) -->
             <div class="footer-right">
-                <div class="footer-credits-main">
+                <div class="footer-credits-main" data-i18n="footerCreditsMain">
                     Sviluppato da <strong class="developer-name">Fabio Grelloni</strong> &amp; <strong
                         class="developer-name">Claudio Cozzolino</strong>
                 </div>
-                <div class="footer-credits-sub">Corso di Laurea in Computer Science</div>
+                <div class="footer-credits-sub" data-i18n="footerCreditsSub">Corso di Laurea in Computer Science</div>
             </div>
         </div>
     </footer>
@@ -1001,6 +1001,13 @@
                 tableResult: "Result",
                 tableNotes: "Note / Error",
                 adminAccess: "Access as Administrator (Secretary)",
+                navVerify: "Admission Verification",
+                navGenerator: "Ontology Generator",
+                footerUniversity: "University of Camerino",
+                footerSubtitle: "Admission Verification System &bull; OWL Ontology",
+                footerMeta: "Copyright &copy; 2026 &bull; Student Registry Office",
+                footerCreditsMain: 'Developed by <strong class="developer-name">Fabio Grelloni</strong> &amp; <strong class="developer-name">Claudio Cozzolino</strong>',
+                footerCreditsSub: "Degree Course in Computer Science",
             },
             it: {
                 title: "Verifica Ammissione",
@@ -1039,6 +1046,13 @@
                 tableResult: "Esito",
                 tableNotes: "Nota / Errore",
                 adminAccess: "Accedi come Amministratore (Segreteria)",
+                navVerify: "Verifica Ammissione",
+                navGenerator: "Generatore Ontologia",
+                footerUniversity: "Università di Camerino",
+                footerSubtitle: "Sistema di Verifica Ammissioni &bull; Ontologia OWL",
+                footerMeta: "Copyright &copy; 2026 &bull; Area Segreteria Studenti",
+                footerCreditsMain: 'Sviluppato da <strong class="developer-name">Fabio Grelloni</strong> &amp; <strong class="developer-name">Claudio Cozzolino</strong>',
+                footerCreditsSub: "Corso di Laurea in Computer Science",
             }
         };
 
