@@ -937,7 +937,18 @@
                 return;
             }
 
-            // ... codice rimosso per brevità, ma showError è chiamata ...
+            // Costruzione del payload per la richiesta di verifica
+            const data = {
+                name,
+                course,
+                country,
+                qualification,
+                duration: duration ? parseInt(duration, 10) : null,
+                gpa: parseFloat(gpa),
+                gpaScale
+            };
+
+            await sendVerificationRequest(data);
         }
 
         async function sendVerificationRequest(data) {

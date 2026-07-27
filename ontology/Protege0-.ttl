@@ -1,0 +1,534 @@
+@prefix : <http://example.org/university-admission#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://example.org/university-admission#> .
+
+<http://example.org/university-admission> rdf:type owl:Ontology ;
+                                           rdfs:comment "Ontologia per la valutazione dei requisiti di ammissione per studenti indiani e iraniani." .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://example.org/university-admission#hasAppliedFor
+:hasAppliedFor rdf:type owl:ObjectProperty ;
+               rdfs:domain :Student ;
+               rdfs:range :Course .
+
+
+###  http://example.org/university-admission#hasQualification
+:hasQualification rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Student ;
+                  rdfs:range :Qualification .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://example.org/university-admission#hasDurationInYears
+:hasDurationInYears rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Qualification ;
+                    rdfs:range xsd:decimal .
+
+
+###  http://example.org/university-admission#hasGPA_Base10
+:hasGPA_Base10 rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Qualification ;
+               rdfs:range xsd:decimal .
+
+
+###  http://example.org/university-admission#hasGPA_Base100
+:hasGPA_Base100 rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Qualification ;
+                rdfs:range xsd:decimal .
+
+
+###  http://example.org/university-admission#hasGPA_Base20
+:hasGPA_Base20 rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Qualification ;
+               rdfs:range xsd:decimal .
+
+
+###  http://example.org/university-admission#hasGPA_Base4
+:hasGPA_Base4 rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Qualification ;
+              rdfs:range xsd:decimal .
+
+
+###  http://example.org/university-admission#hasGPA_Base8
+:hasGPA_Base8 rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Qualification ;
+              rdfs:range xsd:decimal .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example.org/university-admission#AllIndiaSeniorSchoolCertificate
+:AllIndiaSeniorSchoolCertificate rdf:type owl:Class ;
+                                 rdfs:subClassOf :HighSchoolDiploma .
+
+
+###  http://example.org/university-admission#BachelorDegree
+:BachelorDegree rdf:type owl:Class ;
+                rdfs:subClassOf :Qualification .
+
+
+###  http://example.org/university-admission#Course
+:Course rdf:type owl:Class .
+
+
+###  http://example.org/university-admission#DiplomEMotevasete
+:DiplomEMotevasete rdf:type owl:Class ;
+                   rdfs:subClassOf :IranianHighSchoolDiploma .
+
+
+###  http://example.org/university-admission#DowreYePishDaneshgahi
+:DowreYePishDaneshgahi rdf:type owl:Class ;
+                       rdfs:subClassOf :Qualification .
+
+
+###  http://example.org/university-admission#EligibleIndianPostgraduateStudent
+:EligibleIndianPostgraduateStudent rdf:type owl:Class ;
+                                   owl:equivalentClass [ owl:intersectionOf ( :IndianStudent
+                                                                              [ rdf:type owl:Class ;
+                                                                                owl:unionOf ( [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                                                                       owl:onProperty :hasQualification ;
+                                                                                                                       owl:someValuesFrom :PassGeneralBachelorDegree
+                                                                                                                     ]
+                                                                                                                     [ rdf:type owl:Restriction ;
+                                                                                                                       owl:onProperty :hasQualification ;
+                                                                                                                       owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                                                                            owl:unionOf ( :MasterDegree
+                                                                                                                                                          :PostgraduateBachelorDegree
+                                                                                                                                                        )
+                                                                                                                                          ]
+                                                                                                                     ]
+                                                                                                                   ) ;
+                                                                                                rdf:type owl:Class
+                                                                                              ]
+                                                                                              [ rdf:type owl:Restriction ;
+                                                                                                owl:onProperty :hasQualification ;
+                                                                                                owl:someValuesFrom :ValidHonoursDegree
+                                                                                              ]
+                                                                                              [ rdf:type owl:Restriction ;
+                                                                                                owl:onProperty :hasQualification ;
+                                                                                                owl:someValuesFrom :ValidProfessionalDegree
+                                                                                              ]
+                                                                                            )
+                                                                              ]
+                                                                              [ rdf:type owl:Restriction ;
+                                                                                owl:onProperty :hasAppliedFor ;
+                                                                                owl:someValuesFrom :PostgraduateCourse
+                                                                              ]
+                                                                              [ rdf:type owl:Restriction ;
+                                                                                owl:onProperty :hasQualification ;
+                                                                                owl:someValuesFrom :ValidGPARequirementIndia
+                                                                              ]
+                                                                            ) ;
+                                                         rdf:type owl:Class
+                                                       ] .
+
+
+###  http://example.org/university-admission#EligibleIndianUndergraduateStudent
+:EligibleIndianUndergraduateStudent rdf:type owl:Class ;
+                                    owl:equivalentClass [ owl:intersectionOf ( :IndianStudent
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty :hasAppliedFor ;
+                                                                                 owl:someValuesFrom :UndergraduateCourse
+                                                                               ]
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty :hasQualification ;
+                                                                                 owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                                      owl:unionOf ( :AllIndiaSeniorSchoolCertificate
+                                                                                                                    :HigherSecondaryExaminationCertificatePartII
+                                                                                                                    :HigherSecondarySchoolCertificate
+                                                                                                                    :IndianSchoolCertificate
+                                                                                                                    :IntermediateExaminationCertificate
+                                                                                                                  )
+                                                                                                    ]
+                                                                               ]
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] .
+
+
+###  http://example.org/university-admission#EligibleIranianPostgraduateStudent
+:EligibleIranianPostgraduateStudent rdf:type owl:Class ;
+                                    owl:equivalentClass [ owl:intersectionOf ( :IranianStudent
+                                                                               [ rdf:type owl:Class ;
+                                                                                 owl:unionOf ( [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                                                                        owl:onProperty :hasQualification ;
+                                                                                                                        owl:someValuesFrom :ValidKardani2Years
+                                                                                                                      ]
+                                                                                                                      [ rdf:type owl:Restriction ;
+                                                                                                                        owl:onProperty :hasQualification ;
+                                                                                                                        owl:someValuesFrom :ValidKarshenasiNapayvasteh2Years
+                                                                                                                      ]
+                                                                                                                    ) ;
+                                                                                                 rdf:type owl:Class
+                                                                                               ]
+                                                                                               [ rdf:type owl:Restriction ;
+                                                                                                 owl:onProperty :hasQualification ;
+                                                                                                 owl:someValuesFrom :ValidKarshenasiDegree
+                                                                                               ]
+                                                                                             )
+                                                                               ]
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty :hasAppliedFor ;
+                                                                                 owl:someValuesFrom :PostgraduateCourse
+                                                                               ]
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty :hasQualification ;
+                                                                                 owl:someValuesFrom :ValidGPARequirementIran
+                                                                               ]
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] .
+
+
+###  http://example.org/university-admission#EligibleIranianUndergraduateStudent
+:EligibleIranianUndergraduateStudent rdf:type owl:Class ;
+                                     owl:equivalentClass [ owl:intersectionOf ( :IranianStudent
+                                                                                [ rdf:type owl:Class ;
+                                                                                  owl:unionOf ( [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                                                                         owl:onProperty :hasQualification ;
+                                                                                                                         owl:someValuesFrom :DiplomEMotevasete
+                                                                                                                       ]
+                                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                                         owl:onProperty :hasQualification ;
+                                                                                                                         owl:someValuesFrom :DowreYePishDaneshgahi
+                                                                                                                       ]
+                                                                                                                     ) ;
+                                                                                                  rdf:type owl:Class
+                                                                                                ]
+                                                                                                [ rdf:type owl:Restriction ;
+                                                                                                  owl:onProperty :hasQualification ;
+                                                                                                  owl:someValuesFrom :Kardani
+                                                                                                ]
+                                                                                                [ rdf:type owl:Restriction ;
+                                                                                                  owl:onProperty :hasQualification ;
+                                                                                                  owl:someValuesFrom :SecondaryEducationFrom2018
+                                                                                                ]
+                                                                                              )
+                                                                                ]
+                                                                                [ rdf:type owl:Restriction ;
+                                                                                  owl:onProperty :hasAppliedFor ;
+                                                                                  owl:someValuesFrom :UndergraduateCourse
+                                                                                ]
+                                                                              ) ;
+                                                           rdf:type owl:Class
+                                                         ] .
+
+
+###  http://example.org/university-admission#HighSchoolDiploma
+:HighSchoolDiploma rdf:type owl:Class ;
+                   rdfs:subClassOf :Qualification .
+
+
+###  http://example.org/university-admission#HigherSecondaryExaminationCertificatePartII
+:HigherSecondaryExaminationCertificatePartII rdf:type owl:Class ;
+                                             rdfs:subClassOf :HighSchoolDiploma .
+
+
+###  http://example.org/university-admission#HigherSecondarySchoolCertificate
+:HigherSecondarySchoolCertificate rdf:type owl:Class ;
+                                  rdfs:subClassOf :HighSchoolDiploma .
+
+
+###  http://example.org/university-admission#HonoursBachelorDegree
+:HonoursBachelorDegree rdf:type owl:Class ;
+                       rdfs:subClassOf :BachelorDegree .
+
+
+###  http://example.org/university-admission#IndianSchoolCertificate
+:IndianSchoolCertificate rdf:type owl:Class ;
+                         rdfs:subClassOf :HighSchoolDiploma .
+
+
+###  http://example.org/university-admission#IndianStudent
+:IndianStudent rdf:type owl:Class ;
+               rdfs:subClassOf :Student .
+
+
+###  http://example.org/university-admission#IntermediateExaminationCertificate
+:IntermediateExaminationCertificate rdf:type owl:Class ;
+                                    rdfs:subClassOf :HighSchoolDiploma .
+
+
+###  http://example.org/university-admission#IranianHighSchoolDiploma
+:IranianHighSchoolDiploma rdf:type owl:Class ;
+                          rdfs:subClassOf :Qualification .
+
+
+###  http://example.org/university-admission#IranianStudent
+:IranianStudent rdf:type owl:Class ;
+                rdfs:subClassOf :Student .
+
+
+###  http://example.org/university-admission#Kardani
+:Kardani rdf:type owl:Class ;
+         rdfs:subClassOf :Qualification .
+
+
+###  http://example.org/university-admission#Karshenasi
+:Karshenasi rdf:type owl:Class ;
+            rdfs:subClassOf :Qualification .
+
+
+###  http://example.org/university-admission#KarshenasiNapayvasteh
+:KarshenasiNapayvasteh rdf:type owl:Class ;
+                       rdfs:subClassOf :Qualification .
+
+
+###  http://example.org/university-admission#MasterDegree
+:MasterDegree rdf:type owl:Class ;
+              rdfs:subClassOf :PostgraduateDegree .
+
+
+###  http://example.org/university-admission#PassGeneralBachelorDegree
+:PassGeneralBachelorDegree rdf:type owl:Class ;
+                           rdfs:subClassOf :BachelorDegree .
+
+
+###  http://example.org/university-admission#Person
+:Person rdf:type owl:Class .
+
+
+###  http://example.org/university-admission#PostgraduateBachelorDegree
+:PostgraduateBachelorDegree rdf:type owl:Class ;
+                            rdfs:subClassOf :PostgraduateDegree .
+
+
+###  http://example.org/university-admission#PostgraduateCourse
+:PostgraduateCourse rdf:type owl:Class ;
+                    rdfs:subClassOf :Course .
+
+
+###  http://example.org/university-admission#PostgraduateDegree
+:PostgraduateDegree rdf:type owl:Class ;
+                    rdfs:subClassOf :Qualification .
+
+
+###  http://example.org/university-admission#ProfessionalBachelorDegree
+:ProfessionalBachelorDegree rdf:type owl:Class ;
+                            rdfs:subClassOf :BachelorDegree .
+
+
+###  http://example.org/university-admission#Qualification
+:Qualification rdf:type owl:Class .
+
+
+###  http://example.org/university-admission#SecondaryEducationFrom2018
+:SecondaryEducationFrom2018 rdf:type owl:Class ;
+                            rdfs:subClassOf :IranianHighSchoolDiploma .
+
+
+###  http://example.org/university-admission#Student
+:Student rdf:type owl:Class ;
+         rdfs:subClassOf :Person .
+
+
+###  http://example.org/university-admission#UndergraduateCourse
+:UndergraduateCourse rdf:type owl:Class ;
+                     rdfs:subClassOf :Course .
+
+
+###  http://example.org/university-admission#ValidGPARequirementIndia
+:ValidGPARequirementIndia rdf:type owl:Class ;
+                          owl:equivalentClass [ rdf:type owl:Class ;
+                                                owl:unionOf ( [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :hasGPA_Base10 ;
+                                                                owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                     owl:onDatatype xsd:decimal ;
+                                                                                     owl:withRestrictions ( [ xsd:minInclusive 7.0
+                                                                                                            ]
+                                                                                                          )
+                                                                                   ]
+                                                              ]
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :hasGPA_Base100 ;
+                                                                owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                     owl:onDatatype xsd:decimal ;
+                                                                                     owl:withRestrictions ( [ xsd:minInclusive 60.0
+                                                                                                            ]
+                                                                                                          )
+                                                                                   ]
+                                                              ]
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :hasGPA_Base4 ;
+                                                                owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                     owl:onDatatype xsd:decimal ;
+                                                                                     owl:withRestrictions ( [ xsd:minInclusive 2.8
+                                                                                                            ]
+                                                                                                          )
+                                                                                   ]
+                                                              ]
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :hasGPA_Base8 ;
+                                                                owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                     owl:onDatatype xsd:decimal ;
+                                                                                     owl:withRestrictions ( [ xsd:minInclusive 5.6
+                                                                                                            ]
+                                                                                                          )
+                                                                                   ]
+                                                              ]
+                                                            )
+                                              ] .
+
+
+###  http://example.org/university-admission#ValidGPARequirementIran
+:ValidGPARequirementIran rdf:type owl:Class ;
+                         owl:equivalentClass [ rdf:type owl:Restriction ;
+                                               owl:onProperty :hasGPA_Base20 ;
+                                               owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                    owl:onDatatype xsd:decimal ;
+                                                                    owl:withRestrictions ( [ xsd:minInclusive 15.0
+                                                                                           ]
+                                                                                         )
+                                                                  ]
+                                             ] .
+
+
+###  http://example.org/university-admission#ValidHonoursDegree
+:ValidHonoursDegree rdf:type owl:Class ;
+                    owl:equivalentClass [ owl:intersectionOf ( :HonoursBachelorDegree
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty :hasDurationInYears ;
+                                                                 owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                      owl:onDatatype xsd:decimal ;
+                                                                                      owl:withRestrictions ( [ xsd:minInclusive 3.0
+                                                                                                             ]
+                                                                                                             [ xsd:maxInclusive 4.0
+                                                                                                             ]
+                                                                                                           )
+                                                                                    ]
+                                                               ]
+                                                             ) ;
+                                          rdf:type owl:Class
+                                        ] .
+
+
+###  http://example.org/university-admission#ValidKardani2Years
+:ValidKardani2Years rdf:type owl:Class ;
+                    owl:equivalentClass [ owl:intersectionOf ( :Kardani
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty :hasDurationInYears ;
+                                                                 owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                      owl:onDatatype xsd:decimal ;
+                                                                                      owl:withRestrictions ( [ xsd:minInclusive 2.0
+                                                                                                             ]
+                                                                                                             [ xsd:maxInclusive 2.0
+                                                                                                             ]
+                                                                                                           )
+                                                                                    ]
+                                                               ]
+                                                             ) ;
+                                          rdf:type owl:Class
+                                        ] .
+
+
+###  http://example.org/university-admission#ValidKarshenasiDegree
+:ValidKarshenasiDegree rdf:type owl:Class ;
+                       owl:equivalentClass [ owl:intersectionOf ( :Karshenasi
+                                                                  [ rdf:type owl:Restriction ;
+                                                                    owl:onProperty :hasDurationInYears ;
+                                                                    owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                         owl:onDatatype xsd:decimal ;
+                                                                                         owl:withRestrictions ( [ xsd:minInclusive 4.0
+                                                                                                                ]
+                                                                                                                [ xsd:maxInclusive 5.0
+                                                                                                                ]
+                                                                                                              )
+                                                                                       ]
+                                                                  ]
+                                                                ) ;
+                                             rdf:type owl:Class
+                                           ] .
+
+
+###  http://example.org/university-admission#ValidKarshenasiNapayvasteh2Years
+:ValidKarshenasiNapayvasteh2Years rdf:type owl:Class ;
+                                  owl:equivalentClass [ owl:intersectionOf ( :KarshenasiNapayvasteh
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty :hasDurationInYears ;
+                                                                               owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                                    owl:onDatatype xsd:decimal ;
+                                                                                                    owl:withRestrictions ( [ xsd:minInclusive 2.0
+                                                                                                                           ]
+                                                                                                                           [ xsd:maxInclusive 2.0
+                                                                                                                           ]
+                                                                                                                         )
+                                                                                                  ]
+                                                                             ]
+                                                                           ) ;
+                                                        rdf:type owl:Class
+                                                      ] .
+
+
+###  http://example.org/university-admission#ValidProfessionalDegree
+:ValidProfessionalDegree rdf:type owl:Class ;
+                         owl:equivalentClass [ owl:intersectionOf ( :ProfessionalBachelorDegree
+                                                                    [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty :hasDurationInYears ;
+                                                                      owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                           owl:onDatatype xsd:decimal ;
+                                                                                           owl:withRestrictions ( [ xsd:minInclusive 4.0
+                                                                                                                  ]
+                                                                                                                  [ xsd:maxInclusive 5.5
+                                                                                                                  ]
+                                                                                                                )
+                                                                                         ]
+                                                                    ]
+                                                                  ) ;
+                                               rdf:type owl:Class
+                                             ] .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://example.org/university-admission#Claudio
+:Claudio rdf:type owl:NamedIndividual ,
+                  :IranianStudent ;
+         :hasAppliedFor :Scienze_Agrarie ;
+         :hasQualification :Claudio_Certificate .
+
+
+###  http://example.org/university-admission#Claudio_Certificate
+:Claudio_Certificate rdf:type owl:NamedIndividual ,
+                              :SecondaryEducationFrom2018 ;
+                     :hasGPA_Base20 1 .
+
+
+###  http://example.org/university-admission#ComputerScience
+:ComputerScience rdf:type owl:NamedIndividual ,
+                          :PostgraduateCourse .
+
+
+###  http://example.org/university-admission#Fabio
+:Fabio rdf:type owl:NamedIndividual ,
+                :IndianStudent ;
+       :hasAppliedFor :ComputerScience ;
+       :hasQualification :Fabio_Certificate .
+
+
+###  http://example.org/university-admission#Fabio_Certificate
+:Fabio_Certificate rdf:type owl:NamedIndividual ,
+                            :HonoursBachelorDegree ;
+                   :hasDurationInYears 4 ;
+                   :hasGPA_Base100 66 .
+
+
+###  http://example.org/university-admission#Scienze_Agrarie
+:Scienze_Agrarie rdf:type owl:NamedIndividual ,
+                          :PostgraduateCourse .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
