@@ -24,6 +24,22 @@ df['DATA_NASC'] = pd.to_datetime(df['DATA_NASC'], errors='coerce').dt.year
 df['ETA'] = current_year - df['DATA_NASC']
 df = df.drop(columns=['DATA_NASC'], errors='ignore')
 
+# Ponderazione dell'età in base al tipo di corso (TIPO_CORSO_COD)
+# Questo evita di penalizzare studenti anziani per PhD/Master o studenti più giovani per triennali.
+media_eta_corso = df.groupby('TIPO_CORSO_COD')['ETA'].transform('mean')
+std_eta_corso = df.groupby('TIPO_CORSO_COD')['ETA'].transform('std')
+
+# ETA_NORM_CORSO rappresenta lo z-score dell'età all'interno dello specifico tipo di corso
+df['ETA_NORM_CORSO'] = (df['ETA'] - media_eta_corso) / std_eta_corso
+df['ETA_NORM_CORSO'] = df['ETA_NORM_CORSO'].fillna(0) # Gestione divisioni per zero se std è nullo o 0
+
+# ETA_DIFF_CORSO rappresenta la differenza in anni rispetto alla media del tipo di corso
+df['ETA_DIFF_CORSO'] = df['ETA'] - media_eta_corso
+
+# Rimuoviamo la colonna ETA assoluta per evitare che il modello crei regole basate sull'età assoluta
+df = df.drop(columns=['ETA'], errors='ignore')
+
+
 # Pulizia Voto: convertiamo VOTO in numerico, gestendo eventuali valori sporchi
 df['VOTO'] = pd.to_numeric(df['VOTO'], errors='coerce')
 df['BASE_VOTO'] = pd.to_numeric(df['BASE_VOTO'], errors='coerce')
@@ -38,7 +54,7 @@ df['TARGET'] = df['STATO_DOMANDA'].apply(lambda x: 1 if x == 'A' else 0)
 df = df.drop(columns=['STATO_DOMANDA', 'PAGATO_STATO_DOMANDA'], errors='ignore') # PAGATO spesso è ridondante con STATO
 
 # Gestione NaN nelle categoriche
-cat_cols = df.select_dtypes(include=['object']).columns
+cat_cols = df.select_dtypes(include=['object', 'string']).columns
 df[cat_cols] = df[cat_cols].fillna('NON_SPECIFICATO')
 
 # Verifica se esistono differenze sostanziali tra nazionalità (EDA)
@@ -86,7 +102,7 @@ df['VOTO_NORM'] = df.apply(normalize_voto, axis=1)
 df = df.drop(columns=['CITTADINANZA', 'VOTO_PERCENTUALE'], errors='ignore')
 
 # Aggiorniamo la lista delle colonne categoriche rimaste per l'encoding
-cat_cols = df.select_dtypes(include=['object']).columns
+cat_cols = df.select_dtypes(include=['object', 'string']).columns
 
 # Encoding categoriche rimaste
 le = LabelEncoder()
