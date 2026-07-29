@@ -6,8 +6,10 @@ from rdflib import Graph, URIRef
 from config import QUALIFICATIONS_MAP, TTL_FILE_PATH
 from services.ontology_service import get_current_ontology, create_individuals_and_check
 from services.student_service import check_rejection_reason, append_student_to_ttl, file_lock
+from services.ml_service import evaluate_ml_admission
 
 # Tentativo di importare openpyxl per il caricamento massivo tramite file Excel
+
 try:
     import openpyxl
 except ImportError:
@@ -80,21 +82,54 @@ def check_admission():
         if requires_duration and not duration:
             return jsonify({"admitted": False, "error": "Durata obbligatoria per questa qualifica"}), 400
 
-        # Crea gli individui nell'ontologia e controlla l'ammissione
-        admitted = create_individuals_and_check(
+        # Crea gli individui nell'ontologia e controlla l'ammissione formale
+        ontology_admitted = create_individuals_and_check(
             name, country, course,
             qual_class_name, duration, gpa, gpa_scale
         )
 
-        logger.info(f"Risultato ammissione: {admitted}")
+        logger.info(f"Risultato ammissione ontologica per {name}: {ontology_admitted}")
+
+        # Valutazione ML per candidati provenienti da Iran e India
+        ml_result = None
+        if country in ["India", "Iran"]:
+            birth_year = data.get('birthYear')
+            age = data.get('age')
+            gender = data.get('gender', 'M')
+            ml_result = evaluate_ml_admission(
+                country=country,
+                course=course,
+                birth_year=birth_year,
+                age=age,
+                gpa=gpa,
+                gpa_scale=gpa_scale,
+                gender=gender
+            )
+            logger.info(f"Risultato modello ML per {country}: {ml_result}")
+
+        # Decisione finale: per Iran ed India è AMMESSO solo se sia i requisiti ontologici formali sia il modello ML danno esito positivo
+        final_admitted = bool(ontology_admitted)
+        if ml_result and ml_result.get('evaluatable'):
+            final_admitted = bool(ontology_admitted) and bool(ml_result.get('admitted'))
 
         # Calcola il motivo dell'esclusione se non ammesso
         explanation = None
-        if not admitted:
+        if not ontology_admitted:
             explanation = check_rejection_reason(country, course, qualification_key, duration, gpa, gpa_scale)
+        elif ml_result and ml_result.get('evaluatable') and not ml_result.get('admitted'):
+            explanation = ml_result.get('explanation')
+        elif final_admitted:
+            explanation = "Candidato idoneo sia secondo i vincoli ontologici che il modello decisionale Machine Learning."
+
+        has_age_warning = bool(ml_result.get('has_age_warning', False)) if ml_result else False
+        age_warning_message = ml_result.get('age_warning_message', '') if ml_result else ''
 
         return jsonify({
-            "admitted": admitted,
+            "admitted": bool(final_admitted),
+            "ontology_admitted": bool(ontology_admitted),
+            "ml_evaluation": ml_result,
+            "has_age_warning": has_age_warning,
+            "age_warning_message": age_warning_message,
             "student": name,
             "country": country,
             "course": course,

@@ -9,10 +9,16 @@ import matplotlib.pyplot as plt
 
 import os
 
+import joblib
+
 # 1. ACQUISIZIONE DATI
 script_dir = os.path.dirname(os.path.abspath(__file__))
 dataset_path = os.path.join(script_dir, 'elenco_domande_pre_admission_titoli.csv')
 df = pd.read_csv(dataset_path, encoding='latin1', sep=';')
+
+# Filtro candidati: per ora gli unici candidati valutabili sono quelli di IRAN e INDIA
+df['CITTADINANZA'] = df['CITTADINANZA'].astype(str).str.upper().str.strip()
+df = df[df['CITTADINANZA'].isin(['IRAN', 'INDIA'])].copy()
 
 # 2. DATA CLEANING E PREPROCESSING
 # Rimozione identificativi diretti
@@ -25,13 +31,15 @@ df['ETA'] = current_year - df['DATA_NASC']
 df = df.drop(columns=['DATA_NASC'], errors='ignore')
 
 # Ponderazione dell'età in base al tipo di corso (TIPO_CORSO_COD)
-# Questo evita di penalizzare studenti anziani per PhD/Master o studenti più giovani per triennali.
-media_eta_corso = df.groupby('TIPO_CORSO_COD')['ETA'].transform('mean')
-std_eta_corso = df.groupby('TIPO_CORSO_COD')['ETA'].transform('std')
+media_eta_corso_series = df.groupby('TIPO_CORSO_COD')['ETA'].mean()
+std_eta_corso_series = df.groupby('TIPO_CORSO_COD')['ETA'].std()
+
+media_eta_corso = df['TIPO_CORSO_COD'].map(media_eta_corso_series)
+std_eta_corso = df['TIPO_CORSO_COD'].map(std_eta_corso_series)
 
 # ETA_NORM_CORSO rappresenta lo z-score dell'età all'interno dello specifico tipo di corso
 df['ETA_NORM_CORSO'] = (df['ETA'] - media_eta_corso) / std_eta_corso
-df['ETA_NORM_CORSO'] = df['ETA_NORM_CORSO'].fillna(0) # Gestione divisioni per zero se std è nullo o 0
+df['ETA_NORM_CORSO'] = df['ETA_NORM_CORSO'].fillna(0)
 
 # ETA_DIFF_CORSO rappresenta la differenza in anni rispetto alla media del tipo di corso
 df['ETA_DIFF_CORSO'] = df['ETA'] - media_eta_corso
@@ -39,57 +47,78 @@ df['ETA_DIFF_CORSO'] = df['ETA'] - media_eta_corso
 # Rimuoviamo la colonna ETA assoluta per evitare che il modello crei regole basate sull'età assoluta
 df = df.drop(columns=['ETA'], errors='ignore')
 
+import re
 
-# Pulizia Voto: convertiamo VOTO in numerico, gestendo eventuali valori sporchi
-df['VOTO'] = pd.to_numeric(df['VOTO'], errors='coerce')
-df['BASE_VOTO'] = pd.to_numeric(df['BASE_VOTO'], errors='coerce')
-# Creiamo una feature normalizzata (Percentuale di voto)
-df['VOTO_PERCENTUALE'] = df['VOTO'] / df['BASE_VOTO']
-df = df.drop(columns=['VOTO', 'BASE_VOTO'], errors='ignore')
+# Pulizia e recupero avanzato del Voto combinando VOTO, BASE_VOTO e VOTO_ALFA
+def parse_vote(row):
+    v = row['VOTO']
+    b = row['BASE_VOTO']
+    va = str(row['VOTO_ALFA']).strip() if 'VOTO_ALFA' in row and pd.notna(row['VOTO_ALFA']) else ''
+    try:
+        vf = float(v)
+        bf = float(b)
+        if bf > 0 and not pd.isna(vf):
+            return vf / bf
+    except:
+        pass
+    if '%' in va:
+        m = re.search(r'([\d\.]+)', va)
+        if m:
+            return float(m.group(1)) / 100.0
+    if '/' in va:
+        pts = va.split('/')
+        try:
+            return float(pts[0]) / float(pts[1])
+        except:
+            pass
+    try:
+        val = float(va)
+        if val <= 1.0:
+            return val
+        if val <= 20:
+            return val / 20.0
+        if val <= 100:
+            return val / 100.0
+    except:
+        pass
+    return np.nan
+
+df['VOTO_PERCENTUALE'] = df.apply(parse_vote, axis=1)
+
+# Rimuoviamo le righe senza un voto valido per un addestramento pulito
+df = df.dropna(subset=['VOTO_PERCENTUALE']).copy()
 
 # Filtro target: manteniamo solo stati definitivi (A, R, X)
 # A = Approvata (1), R/X = Non Approvata (0)
 df = df[df['STATO_DOMANDA'].isin(['A', 'R', 'X'])].copy()
 df['TARGET'] = df['STATO_DOMANDA'].apply(lambda x: 1 if x == 'A' else 0)
-df = df.drop(columns=['STATO_DOMANDA', 'PAGATO_STATO_DOMANDA'], errors='ignore') # PAGATO spesso è ridondante con STATO
+df = df.drop(columns=['STATO_DOMANDA', 'PAGATO_STATO_DOMANDA'], errors='ignore')
 
 # Gestione NaN nelle categoriche
 cat_cols = df.select_dtypes(include=['object', 'string']).columns
 df[cat_cols] = df[cat_cols].fillna('NON_SPECIFICATO')
 
-# Verifica se esistono differenze sostanziali tra nazionalità (EDA)
-print("--- ANALISI DIFFERENZE DI VOTO PER CITTADINANZA ---")
-try:
-    print(df.groupby('CITTADINANZA')['VOTO_PERCENTUALE'].describe()[['mean', 'std', 'count']].sort_values(by='mean'))
-except Exception as e:
-    print("Impossibile stampare l'EDA sulle cittadinanze:", e)
-
-# 1. PREPROCESSING AVANZATO PER NAZIONALITÀ
-# Calcolo statistiche per cittadinanza (media e conteggio)
+# 3. PREPROCESSING AVANZATO PER NAZIONALITÀ
 stats = df.groupby('CITTADINANZA')['TARGET'].agg(['mean', 'count'])
 global_mean = df['TARGET'].mean()
 
-# Applichiamo smoothing (m-estimate) per evitare overfitting sulle nazioni con pochi studenti
 m = 10  # parametro di smoothing
 target_smooth = (stats['count'] * stats['mean'] + m * global_mean) / (stats['count'] + m)
 df['CITTADINANZA_ENCODED'] = df['CITTADINANZA'].map(target_smooth)
 
-# 2. NORMALIZZAZIONE VOTO "COUNTRY-AWARE" E MEDIA VOTO LEVIGATA
 voto_stats = df.groupby('CITTADINANZA')['VOTO_PERCENTUALE'].agg(['mean', 'count', 'std'])
 global_voto_mean = df['VOTO_PERCENTUALE'].mean()
 global_voto_std = df['VOTO_PERCENTUALE'].std()
 
-# Media voto levigata
 voto_mean_smooth = (voto_stats['count'] * voto_stats['mean'] + m * global_voto_mean) / (voto_stats['count'] + m)
 df['MEDIA_VOTO_NAZ'] = df['CITTADINANZA'].map(voto_mean_smooth)
 
-# VOTO_NORM con fallback su deviazione standard globale se la nazionalità ha troppi pochi dati o deviazione nulla
 def normalize_voto(row):
     cit = row['CITTADINANZA']
     v = row['VOTO_PERCENTUALE']
-    c_mean = voto_mean_smooth[cit]
-    c_std = voto_stats.loc[cit, 'std']
-    c_count = voto_stats.loc[cit, 'count']
+    c_mean = voto_mean_smooth.get(cit, global_voto_mean)
+    c_std = voto_stats.loc[cit, 'std'] if cit in voto_stats.index else global_voto_std
+    c_count = voto_stats.loc[cit, 'count'] if cit in voto_stats.index else 0
     if pd.isna(c_std) or c_std == 0 or c_count < 5:
         std_val = global_voto_std if (not pd.isna(global_voto_std) and global_voto_std > 0) else 1.0
     else:
@@ -101,37 +130,59 @@ df['VOTO_NORM'] = df.apply(normalize_voto, axis=1)
 # Rimuoviamo le vecchie colonne non normalizzate prima dell'encoding delle altre categoriche
 df = df.drop(columns=['CITTADINANZA', 'VOTO_PERCENTUALE'], errors='ignore')
 
-# Aggiorniamo la lista delle colonne categoriche rimaste per l'encoding
+# Encoding delle colonne categoriche rimaste
 cat_cols = df.select_dtypes(include=['object', 'string']).columns
-
-# Encoding categoriche rimaste
-le = LabelEncoder()
+label_encoders = {}
 for col in cat_cols:
+    le = LabelEncoder()
     df[col] = le.fit_transform(df[col])
+    label_encoders[col] = le
 
 # Gestione NaN nei numerici residui
 df = df.fillna(0)
 
-# 4. MODELLAZIONE (Decision Tree con parametri aggiornati)
-X = df.drop(columns=['TARGET'])
+# 4. MODELLAZIONE (Decision Tree & Ensemble)
+# Selezioniamo solo le feature rilevanti e generalizzabili per la valutazione del candidato
+relevant_features = ['VOTO_NORM', 'ETA_DIFF_CORSO', 'TIPO_CORSO_COD', 'CITTADINANZA_ENCODED', 'SESSO']
+X = df[relevant_features].fillna(0)
 y = df['TARGET']
 
-clf = DecisionTreeClassifier(max_depth=5, min_samples_leaf=10, random_state=42)
+from sklearn.ensemble import RandomForestClassifier
+clf = RandomForestClassifier(n_estimators=100, max_depth=4, class_weight='balanced', random_state=42)
 clf.fit(X, y)
-
 
 # Feature Importance
 importances = pd.DataFrame({'Feature': X.columns, 'Importance': clf.feature_importances_})
-print("--- IMPORTANZA DELLE FEATURE ---")
+print("--- IMPORTANZA DELLE FEATURE (IRAN & INDIA) ---")
 print(importances.sort_values(by='Importance', ascending=False))
 
-# 4. ESTRAZIONE SOGLIE
-print("\n--- REGOLE LOGICHE PER L'APPROVAZIONE ---")
-# Nota: sostituisci X.columns con le feature effettive post-encoding
-tree_rules = export_text(clf, feature_names=list(X.columns))
+# ESTRAZIONE SOGLIE DA ALBERO DI SUPPORTO
+tree_clf = DecisionTreeClassifier(max_depth=4, min_samples_leaf=15, class_weight='balanced', random_state=42)
+tree_clf.fit(X, y)
+print("\n--- REGOLE LOGICHE PER L'APPROVAZIONE (IRAN & INDIA) ---")
+tree_rules = export_text(tree_clf, feature_names=list(X.columns))
 print(tree_rules)
 
-# 5. SALVATAGGIO DEI RISULTATI GRAFICI
+# 5. SALVATAGGIO MODELLO E ARTEFATTI
+model_artifact = {
+    'classifier': clf,
+    'feature_names': list(X.columns),
+    'media_eta_corso_series': media_eta_corso_series,
+    'std_eta_corso_series': std_eta_corso_series,
+    'target_smooth': target_smooth,
+    'global_mean': global_mean,
+    'voto_mean_smooth': voto_mean_smooth,
+    'voto_stats': voto_stats,
+    'global_voto_mean': global_voto_mean,
+    'global_voto_std': global_voto_std,
+    'label_encoders': label_encoders
+}
+
+model_save_path = os.path.join(script_dir, 'admission_model.joblib')
+joblib.dump(model_artifact, model_save_path)
+print(f"\nModello salvato con successo in: {model_save_path}")
+
+# 6. SALVATAGGIO DEI RISULTATI GRAFICI
 output_dir = os.path.join(script_dir, 'output')
 os.makedirs(output_dir, exist_ok=True)
 
@@ -140,7 +191,7 @@ plt.figure(figsize=(10, 6))
 importances_sorted = importances.sort_values(by='Importance', ascending=True)
 plt.barh(importances_sorted['Feature'], importances_sorted['Importance'], color='skyblue')
 plt.xlabel('Importanza')
-plt.title('Importanza delle Feature per la classificazione delle domande')
+plt.title('Importanza delle Feature per candidati Iran e India')
 plt.tight_layout()
 plt.savefig(os.path.join(output_dir, 'feature_importance.png'), dpi=300)
 plt.close()
@@ -148,15 +199,15 @@ plt.close()
 # Grafico 2: Albero Decisionale
 plt.figure(figsize=(20, 10))
 plot_tree(
-    clf, 
+    tree_clf, 
     feature_names=list(X.columns), 
     class_names=['Rifiutata', 'Approvata'], 
     filled=True, 
     rounded=True, 
     fontsize=8
 )
-plt.title("Albero delle decisioni per l'approvazione delle domande", fontsize=14)
+plt.title("Albero delle decisioni per l'approvazione domande (Iran & India)", fontsize=14)
 plt.savefig(os.path.join(output_dir, 'decision_tree.png'), dpi=300, bbox_inches='tight')
 plt.close()
 
-print(f"\nGrafici salvati con successo nella cartella: {output_dir}")
+print(f"Grafici salvati con successo nella cartella: {output_dir}")

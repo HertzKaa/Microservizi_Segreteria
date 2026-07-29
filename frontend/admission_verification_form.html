@@ -8,6 +8,9 @@
     <!-- Google Fonts: Plus Jakarta Sans -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <!-- Flatpickr CSS & Dark Theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
     <style>
         :root {
             --bg-primary: #0b0f19;
@@ -371,6 +374,18 @@
         }
 
         /* GRID LAYOUTS FOR COMPACT FIELDS */
+        .form-grid-3 {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 640px) {
+            .form-grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .form-grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -424,6 +439,7 @@
         input[type="number"],
         input[type="password"],
         input[type="file"],
+        input[type="date"],
         select {
             width: 100%;
             padding: 12px 16px;
@@ -437,6 +453,10 @@
             transition: all 0.2s ease;
         }
 
+        input[type="date"] {
+            color-scheme: dark;
+        }
+
         input[type="text"]::placeholder,
         input[type="number"]::placeholder {
             color: var(--text-muted);
@@ -445,6 +465,7 @@
         input[type="text"]:focus,
         input[type="number"]:focus,
         input[type="password"]:focus,
+        input[type="date"]:focus,
         select:focus {
             outline: none;
             border-color: var(--border-focus);
@@ -751,6 +772,131 @@
                 flex-direction: column;
             }
         }
+
+        /* DATE INPUT CALENDAR STYLING */
+        .date-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .date-input-wrapper input {
+            padding-right: 44px !important;
+        }
+
+        .date-input-wrapper .calendar-icon {
+            position: absolute;
+            right: 14px;
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s ease;
+        }
+
+        .date-input-wrapper input:focus + .calendar-icon {
+            color: var(--accent-color);
+        }
+
+        /* FLATPICKR DARK THEME CUSTOMIZATION */
+        .flatpickr-calendar {
+            background: var(--bg-surface) !important;
+            border: 1px solid var(--border-color) !important;
+            box-shadow: var(--card-shadow) !important;
+            font-family: var(--font-family) !important;
+            border-radius: 12px !important;
+        }
+
+        .flatpickr-calendar.arrowTop:before,
+        .flatpickr-calendar.arrowTop:after {
+            border-bottom-color: var(--bg-surface) !important;
+        }
+
+        .flatpickr-calendar.arrowBottom:before,
+        .flatpickr-calendar.arrowBottom:after {
+            border-top-color: var(--bg-surface) !important;
+        }
+
+        .flatpickr-day.selected, 
+        .flatpickr-day.startRange, 
+        .flatpickr-day.endRange, 
+        .flatpickr-day.selected.inRange, 
+        .flatpickr-day.startRange.inRange, 
+        .flatpickr-day.endRange.inRange, 
+        .flatpickr-day.selected:focus, 
+        .flatpickr-day.startRange:focus, 
+        .flatpickr-day.endRange:focus, 
+        .flatpickr-day.selected:hover, 
+        .flatpickr-day.startRange:hover, 
+        .flatpickr-day.endRange:hover, 
+        .flatpickr-day.selected.prevMonthDay, 
+        .flatpickr-day.selected.nextMonthDay {
+            background: var(--accent-color) !important;
+            border-color: var(--accent-color) !important;
+            color: #ffffff !important;
+        }
+
+        .flatpickr-day:hover,
+        .flatpickr-day.prevMonthDay:hover,
+        .flatpickr-day.nextMonthDay:hover,
+        .flatpickr-day.today:hover,
+        .flatpickr-day.today.prevMonthDay:hover,
+        .flatpickr-day.today.nextMonthDay:hover {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border-color: transparent !important;
+            color: #ffffff !important;
+        }
+
+        .flatpickr-day.today {
+            border-color: var(--border-input) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .flatpickr-months .flatpickr-month {
+            color: var(--text-primary) !important;
+            background: transparent !important;
+        }
+
+        .flatpickr-current-month .numInputWrapper span.arrowUp:after {
+            border-bottom-color: var(--text-secondary) !important;
+        }
+
+        .flatpickr-current-month .numInputWrapper span.arrowDown:after {
+            border-top-color: var(--text-secondary) !important;
+        }
+
+        .flatpickr-day {
+            color: var(--text-secondary) !important;
+        }
+
+        .flatpickr-day.flatpickr-disabled, 
+        .flatpickr-day.flatpickr-disabled:hover {
+            color: var(--text-muted) !important;
+            opacity: 0.25;
+            background: transparent !important;
+        }
+
+        .flatpickr-weekday {
+            color: var(--text-muted) !important;
+            font-weight: 600;
+        }
+
+        .flatpickr-months .flatpickr-prev-month, 
+        .flatpickr-months .flatpickr-next-month {
+            color: var(--text-secondary) !important;
+            fill: var(--text-secondary) !important;
+        }
+
+        .flatpickr-months .flatpickr-prev-month:hover, 
+        .flatpickr-months .flatpickr-next-month:hover {
+            color: var(--accent-color) !important;
+        }
+        .flatpickr-months .flatpickr-prev-month:hover svg, 
+        .flatpickr-months .flatpickr-next-month:hover svg {
+            fill: var(--accent-color) !important;
+        }
     </style>
 </head>
 
@@ -789,9 +935,32 @@
             <div class="scroll-section" id="section-student-info">
                 <div class="section-card">
                     <div class="form-section-title" data-i18n="personalInfo">Informazioni Personali</div>
-                    <div class="form-group">
-                        <label for="studentName" class="required" data-i18n="studentName">Nome Studente</label>
-                        <input type="text" id="studentName" name="studentName" placeholder="es. Mario Rossi" required>
+                    <div class="form-grid-3">
+                        <div class="form-group">
+                            <label for="studentName" class="required" data-i18n="studentName">Nome Studente</label>
+                            <input type="text" id="studentName" name="studentName" placeholder="es. Mario Rossi" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="birthDate" class="required" data-i18n="birthDate">Data di Nascita</label>
+                            <div class="date-input-wrapper">
+                                <input type="text" id="birthDate" name="birthDate" placeholder="gg/mm/aaaa" pattern="\d{2}/\d{2}/\d{4}" title="Formato richiesto: gg/mm/aaaa" required>
+                                <span class="calendar-icon" id="calendar-icon-trigger">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender" class="required" data-i18n="gender">Genere (Sesso)</label>
+                            <select id="gender" name="gender" required>
+                                <option value="M">M</option>
+                                <option value="F">F</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -802,6 +971,15 @@
                     <div class="form-section-title" data-i18n="courseAndCountry">Corso e Paese</div>
                     <div class="form-grid-2">
                         <div class="form-group">
+                            <label for="country" class="required" data-i18n="countryOfOrigin">Paese di
+                                Provenienza</label>
+                            <select id="country" name="country" required>
+                                <option value="" data-i18n="selectCountry">-- Seleziona paese --</option>
+                                <option value="India">India</option>
+                                <option value="Iran">Iran</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="course" class="required" data-i18n="destinationCourse">Corso di
                                 Destinazione</label>
                             <select id="course" name="course" required>
@@ -809,15 +987,6 @@
                                 <option value="Undergraduate" data-i18n="undergraduate">Triennale (Undergraduate)
                                 </option>
                                 <option value="Postgraduate" data-i18n="postgraduate">Magistrale (Postgraduate)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="country" class="required" data-i18n="countryOfOrigin">Paese di
-                                Provenienza</label>
-                            <select id="country" name="country" required>
-                                <option value="" data-i18n="selectCountry">-- Seleziona paese --</option>
-                                <option value="India">India</option>
-                                <option value="Iran">Iran</option>
                             </select>
                         </div>
                     </div>
@@ -959,6 +1128,10 @@
         </div>
     </footer>
 
+    <!-- Flatpickr JS & Italian localization -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/it.js"></script>
+
     <script>
         // URL del backend
         const BACKEND_URL = 'http://localhost:5000';
@@ -970,6 +1143,8 @@
                 infoBoxMain: "Fill out the form and click 'Verify Admission' to check if you are eligible for your destination courses.",
                 personalInfo: "Personal Information",
                 studentName: "Student Name",
+                birthDate: "Date of Birth",
+                gender: "Gender",
                 courseAndCountry: "Course and Country",
                 destinationCourse: "Destination Course",
                 selectCourse: "-- Select course --",
@@ -1015,6 +1190,8 @@
                 infoBoxMain: "Compila il modulo e clicca 'Verifica Ammissione' per controllare se sei idoneo ai tuoi corsi di destinazione.",
                 personalInfo: "Informazioni Personali",
                 studentName: "Nome Studente",
+                birthDate: "Data di Nascita",
+                gender: "Genere",
                 courseAndCountry: "Corso e Paese",
                 destinationCourse: "Corso di Destinazione",
                 selectCourse: "-- Seleziona corso --",
@@ -1065,6 +1242,25 @@
             });
             document.documentElement.lang = lang;
 
+            // Aggiorna placeholder per la data di nascita
+            const birthDateInput = document.getElementById('birthDate');
+            if (birthDateInput) {
+                birthDateInput.placeholder = lang === 'en' ? 'dd/mm/yyyy' : 'gg/mm/aaaa';
+                birthDateInput.title = lang === 'en' ? 'Required format: dd/mm/yyyy' : 'Formato richiesto: gg/mm/aaaa';
+
+                // Reinizializza Flatpickr con il locale corretto
+                if (window.fp) {
+                    window.fp.destroy();
+                }
+                window.fp = flatpickr("#birthDate", {
+                    locale: lang === 'en' ? 'en' : 'it',
+                    dateFormat: 'd/m/Y',
+                    allowInput: true,
+                    maxDate: 'today',
+                    disableMobile: true
+                });
+            }
+
             // Aggiorna bottoni attivi nello switcher
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`lang-${lang}`).classList.add('active');
@@ -1106,6 +1302,8 @@
             const container = document.getElementById('container');
             const form = document.getElementById('verificationForm');
             const studentNameInput = document.getElementById('studentName');
+            const birthDateInput = document.getElementById('birthDate');
+            const genderSelect = document.getElementById('gender');
             const courseSelect = document.getElementById('course');
             const countrySelect = document.getElementById('country');
             const qualificationSelect = document.getElementById('qualification');
@@ -1364,6 +1562,8 @@
 
                 // Validazione base
                 const name = studentNameInput.value.trim();
+                const birthDate = birthDateInput.value;
+                const gender = genderSelect.value;
                 const course = courseSelect.value;
                 const country = countrySelect.value;
                 const qualification = qualificationSelect.value;
@@ -1371,14 +1571,74 @@
                 const gpa = gpaInput.value;
                 const gpaScale = gpaScaleSelect.value;
 
-                if (!name || !course || !country || !qualification || !gpa || !gpaScale) {
+                if (!name || !birthDate || !gender || !course || !country || !qualification || !gpa || !gpaScale) {
                     showError('Completa tutti i campi obbligatori.');
                     return;
                 }
 
+                // Validazione robusta del formato e della validità della data (gg/mm/aaaa o dd/mm/yyyy)
+                const currentLang = document.documentElement.lang || 'it';
+                const dateRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+                const match = birthDate.match(dateRegex);
+                if (!match) {
+                    showError(currentLang === 'en' 
+                        ? 'Please enter a valid date in dd/mm/yyyy format.' 
+                        : 'Inserisci una data valida nel formato gg/mm/aaaa.');
+                    return;
+                }
+
+                const day = parseInt(match[1], 10);
+                const month = parseInt(match[2], 10);
+                const year = parseInt(match[3], 10);
+
+                // Verifica del range del mese
+                if (month < 1 || month > 12) {
+                    showError(currentLang === 'en' 
+                        ? 'Invalid month. Value must be between 01 and 12.' 
+                        : 'Mese non valido. Il valore deve essere compreso tra 01 e 12.');
+                    return;
+                }
+
+                // Verifica dei giorni reali del mese (gestione anni bisestili)
+                const monthLengths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                const isLeapYear = year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0);
+                if (isLeapYear) {
+                    monthLengths[1] = 29;
+                }
+
+                if (day < 1 || day > monthLengths[month - 1]) {
+                    showError(currentLang === 'en' 
+                        ? `Invalid day. The selected month has only ${monthLengths[month - 1]} days.` 
+                        : `Giorno non valido. Il mese selezionato ha solo ${monthLengths[month - 1]} giorni.`);
+                    return;
+                }
+
+                // Verifica anno logico (tra 1900 ed anno corrente)
+                const today = new Date();
+                const currentYear = today.getFullYear();
+                if (year < 1900) {
+                    showError(currentLang === 'en' 
+                        ? 'Year of birth must be 1900 or later.' 
+                        : "L'anno di nascita deve essere uguale o successivo al 1900.");
+                    return;
+                }
+
+                const inputDate = new Date(year, month - 1, day);
+                if (inputDate > today) {
+                    showError(currentLang === 'en' 
+                        ? 'Date of birth cannot be in the future.' 
+                        : 'La data di nascita non può essere nel futuro.');
+                    return;
+                }
+
+                // Estraiamo l'anno dalla data di nascita
+                const birthYear = year;
+
                 // Costruzione del payload
                 const data = {
                     name,
+                    birthYear: birthYear,
+                    gender,
                     course,
                     country,
                     qualification,
@@ -1415,7 +1675,7 @@
                     }
 
                     // Mostra il risultato
-                    showResult(result.admitted, data);
+                    showResult(result, data);
                     showSuccess(`Verifica completata per ${data.name}`);
 
                 } catch (error) {
@@ -1427,23 +1687,89 @@
                 }
             }
 
-            function showResult(admitted, data) {
+            function showResult(result, data) {
+                const admitted = result.admitted;
+                const hasAgeWarning = result.has_age_warning || (result.ml_evaluation && result.ml_evaluation.has_age_warning);
+                const ageWarningMsg = result.age_warning_message || (result.ml_evaluation && result.ml_evaluation.age_warning_message);
+
                 resultBox.style.display = 'block';
                 resultBox.classList.remove('admitted', 'rejected');
 
                 const currentLang = document.documentElement.lang || 'it';
+                
+                // Banner Warning Giallo per criticità Sotto-Età
+                let warningHtml = '';
+                if (hasAgeWarning) {
+                    warningHtml = `
+                        <div style="margin-top: 12px; padding: 10px 14px; background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; border-radius: 8px; color: #fbbf24; font-size: 13px; text-align: left; line-height: 1.4; display: flex; align-items: flex-start; gap: 10px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:2px;">
+                                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                                <line x1="12" y1="9" x2="12" y2="13"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                            <div>
+                                <strong>${currentLang === 'en' ? 'CRITICAL WARNING (UNDER-AGE CANDIDATE)' : 'CRITICITÀ SEGNALATA (SOTTO-ETÀ)'}:</strong><br>
+                                ${ageWarningMsg || (currentLang === 'en' ? 'The candidate is unusually young for the selected course level. Manual administrative verification required.' : 'Il candidato risulta eccessivamente giovane per il livello di corso selezionato. Verificare la data di nascita.')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Costruzione della spiegazione e dei dettagli logico/ontologici
+                let explanationHtml = '';
+                if (result.explanation) {
+                    explanationHtml = `
+                        <div style="margin-top: 12px; padding: 12px; background: rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid ${hasAgeWarning ? '#f59e0b' : (admitted ? 'var(--success-border)' : 'var(--error-border)')}; font-size: 13px; text-align: left; line-height: 1.5;">
+                            <strong>${currentLang === 'en' ? 'Reason / Explanation' : 'Motivazione / Dettagli'}:</strong><br>
+                            ${result.explanation}
+                        </div>
+                    `;
+                }
+
+                // Dettagli del modello predittivo Machine Learning
+                let mlDetailsHtml = '';
+                if (result.ml_evaluation && result.ml_evaluation.evaluatable) {
+                    const ml = result.ml_evaluation;
+                    const mlAdmitted = ml.admitted;
+                    const details = ml.details;
+                    const scorePercent = Math.round(ml.score * 100);
+
+                    mlDetailsHtml = `
+                        <div style="margin-top: 16px; border-top: 1px dashed var(--border-color); padding-top: 12px; font-size: 12px; text-align: left; color: var(--text-secondary);">
+                            <div style="font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; letter-spacing: 0.5px;">
+                                ${currentLang === 'en' ? 'Machine Learning Evaluation' : 'Valutazione Machine Learning'}
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; margin-bottom: 8px;">
+                                <div>${currentLang === 'en' ? 'ML Verdict' : 'Verdetto ML'}: <span class="badge ${mlAdmitted ? 'admitted' : 'rejected'}" style="padding: 2px 6px; font-size: 10px; border-radius: 4px; display: inline-block; font-weight: 700;">${mlAdmitted ? (currentLang === 'en' ? 'PASSED' : 'SUPERATO') : (currentLang === 'en' ? 'FAILED' : 'NON SUPERATO')}</span></div>
+                                <div>${currentLang === 'en' ? 'Match Probability' : 'Probabilità di Idoneità'}: <strong>${scorePercent}%</strong></div>
+                                <div>${currentLang === 'en' ? 'Age Relative to Course' : 'Età Relativa al Corso'}: <strong style="${hasAgeWarning ? 'color: #f59e0b;' : ''}">${details.eta_diff_corso >= 0 ? '+' : ''}${details.eta_diff_corso} ${currentLang === 'en' ? 'years' : 'anni'} ${hasAgeWarning ? '⚠️' : ''}</strong></div>
+                                <div>${currentLang === 'en' ? 'Normalized Grade (Z-Score)' : 'Voto Normalizzato (Z-Score)'}: <strong>${details.voto_norm >= 0 ? '+' : ''}${details.voto_norm}</strong></div>
+                            </div>
+                        </div>
+                    `;
+                }
+
                 if (admitted) {
                     resultBox.classList.add('admitted');
-                    resultIcon.innerHTML = `
+                    resultIcon.innerHTML = hasAgeWarning ? `
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                            <line x1="12" y1="9" x2="12" y2="13"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                    ` : `
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success-text);">
                             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                             <path d="m22 4-10 10.01-3-3"/>
                         </svg>
                     `;
                     resultText.innerHTML = `
-                        <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--success-text);">${currentLang === 'en' ? 'Admitted' : 'Ammesso/a'}</div>
+                        <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px; color: ${hasAgeWarning ? '#f59e0b' : 'var(--success-text)'};">${hasAgeWarning ? (currentLang === 'en' ? 'Admitted (With Age Warning)' : 'Ammesso/a (Con Avviso Età)') : (currentLang === 'en' ? 'Admitted' : 'Ammesso/a')}</div>
                         <strong>${data.name}</strong> ${currentLang === 'en' ? 'is eligible for the destination course' : 'è idoneo/a per il corso di destinazione'}.<br>
                         <small style="color: var(--text-secondary); font-size: 12px;">${data.country} &bull; ${data.course}</small>
+                        ${warningHtml}
+                        ${explanationHtml}
+                        ${mlDetailsHtml}
                     `;
                 } else {
                     resultBox.classList.add('rejected');
@@ -1458,6 +1784,9 @@
                         <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--error-text);">${currentLang === 'en' ? 'Not Admitted' : 'Non ammesso/a'}</div>
                         <strong>${data.name}</strong> ${currentLang === 'en' ? 'is not eligible for the destination course' : 'non è idoneo/a per il corso di destinazione'}.<br>
                         <small style="color: var(--text-secondary); font-size: 12px;">${data.country} &bull; ${data.course}</small>
+                        ${warningHtml}
+                        ${explanationHtml}
+                        ${mlDetailsHtml}
                     `;
                 }
 
@@ -1479,6 +1808,9 @@
             function showError(message) {
                 errorMessage.textContent = message;
                 errorMessage.style.display = 'block';
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 5000);
             }
 
             // Intersection Observer for scroll reveal animations
@@ -1523,6 +1855,9 @@
                 // Riempi i campi base
                 studentNameInput.value = name;
 
+                const birthDate = urlParams.get('birthDate');
+                const birthYear = urlParams.get('birthYear');
+                const gender = urlParams.get('gender');
                 const course = urlParams.get('course');
                 const country = urlParams.get('country');
                 const qualification = urlParams.get('qualification');
@@ -1530,6 +1865,24 @@
                 const gpa = urlParams.get('gpa');
                 const gpaScale = urlParams.get('gpaScale');
 
+                if (birthDate) {
+                    let formattedVal = birthDate;
+                    if (birthDate.includes('-')) {
+                        const pts = birthDate.split('-');
+                        formattedVal = `${pts[2]}/${pts[1]}/${pts[0]}`;
+                    }
+                    birthDateInput.value = formattedVal;
+                    if (window.fp) {
+                        window.fp.setDate(formattedVal);
+                    }
+                } else if (birthYear) {
+                    const formattedVal = `01/01/${birthYear}`;
+                    birthDateInput.value = formattedVal;
+                    if (window.fp) {
+                        window.fp.setDate(formattedVal);
+                    }
+                }
+                if (gender) genderSelect.value = gender;
                 if (course) courseSelect.value = course;
                 if (country) countrySelect.value = country;
 
