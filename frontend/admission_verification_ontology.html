@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifica Ammissione (Ontologia OWL) - Portale Accademico</title>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Flatpickr CSS & Dark Theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <style>
+        :root {
+            --bg-primary: #0b0f19;
+            --bg-surface: #1e293b;
+            --bg-input: #0f172a;
+            --border-color: #334155;
+            --border-input: #475569;
+            --border-focus: #ef4444;
+            --text-primary: #ffffff;
+            --text-secondary: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-color: #ef4444;
+            --accent-gradient: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            --success-bg: rgba(16, 185, 129, 0.1);
+            --success-border: #10b981;
+            --success-text: #34d399;
+            --error-bg: rgba(239, 68, 68, 0.1);
+            --error-border: #ef4444;
+            --error-text: #fca5a5;
+            --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+            --font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.03) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(239, 68, 68, 0.02) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-secondary);
+            font-family: var(--font-family);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* HEADER & NAVIGATION */
+        .app-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 40px;
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 70px;
+        }
+
+        .app-logo {
+            position: absolute;
+            left: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-logo-img {
+            max-height: 36px;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            justify-content: center;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            padding: 24px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #ffffff;
+        }
+
+        .nav-link.active {
+            border-bottom-color: var(--accent-color);
+        }
+
+        .language-switcher-header {
+            position: absolute;
+            right: 40px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .lang-btn.active {
+            border-color: var(--accent-color);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* PAGE LAYOUT */
+        .page-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .hero-section h1 {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-section p {
+            color: var(--text-muted);
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+
+        /* INFO BOX */
+        .info-box {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid #3b82f6;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            text-align: left;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .info-box::before {
+            content: "ℹ";
+            color: #3b82f6;
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .success-message,
+        .error-message {
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .success-message {
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: var(--success-text);
+        }
+
+        .error-message {
+            background: var(--error-bg);
+            border: 1px solid var(--error-border);
+            color: var(--error-text);
+        }
+
+        /* FORM CARDS */
+        .scroll-section {
+            width: 100%;
+            margin-bottom: 24px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .scroll-section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-card {
+            width: 100%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            transition: border-color 0.3s ease;
+        }
+
+        .section-card:hover {
+            border-color: #475569;
+        }
+
+        .form-section-title {
+            color: var(--text-primary);
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 12px;
+            line-height: 1.2;
+        }
+
+        .form-grid-3 {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 640px) {
+            .form-grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-grid-2:has(#durationGroup.hidden) .form-group:first-child {
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 640px) {
+            .form-grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid-2:has(#durationGroup.hidden) .form-group:first-child {
+                grid-column: auto;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .section-card>.form-group {
+            margin-bottom: 20px;
+        }
+
+        .section-card>.form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .required::after {
+            content: " *";
+            color: var(--accent-color);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-input);
+            border-radius: 8px;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]::placeholder,
+        input[type="number"]::placeholder {
+            color: var(--text-muted);
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23ef4444" d="M6 9L1 4h10z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 12px;
+            padding-right: 44px;
+        }
+
+        select:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .verification-action-card {
+            width: 100%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
+        .button-wrapper {
+            display: flex;
+            gap: 16px;
+        }
+
+        button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-verify {
+            background: var(--accent-gradient);
+            color: white;
+            flex: 2;
+        }
+
+        .btn-verify:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-verify:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            flex: 1;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border-color: #475569;
+        }
+
+        .result-box {
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 24px;
+            display: none;
+            animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            font-weight: 600;
+        }
+
+        .result-box.admitted {
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: var(--success-text);
+        }
+
+        .result-box.rejected {
+            background: var(--error-bg);
+            border: 1px solid var(--error-border);
+            color: var(--error-text);
+        }
+
+        .result-icon {
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .result-text {
+            line-height: 1.6;
+        }
+
+        .app-footer {
+            width: 100%;
+            margin-top: auto;
+            background-color: var(--bg-surface);
+            border-top: 1px solid var(--border-color);
+            padding: 24px 0;
+            box-sizing: border-box;
+        }
+
+        .footer-container {
+            width: 100%;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 32px;
+            box-sizing: border-box;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .footer-logo {
+            max-height: 48px;
+            object-fit: contain;
+        }
+
+        .footer-left-info {
+            border-left: 2px solid #EF4444;
+            padding-left: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            text-align: left;
+        }
+
+        .footer-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-subtitle {
+            font-size: 12px;
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+
+        .footer-meta {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .footer-right {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .footer-credits-main {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .developer-name {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .footer-credits-sub {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        .date-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .date-input-wrapper input {
+            padding-right: 44px !important;
+        }
+
+        .date-input-wrapper .calendar-icon {
+            position: absolute;
+            right: 14px;
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="app-header">
+        <div class="app-logo">
+            <img src="assets/unicam-logo.png" alt="UNICAM Logo" class="header-logo-img">
+            <span class="logo-text">Academic Portal</span>
+        </div>
+        <nav class="nav-links">
+            <a href="admission_verification_form.html" class="nav-link" data-i18n="navVerifyML">Verifica Ammissione ML</a>
+            <a href="admission_verification_ontology.html" class="nav-link active" data-i18n="navVerifyOntology">Verifica Ammissione</a>
+        </nav>
+        <div class="language-switcher-header">
+            <button id="lang-it" class="lang-btn active">IT</button>
+            <button id="lang-en" class="lang-btn">EN</button>
+        </div>
+    </header>
+
+    <div class="page-container" id="container">
+        <section class="hero-section">
+            <h1 data-i18n="title">Verifica Ammissione</h1>
+            <p data-i18n="subtitle">Verifica formale dei requisiti minimi di accesso dettati dall'ontologia OWL (senza Machine Learning)</p>
+            <div class="info-box" id="infoBoxMain" data-i18n="infoBoxMain">
+                Compila il modulo e clicca "Verifica Ammissione" per valutare esclusivamente i requisiti formali d'accesso e le regole logiche specificate nell'ontologia OWL.
+            </div>
+        </section>
+
+        <div id="successMessage" class="success-message"></div>
+        <div id="errorMessage" class="error-message"></div>
+
+        <form id="admissionForm">
+            <!-- SECTION 1: INFORMAZIONI PERSONALI -->
+            <div class="scroll-section">
+                <div class="section-card">
+                    <div class="form-section-title" data-i18n="personalInfo">Informazioni Personali</div>
+                    <div class="form-grid-3">
+                        <div class="form-group">
+                            <label for="name" class="required" data-i18n="studentName">Nome Studente</label>
+                            <input type="text" id="name" name="name" required placeholder="es. Mario_Rossi">
+                        </div>
+                        <div class="form-group">
+                            <label for="birthDate" class="required" data-i18n="birthDate">Data di Nascita</label>
+                            <div class="date-input-wrapper">
+                                <input type="text" id="birthDate" name="birthDate" required placeholder="gg/mm/aaaa" maxlength="10">
+                                <span class="calendar-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender" class="required" data-i18n="gender">Genere</label>
+                            <select id="gender" name="gender" required>
+                                <option value="M">Maschio</option>
+                                <option value="F">Femmina</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: CORSO E PAESE -->
+            <div class="scroll-section">
+                <div class="section-card">
+                    <div class="form-section-title" data-i18n="courseAndCountry">Corso e Paese</div>
+                    <div class="form-grid-2" style="margin-bottom: 20px;">
+                        <div class="form-group">
+                            <label for="course" class="required" data-i18n="destinationCourse">Corso di Destinazione</label>
+                            <select id="course" name="course" required>
+                                <option value="" data-i18n="selectCourse">-- Seleziona corso --</option>
+                                <option value="Undergraduate" data-i18n="undergraduate">Triennale (Undergraduate)</option>
+                                <option value="Postgraduate" data-i18n="postgraduate">Magistrale (Postgraduate)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="country" class="required" data-i18n="countryOfOrigin">Paese di Provenienza</label>
+                            <select id="country" name="country" required>
+                                <option value="" data-i18n="selectCountry">-- Seleziona paese --</option>
+                                <option value="India">India</option>
+                                <option value="Iran">Iran</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="qualification" class="required" data-i18n="qualification">Titolo di Studio</label>
+                            <select id="qualification" name="qualification" required disabled>
+                                <option value="" data-i18n="selectCountryAndCourseFirst">-- Seleziona paese e corso prima --</option>
+                            </select>
+                        </div>
+                        <div class="form-group hidden" id="durationGroup">
+                            <label for="duration" class="required" data-i18n="duration">Durata in anni</label>
+                            <input type="number" id="duration" name="duration" min="1" max="6" step="0.5" placeholder="es. 3 o 4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: VOTI E PRESTAZIONI -->
+            <div class="scroll-section">
+                <div class="section-card">
+                    <div class="form-section-title" data-i18n="gradesAndPerformance">Voti e Prestazioni</div>
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="gpa" class="required" data-i18n="gpa">GPA (Voto Medio)</label>
+                            <input type="number" id="gpa" name="gpa" step="0.01" min="0" required placeholder="es. 80 o 3.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="gpaScale" class="required" data-i18n="gpaScale">Scala del Voto</label>
+                            <select id="gpaScale" name="gpaScale" required disabled>
+                                <option value="" data-i18n="selectCountryFirst">-- Seleziona paese prima --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUBMIT & RESULTS CARD -->
+            <div class="scroll-section">
+                <div class="verification-action-card">
+                    <div class="button-wrapper">
+                        <button type="submit" id="verifyBtn" class="btn-verify" data-i18n="verifyAdmission">Verifica Ammissione</button>
+                        <button type="button" id="resetBtn" class="btn-reset" data-i18n="reset">Ripulisci</button>
+                    </div>
+                    <div id="resultBox" class="result-box">
+                        <div id="resultIcon" class="result-icon"></div>
+                        <div id="resultText" class="result-text"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <img src="assets/unicam-logo.png" alt="UNICAM Logo" class="footer-logo">
+                <div class="footer-left-info">
+                    <div class="footer-title" data-i18n="footerUniversity">Università di Camerino</div>
+                    <div class="footer-subtitle" data-i18n="footerSubtitle">Sistema di Verifica Ammissioni &bull; Ontologia OWL</div>
+                    <div class="footer-meta" data-i18n="footerMeta">Copyright &copy; 2026 &bull; Area Segreteria Studenti</div>
+                </div>
+            </div>
+            <div class="footer-right">
+                <div class="footer-credits-main" data-i18n="footerCreditsMain">
+                    Sviluppato da <strong class="developer-name">Fabio Grelloni</strong> &amp; <strong class="developer-name">Claudio Cozzolino</strong>
+                </div>
+                <div class="footer-credits-sub" data-i18n="footerCreditsSub">
+                    Corso di Laurea in Computer Science
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/it.js"></script>
+
+    <script>
+        const API_URL = 'http://localhost:5000';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('admissionForm');
+            const countrySelect = document.getElementById('country');
+            const courseSelect = document.getElementById('course');
+            const qualificationSelect = document.getElementById('qualification');
+            const durationGroup = document.getElementById('durationGroup');
+            const durationInput = document.getElementById('duration');
+            const gpaScaleSelect = document.getElementById('gpaScale');
+            const birthDateInput = document.getElementById('birthDate');
+            const resultBox = document.getElementById('resultBox');
+            const resultIcon = document.getElementById('resultIcon');
+            const resultText = document.getElementById('resultText');
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+            const verifyBtn = document.getElementById('verifyBtn');
+            const resetBtn = document.getElementById('resetBtn');
+
+            // Inizializzazione Flatpickr
+            const fp = flatpickr(birthDateInput, {
+                dateFormat: "d/m/Y",
+                locale: "it",
+                maxDate: "today",
+                allowInput: true,
+                disableMobile: true
+            });
+
+            // Animazione scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.scroll-section').forEach(section => {
+                observer.observe(section);
+            });
+
+            const translations = {
+                en: {
+                    title: "Admission Verification (OWL Ontology)",
+                    subtitle: "Formal evaluation of minimum requirements defined by the OWL Ontology (without Machine Learning)",
+                    infoBoxMain: "Fill out the form and click 'Verify Admission' to evaluate exclusively the formal access requirements specified in the OWL ontology.",
+                    personalInfo: "Personal Information",
+                    studentName: "Student Name",
+                    birthDate: "Date of Birth",
+                    gender: "Gender",
+                    courseAndCountry: "Course & Country",
+                    destinationCourse: "Destination Course",
+                    selectCourse: "-- Select course --",
+                    undergraduate: "Undergraduate",
+                    postgraduate: "Postgraduate",
+                    countryOfOrigin: "Country of Origin",
+                    selectCountry: "-- Select country --",
+                    qualification: "Qualification",
+                    selectCountryAndCourseFirst: "-- Select country and course first --",
+                    duration: "Duration in years",
+                    gradesAndPerformance: "Grades & Performance",
+                    gpa: "GPA (Grade Average)",
+                    gpaScale: "GPA Scale",
+                    selectCountryFirst: "-- Select country first --",
+                    verifyAdmission: "Verify Admission",
+                    reset: "Reset",
+                    navVerifyML: "ML Admission Verification",
+                    navVerifyOntology: "Admission Verification",
+                    footerUniversity: "University of Camerino",
+                    footerSubtitle: "Admission Verification System &bull; OWL Ontology",
+                    footerMeta: "Copyright &copy; 2026 &bull; Student Registry Office",
+                    footerCreditsMain: 'Developed by <strong class="developer-name">Fabio Grelloni</strong> &amp; <strong class="developer-name">Claudio Cozzolino</strong>',
+                    footerCreditsSub: "Degree Course in Computer Science",
+                },
+                it: {
+                    title: "Verifica Ammissione",
+                    subtitle: "Verifica formale dei requisiti minimi di accesso dettati dall'ontologia OWL (senza Machine Learning)",
+                    infoBoxMain: "Compila il modulo e clicca 'Verifica Ammissione' per valutare esclusivamente i requisiti formali d'accesso e le regole logiche specificate nell'ontologia OWL.",
+                    personalInfo: "Informazioni Personali",
+                    studentName: "Nome Studente",
+                    birthDate: "Data di Nascita",
+                    gender: "Genere",
+                    courseAndCountry: "Corso e Paese",
+                    destinationCourse: "Corso di Destinazione",
+                    selectCourse: "-- Seleziona corso --",
+                    undergraduate: "Triennale (Undergraduate)",
+                    postgraduate: "Magistrale (Postgraduate)",
+                    countryOfOrigin: "Paese di Provenienza",
+                    selectCountry: "-- Seleziona paese --",
+                    qualification: "Titolo di Studio",
+                    selectCountryAndCourseFirst: "-- Seleziona paese e corso prima --",
+                    duration: "Durata in anni",
+                    gradesAndPerformance: "Voti e Prestazioni",
+                    gpa: "GPA (Voto Medio)",
+                    gpaScale: "Scala del Voto",
+                    selectCountryFirst: "-- Seleziona paese prima --",
+                    verifyAdmission: "Verifica Ammissione",
+                    reset: "Ripulisci",
+                    navVerifyML: "Verifica Ammissione ML",
+                    navVerifyOntology: "Verifica Ammissione",
+                    footerUniversity: "Università di Camerino",
+                    footerSubtitle: "Sistema di Verifica Ammissioni &bull; Ontologia OWL",
+                    footerMeta: "Copyright &copy; 2026 &bull; Area Segreteria Studenti",
+                    footerCreditsMain: 'Sviluppato da <strong class="developer-name">Fabio Grelloni</strong> &amp; <strong class="developer-name">Claudio Cozzolino</strong>',
+                    footerCreditsSub: "Corso di Laurea in Computer Science",
+                }
+            };
+
+            function setLanguage(lang) {
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (translations[lang] && translations[lang][key]) {
+                        element.innerHTML = translations[lang][key];
+                    }
+                });
+                document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+                document.getElementById(`lang-${lang}`).classList.add('active');
+                document.documentElement.lang = lang;
+                fp.set('locale', lang === 'it' ? 'it' : 'default');
+            }
+
+            document.getElementById('lang-it').addEventListener('click', () => setLanguage('it'));
+            document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+
+            countrySelect.addEventListener('change', updateQualificationsAndScales);
+            courseSelect.addEventListener('change', updateQualificationsAndScales);
+
+            async function updateQualificationsAndScales() {
+                const country = countrySelect.value;
+                const course = courseSelect.value;
+                const currentLang = document.documentElement.lang || 'it';
+
+                qualificationSelect.innerHTML = `<option value="">${currentLang === 'en' ? '-- Loading... --' : '-- Caricamento... --'}</option>`;
+                qualificationSelect.disabled = true;
+                durationGroup.classList.add('hidden');
+                durationInput.removeAttribute('required');
+
+                gpaScaleSelect.innerHTML = `<option value="">${currentLang === 'en' ? '-- Loading... --' : '-- Caricamento... --'}</option>`;
+                gpaScaleSelect.disabled = true;
+
+                if (!country) return;
+
+                // Aggiorna la scala dei voti
+                if (country === 'Iran') {
+                    gpaScaleSelect.innerHTML = `<option value="Base20">Su 20 (Iran)</option>`;
+                    gpaScaleSelect.disabled = false;
+                } else if (country === 'India') {
+                    gpaScaleSelect.innerHTML = `
+                        <option value="Base100">Su 100</option>
+                        <option value="Base10">Su 10</option>
+                        <option value="Base8">Su 8</option>
+                        <option value="Base4">Su 4</option>
+                    `;
+                    gpaScaleSelect.disabled = false;
+                }
+
+                if (!course) {
+                    qualificationSelect.innerHTML = `<option value="">${currentLang === 'en' ? '-- Select course first --' : '-- Seleziona corso prima --'}</option>`;
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${API_URL}/qualifications?country=${country}&course=${course}`);
+                    const data = await response.json();
+
+                    if (response.ok && data.qualifications) {
+                        qualificationSelect.innerHTML = `<option value="">${currentLang === 'en' ? '-- Select qualification --' : '-- Seleziona titolo --'}</option>`;
+                        data.qualifications.forEach(qual => {
+                            const option = document.createElement('option');
+                            option.value = qual.key;
+                            option.textContent = qual.label;
+                            option.dataset.requiresDuration = qual.requires_duration;
+                            qualificationSelect.appendChild(option);
+                        });
+                        qualificationSelect.disabled = false;
+                    }
+                } catch (err) {
+                    console.error('Errore durante il caricamento delle qualifiche:', err);
+                }
+            }
+
+            qualificationSelect.addEventListener('change', () => {
+                const selectedOption = qualificationSelect.options[qualificationSelect.selectedIndex];
+                if (selectedOption && selectedOption.dataset.requiresDuration === 'true') {
+                    durationGroup.classList.remove('hidden');
+                    durationInput.setAttribute('required', 'required');
+                } else {
+                    durationGroup.classList.add('hidden');
+                    durationInput.removeAttribute('required');
+                }
+            });
+
+            function showError(msg) {
+                errorMsg.textContent = msg;
+                errorMsg.style.display = 'block';
+                setTimeout(() => { errorMsg.style.display = 'none'; }, 5000);
+            }
+
+            resetBtn.addEventListener('click', () => {
+                form.reset();
+                fp.clear();
+                resultBox.style.display = 'none';
+                qualificationSelect.disabled = true;
+                gpaScaleSelect.disabled = true;
+                durationGroup.classList.add('hidden');
+            });
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                errorMsg.style.display = 'none';
+                resultBox.style.display = 'none';
+
+                const rawDate = birthDateInput.value.trim();
+                const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+                const match = rawDate.match(dateRegex);
+
+                if (!match) {
+                    showError(document.documentElement.lang === 'en' ? 'Insert a valid birth date (dd/mm/yyyy)' : 'Inserisci una data di nascita valida (gg/mm/aaaa)');
+                    return;
+                }
+
+                const day = parseInt(match[1], 10);
+                const month = parseInt(match[2], 10) - 1;
+                const year = parseInt(match[3], 10);
+                const parsedDate = new Date(year, month, day);
+
+                if (parsedDate.getFullYear() !== year || parsedDate.getMonth() !== month || parsedDate.getDate() !== day) {
+                    showError(document.documentElement.lang === 'en' ? 'The specified date does not exist' : 'La data specificata non esiste');
+                    return;
+                }
+
+                verifyBtn.disabled = true;
+                verifyBtn.innerHTML = `<span class="loading"></span> ${document.documentElement.lang === 'en' ? 'Verifying Ontology...' : 'Verifica Ontologica...'}`;
+
+                const payload = {
+                    name: document.getElementById('name').value.replace(/\s+/g, '_'),
+                    birthYear: year,
+                    gender: document.getElementById('gender').value,
+                    course: courseSelect.value,
+                    country: countrySelect.value,
+                    qualification: qualificationSelect.value,
+                    duration: durationGroup.classList.contains('hidden') ? null : parseFloat(durationInput.value),
+                    gpa: parseFloat(document.getElementById('gpa').value),
+                    gpaScale: gpaScaleSelect.value
+                };
+
+                try {
+                    const response = await fetch(`${API_URL}/check-admission`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    if (!response.ok) throw new Error(result.error || 'Server error');
+
+                    showResult(result, payload);
+                } catch (err) {
+                    showError(`Errore: ${err.message}`);
+                } finally {
+                    verifyBtn.disabled = false;
+                    verifyBtn.textContent = document.documentElement.lang === 'en' ? 'Verify Admission' : 'Verifica Ammissione';
+                }
+            });
+
+            function showResult(result, data) {
+                // In questa pagina (Verifica Ammissione Ontologica), valutiamo ESCLUSIVAMENTE l'Ontologia OWL
+                const ontologyAdmitted = result.ontology_admitted;
+                resultBox.style.display = 'block';
+                resultBox.classList.remove('admitted', 'rejected');
+
+                const currentLang = document.documentElement.lang || 'it';
+                
+                let explanationHtml = '';
+                if (result.explanation) {
+                    explanationHtml = `
+                        <div style="margin-top: 12px; padding: 12px; background: rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid ${ontologyAdmitted ? 'var(--success-border)' : 'var(--error-border)'}; font-size: 13px; text-align: left; line-height: 1.5;">
+                            <strong>${currentLang === 'en' ? 'OWL Ontology Reason / Rule' : 'Motivazione / Regola Ontologica OWL'}:</strong><br>
+                            ${result.explanation}
+                        </div>
+                    `;
+                }
+
+                if (ontologyAdmitted) {
+                    resultBox.classList.add('admitted');
+                    resultIcon.innerHTML = `
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success-text);">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <path d="m22 4-10 10.01-3-3"/>
+                        </svg>
+                    `;
+                    resultText.innerHTML = `
+                        <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--success-text);">${currentLang === 'en' ? 'Admitted (OWL Ontology)' : 'Ammesso/a (Requisiti Ontologici Satisfatti)'}</div>
+                        <strong>${data.name}</strong> ${currentLang === 'en' ? 'meets all formal access requirements defined by the OWL Ontology' : 'soddisfa tutti i requisiti formali di accesso definiti dall\'ontologia OWL'}.<br>
+                        <small style="color: var(--text-secondary); font-size: 12px;">${data.country} &bull; ${data.course}</small>
+                        ${explanationHtml}
+                        <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--border-color); font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
+                            ${currentLang === 'en' ? 'VALUATION MODE: FORMAL ACCESS REQUIREMENTS (OWL REASONER ONLY)' : 'MODALITÀ DI VALUTAZIONE: REQUISITI FORMALI D\'ACCESSO (SOLO RAGIONATORE OWL)'}
+                        </div>
+                    `;
+                } else {
+                    resultBox.classList.add('rejected');
+                    resultIcon.innerHTML = `
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--error-text);">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                    `;
+                    resultText.innerHTML = `
+                        <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--error-text);">${currentLang === 'en' ? 'Not Admitted (OWL Ontology)' : 'Non ammesso/a (Requisiti Ontologici Non Soddisfatti)'}</div>
+                        <strong>${data.name}</strong> ${currentLang === 'en' ? 'does not meet the formal requirements defined by the OWL Ontology' : 'non soddisfa i requisiti formali definiti dall\'ontologia OWL'}.<br>
+                        <small style="color: var(--text-secondary); font-size: 12px;">${data.country} &bull; ${data.course}</small>
+                        ${explanationHtml}
+                        <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--border-color); font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
+                            ${currentLang === 'en' ? 'VALUATION MODE: FORMAL ACCESS REQUIREMENTS (OWL REASONER ONLY)' : 'MODALITÀ DI VALUTAZIONE: REQUISITI FORMALI D\'ACCESSO (SOLO RAGIONATORE OWL)'}
+                        </div>
+                    `;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
