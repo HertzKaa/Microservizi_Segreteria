@@ -3,7 +3,7 @@ import os
 import json
 import logging
 from rdflib import Graph, URIRef
-from config import QUALIFICATIONS_MAP, TTL_FILE_PATH
+from config import QUALIFICATIONS_MAP, TTL_FILE_PATH, ADMISSION_THRESHOLDS
 from services.ontology_service import get_current_ontology, create_individuals_and_check
 from services.student_service import check_rejection_reason, append_student_to_ttl, file_lock
 from services.ml_service import evaluate_ml_admission
@@ -82,11 +82,26 @@ def check_admission():
         if requires_duration and not duration:
             return jsonify({"admitted": False, "error": "Durata obbligatoria per questa qualifica"}), 400
 
-        # Crea gli individui nell'ontologia e controlla l'ammissione formale
-        ontology_admitted = create_individuals_and_check(
-            name, country, course,
-            qual_class_name, duration, gpa, gpa_scale
-        )
+        # Controllo GPA bloccante
+        rules = ADMISSION_THRESHOLDS.get(country, {}).get(course, {})
+        min_gpa_rules = rules.get("min_gpa", {})
+        gpa_insufficient = False
+        gpa_explanation = None
+        if gpa_scale in min_gpa_rules:
+            required_gpa = min_gpa_rules[gpa_scale]
+            if gpa is not None and gpa < required_gpa:
+                gpa_insufficient = True
+                gpa_explanation = f"Media voti (GPA) insufficiente: ottenuto {gpa}, richiesto minimo {required_gpa} ({gpa_scale})."
+
+        if gpa_insufficient:
+            ontology_admitted = False
+            logger.info(f"GPA insufficiente per {name}: ottenuto {gpa}, richiesto minimo {required_gpa} ({gpa_scale}). Ammissione ontologica saltata.")
+        else:
+            # Crea gli individui nell'ontologia e controlla l'ammissione formale
+            ontology_admitted = create_individuals_and_check(
+                name, country, course,
+                qual_class_name, duration, gpa, gpa_scale
+            )
 
         logger.info(f"Risultato ammissione ontologica per {name}: {ontology_admitted}")
 
@@ -114,7 +129,9 @@ def check_admission():
 
         # Calcola il motivo dell'esclusione se non ammesso
         explanation = None
-        if not ontology_admitted:
+        if gpa_insufficient:
+            explanation = gpa_explanation
+        elif not ontology_admitted:
             explanation = check_rejection_reason(country, course, qualification_key, duration, gpa, gpa_scale)
         elif ml_result and ml_result.get('evaluatable') and not ml_result.get('admitted'):
             explanation = ml_result.get('explanation')
@@ -497,16 +514,27 @@ def check_admission_batch():
                     })
                     continue
 
-                # Esegui la verifica tramite il reasoning
-                admitted = create_individuals_and_check(
-                    name, country, course,
-                    qual_class_name, duration, gpa, gpa_scale
-                )
-
-                # Calcola il motivo se il ragionatore ha negato l'ammissione
+                # Controllo GPA bloccante
+                rules = ADMISSION_THRESHOLDS.get(country, {}).get(course, {})
+                min_gpa_rules = rules.get("min_gpa", {})
+                gpa_insufficient = False
                 explanation = None
-                if not admitted:
-                    explanation = check_rejection_reason(country, course, qualification_key, duration, gpa, gpa_scale)
+                if gpa_scale in min_gpa_rules:
+                    required_gpa = min_gpa_rules[gpa_scale]
+                    if gpa is not None and gpa < required_gpa:
+                        gpa_insufficient = True
+                        explanation = f"Media voti (GPA) insufficiente: ottenuto {gpa}, richiesto minimo {required_gpa} ({gpa_scale})."
+
+                if gpa_insufficient:
+                    admitted = False
+                else:
+                    # Esegui la verifica tramite il reasoning
+                    admitted = create_individuals_and_check(
+                        name, country, course,
+                        qual_class_name, duration, gpa, gpa_scale
+                    )
+                    if not admitted:
+                        explanation = check_rejection_reason(country, course, qualification_key, duration, gpa, gpa_scale)
 
                 batch_results.append({
                     "name": name.replace('_', ' '),
