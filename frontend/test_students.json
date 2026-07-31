@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Mario Rossi",
+    "course": "Undergraduate",
+    "country": "India",
+    "qualification": "AllIndiaSeniorSchool",
+    "gpa": 85.5,
+    "gpaScale": "Base100"
+  },
+  {
+    "name": "Zoe Bianchi",
+    "course": "Postgraduate",
+    "country": "Iran",
+    "qualification": "Karshenasi",
+    "duration": 4,
+    "gpa": 14.5,
+    "gpaScale": "Base20"
+  },
+  {
+    "name": "Alessandro Verdi",
+    "course": "Postgraduate",
+    "country": "India",
+    "qualification": "PassGeneralBachelor",
+    "gpa": 7.2,
+    "gpaScale": "Base10"
+  }
+]

@@ -830,6 +830,7 @@
                             id="studentName"
                             name="studentName"
                             placeholder="es. Mario Rossi"
+                            data-i18n-placeholder="placeholderStudentName"
                             required
                         >
                     </div>
@@ -882,6 +883,7 @@
                                 min="1"
                                 max="10"
                                 placeholder="es. 4"
+                                data-i18n-placeholder="placeholderDuration"
                             >
                         </div>
                     </div>
@@ -903,6 +905,7 @@
                                     step="0.01"
                                     min="0"
                                     placeholder="es. 3.5"
+                                    data-i18n-placeholder="placeholderGpa"
                                 >
                             </div>
                             
@@ -990,6 +993,71 @@
     </footer>
 
     <script>
+        function translateBackendMessage(msg, lang) {
+            if (!msg) return msg;
+            if (lang !== 'en') return msg;
+
+            const staticTranslations = {
+                "Criteri formali non configurati per questo tipo di corso.": 
+                    "Formal criteria not configured for this type of course.",
+                "Il titolo 'DiplomMotevasete' (11 anni di scolarità) non è sufficiente. In Italia sono richiesti almeno 12 anni (es. DiplomMotevasetePreUniversitary o il diploma post-2018/19).": 
+                    "The 'DiplomMotevasete' qualification (11 years of schooling) is not sufficient. In Italy, at least 12 years are required (e.g. DiplomMotevasetePreUniversitary or the post-2018/19 certificate).",
+                "Requisiti formali superati, ma idoneità negata dal ragionatore logico (vincoli ontologici non soddisfatti).": 
+                    "Formal requirements met, but eligibility denied by the logical reasoner (ontology constraints not satisfied).",
+                "Dati incompleti o non mappabili": 
+                    "Incomplete or non-mappable data",
+                "Durata corso mancante": 
+                    "Missing course duration",
+                "Nessun file caricato": 
+                    "No file uploaded",
+                "File non selezionato": 
+                    "No file selected",
+                "Nessuno studente valido trovato nel file.": 
+                    "No valid student found in the file.",
+                "Formato file non supportato. Carica solo file .json, .xlsx o .ttl": 
+                    "Unsupported file format. Please upload only .json, .xlsx or .ttl files",
+                "File di archivio sul server azzerato.":
+                    "Archive file on the server cleared.",
+                "Studente registrato con successo sul server nel file unico!":
+                    "Student registered successfully on the server in the unified file!",
+                "Errore interno del server:":
+                    "Internal server error:"
+            };
+
+            if (staticTranslations[msg]) {
+                return staticTranslations[msg];
+            }
+
+            // Regex matching for dynamic messages
+
+            // Pattern: Studente '{name}' salvato con successo sul server nel file unico!
+            const successMatch = msg.match(/^Studente '([^']+)' salvato con successo sul server nel file unico!$/);
+            if (successMatch) {
+                const name = successMatch[1];
+                return `Student '${name}' successfully saved on the server in the unified file!`;
+            }
+
+            // Pattern: Errore durante il salvataggio: {error}
+            const saveErrMatch = msg.match(/^Errore durante il salvataggio: (.*)$/);
+            if (saveErrMatch) {
+                return `Error during save: ${saveErrMatch[1]}`;
+            }
+
+            // Pattern: Errore durante l'eliminazione: {error}
+            const clearErrMatch = msg.match(/^Errore durante l'eliminazione: (.*)$/);
+            if (clearErrMatch) {
+                return `Error during clearing: ${clearErrMatch[1]}`;
+            }
+
+            // Pattern: Errore interno del server: {error}
+            const internalErrMatch = msg.match(/^Errore interno del server: (.*)$/);
+            if (internalErrMatch) {
+                return `Internal server error: ${internalErrMatch[1]}`;
+            }
+
+            return msg;
+        }
+
         const translations = {
             en: {
                 title: "Ontology Generator",
@@ -1025,6 +1093,9 @@
                 footerMeta: "Copyright &copy; 2026 &bull; Student Registry Office",
                 footerCreditsMain: 'Developed by <strong class="developer-name">Fabio Grelloni</strong> &amp; <strong class="developer-name">Claudio Cozzolino</strong>',
                 footerCreditsSub: "Degree Course in Computer Science",
+                placeholderStudentName: "e.g. John Doe",
+                placeholderDuration: "e.g. 4",
+                placeholderGpa: "e.g. 3.5",
             },
             it: {
                 title: "Generatore Ontologia",
@@ -1060,6 +1131,9 @@
                 footerMeta: "Copyright &copy; 2026 &bull; Area Segreteria Studenti",
                 footerCreditsMain: 'Sviluppato da <strong class="developer-name">Fabio Grelloni</strong> &amp; <strong class="developer-name">Claudio Cozzolino</strong>',
                 footerCreditsSub: "Corso di Laurea in Computer Science",
+                placeholderStudentName: "es. Mario Rossi",
+                placeholderDuration: "es. 4",
+                placeholderGpa: "es. 3.5",
             }
         };
 
@@ -1068,6 +1142,12 @@
                 const key = element.getAttribute('data-i18n');
                 if (translations[lang] && translations[lang][key]) {
                     element.innerHTML = translations[lang][key];
+                }
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[lang] && translations[lang][key]) {
+                    element.placeholder = translations[lang][key];
                 }
             });
             document.documentElement.lang = lang;
@@ -1089,6 +1169,19 @@
             }
             if (downloadBtn) {
                 downloadBtn.textContent = lang === 'en' ? 'Download Single File from Server' : 'Scarica File Unico dal Server';
+            }
+
+            // Aggiorna dinamicamente dropdown qualifiche se già popolata
+            const qualSelect = document.getElementById('qualificationTitle');
+            if (qualSelect && typeof updateQualifications === 'function') {
+                const savedVal = qualSelect.value;
+                updateQualifications();
+                qualSelect.value = savedVal;
+            }
+
+            // Aggiorna la visualizzazione degli studenti
+            if (typeof updateStudentsList === 'function') {
+                updateStudentsList();
             }
         }
 
@@ -1181,8 +1274,9 @@
         form.addEventListener('reset', resetForm);
 
         function updateQualifications() {
+            const currentLang = document.documentElement.lang || 'it';
             const country = countrySelect.value;
-            qualificationSelect.innerHTML = '<option value="">-- Seleziona titolo --</option>';
+            qualificationSelect.innerHTML = `<option value="">${currentLang === 'en' ? '-- Select qualification --' : '-- Seleziona titolo --'}</option>`;
 
             if (!country) {
                 qualificationSelect.disabled = true;
@@ -1192,14 +1286,35 @@
             qualificationSelect.disabled = false;
             const qualifications = qualificationsByCountry[country] || [];
 
+            // Qualifiche translation lookup table
+            const qualTranslations = {
+                'en': {
+                    'DiplomMotevasete': 'Diplom-e-Motevasete',
+                    'Certificate2018_2019': 'Secondary Education from 2018',
+                    'AssociateDegreeKardani': 'Associate Degree (Kardani)',
+                    'BachelorDegreeKarshenasi': 'Bachelor Degree (Karshenasi)',
+                    'DiscontinuousDegreeKarshenasi': 'Discontinuous Degree (Karshenasi-napayvasteh)'
+                },
+                'it': {
+                    'DiplomMotevasete': 'Diplom-e-Motevasete',
+                    'Certificate2018_2019': 'Certificato dal 2018/19',
+                    'AssociateDegreeKardani': 'Associate Degree (Kardani)',
+                    'BachelorDegreeKarshenasi': 'Bachelor Degree (Karshenasi)',
+                    'DiscontinuousDegreeKarshenasi': 'Discontinuous Degree (Karshenasi-napayvasteh)'
+                }
+            };
+
             qualifications.forEach(qual => {
                 const option = document.createElement('option');
                 option.value = qual.value;
-                option.textContent = qual.label;
+                const translatedLabel = qualTranslations[currentLang]?.[qual.value] || qual.label;
+                option.textContent = translatedLabel;
                 qualificationSelect.appendChild(option);
             });
 
             durationGroup.classList.add('hidden');
+            durationInput.required = false;
+            durationInput.value = '';
             updateGpaField();
         }
 
@@ -1267,6 +1382,8 @@
             errorMessage.style.display = 'none';
             successMessage.style.display = 'none';
 
+            const currentLang = document.documentElement.lang || 'it';
+
             try {
                 const studentName = studentNameInput.value.trim();
                 const course = courseSelect.value;
@@ -1276,17 +1393,17 @@
                 const duration = durationInput.value;
 
                 if (!studentName || !course || !country || !qualificationTitle) {
-                    showError('Completa tutti i campi obbligatori.');
+                    showError(currentLang === 'en' ? 'Please complete all required fields.' : 'Completa tutti i campi obbligatori.');
                     return;
                 }
 
                 if (course === 'Magistrale' && !gpa) {
-                    showError('Il GPA è obbligatorio per il corso Magistrale.');
+                    showError(currentLang === 'en' ? 'GPA is required for Postgraduate courses.' : 'Il GPA è obbligatorio per il corso Magistrale.');
                     return;
                 }
 
                 if (course === 'Magistrale' && country === 'India' && !document.querySelector('input[name="gpaScale"]:checked')) {
-                    showError('Seleziona la scala del GPA per gli studenti Indiani.');
+                    showError(currentLang === 'en' ? 'Select the GPA scale for Indian students.' : 'Seleziona la scala del GPA per gli studenti Indiani.');
                     return;
                 }
 
@@ -1294,7 +1411,7 @@
                     qualificationsByCountry[country].find(q => q.value === qualificationTitle)?.requiresDuration;
 
                 if (durationRequired && !duration) {
-                    showError('La durata è obbligatoria per questo titolo di studio.');
+                    showError(currentLang === 'en' ? 'Duration is required for this qualification.' : 'La durata è obbligatoria per questo titolo di studio.');
                     return;
                 }
 
@@ -1320,7 +1437,7 @@
                 const result = await response.json();
 
                 if (!response.ok) {
-                    throw new Error(result.message || 'Errore durante la registrazione sul server');
+                    throw new Error(result.message || (currentLang === 'en' ? 'Error during registration on the server' : 'Errore durante la registrazione sul server'));
                 }
 
                 // Inserisci e aggiorna UI
@@ -1335,10 +1452,10 @@
                 const gpaLabel = document.querySelector('label[for="gpa"]');
                 if (gpaLabel) gpaLabel.classList.remove('required');
 
-                showSuccess(result.message);
+                showSuccess(translateBackendMessage(result.message, currentLang));
 
             } catch (error) {
-                showError('Errore durante il salvataggio: ' + error.message);
+                showError(currentLang === 'en' ? 'Error during save: ' + translateBackendMessage(error.message, currentLang) : 'Errore durante il salvataggio: ' + error.message);
                 console.error(error);
             } finally {
                 addStudentBtn.disabled = false;
@@ -1390,7 +1507,9 @@
 
             studentsListContainer.classList.remove('hidden');
             generateButtonsContainer.style.display = 'flex';
-            studentsList.innerHTML = '';
+            const scrollY = window.scrollY;
+            const currentLang = document.documentElement.lang || 'it';
+            const fragment = document.createDocumentFragment();
 
             studentsData.forEach(st => {
                 const item = document.createElement('div');
@@ -1405,21 +1524,71 @@
 
                 const badge = document.createElement('span');
                 badge.className = 'student-status-badge';
-                badge.textContent = 'REGISTRATO';
+                badge.textContent = currentLang === 'en' ? 'REGISTERED' : 'REGISTRATO';
                 nameDiv.appendChild(badge);
 
                 const detailsDiv = document.createElement('div');
                 detailsDiv.className = 'student-details';
 
+                // Qualifiche translation lookup table
+                const qualTranslations = {
+                    'en': {
+                        'AllIndiaSeniorSchool': 'All-India Senior School',
+                        'IndianSchoolCert': 'Indian School Certificate',
+                        'IntermediateExam': 'Intermediate Examination',
+                        'HigherSecondarySchool': 'Higher Secondary School',
+                        'HigherSecondaryPartII': 'Higher Secondary Examination Part II',
+                        'HonoursBachelor': 'Honours Bachelor',
+                        'ProfessionalBachelor': 'Professional Bachelor',
+                        'PassGeneralBachelor': 'Pass/General Bachelor',
+                        'MasterDegree': 'Master\'s Degree',
+                        'PostgraduateBachelor': 'Postgraduate Bachelor',
+                        'DiplomMotevasete': 'Diplom-e-Motevasete',
+                        'Certificate2018_2019': 'Secondary Education from 2018',
+                        'AssociateDegreeKardani': 'Associate Degree (Kardani)',
+                        'BachelorDegreeKarshenasi': 'Bachelor Degree (Karshenasi)',
+                        'DiscontinuousDegreeKarshenasi': 'Discontinuous Degree (Karshenasi-napayvasteh)'
+                    },
+                    'it': {
+                        'AllIndiaSeniorSchool': 'All-India Senior School',
+                        'IndianSchoolCert': 'Indian School Certificate',
+                        'IntermediateExam': 'Intermediate Examination',
+                        'HigherSecondarySchool': 'Higher Secondary School',
+                        'HigherSecondaryPartII': 'Higher Secondary Examination Part II',
+                        'HonoursBachelor': 'Honours Bachelor',
+                        'ProfessionalBachelor': 'Professional Bachelor',
+                        'PassGeneralBachelor': 'Pass/General Bachelor',
+                        'MasterDegree': 'Master\'s Degree',
+                        'PostgraduateBachelor': 'Postgraduate Bachelor',
+                        'DiplomMotevasete': 'Diplom-e-Motevasete',
+                        'Certificate2018_2019': 'Certificato dal 2018/19',
+                        'AssociateDegreeKardani': 'Associate Degree (Kardani)',
+                        'BachelorDegreeKarshenasi': 'Bachelor Degree (Karshenasi)',
+                        'DiscontinuousDegreeKarshenasi': 'Laurea a Ciclo Discontinuo (Karshenasi-napayvasteh)'
+                    }
+                };
+
                 const detailsList = [];
-                detailsList.push(`<strong>Corso:</strong> ${st.course}`);
-                detailsList.push(`<strong>Paese:</strong> ${st.country}`);
+                const courseLabel = currentLang === 'en' ? 'Course' : 'Corso';
+                const countryLabel = currentLang === 'en' ? 'Country' : 'Paese';
+                const titleLabel = currentLang === 'en' ? 'Qualification' : 'Titolo';
+                const durationLabel = currentLang === 'en' ? 'Duration' : 'Durata';
+
+                const courseDisplay = st.course === 'Magistrale' 
+                    ? (currentLang === 'en' ? 'Postgraduate' : 'Magistrale') 
+                    : (currentLang === 'en' ? 'Undergraduate' : 'Triennale');
+
+                detailsList.push(`<strong>${courseLabel}:</strong> ${courseDisplay}`);
+                detailsList.push(`<strong>${countryLabel}:</strong> ${st.country}`);
                 
-                const qualObj = qualificationsByCountry[st.country]?.find(q => q.value === st.qualificationTitle);
-                detailsList.push(`<strong>Titolo:</strong> ${qualObj ? qualObj.label : st.qualificationTitle}`);
+                const translatedQual = qualTranslations[currentLang]?.[st.qualificationTitle] || st.qualificationTitle;
+                detailsList.push(`<strong>${titleLabel}:</strong> ${translatedQual}`);
 
                 if (st.duration) {
-                    detailsList.push(`<strong>Durata:</strong> ${st.duration} ${st.duration === 1 ? 'anno' : 'anni'}`);
+                    const yearSuffix = st.duration === 1 
+                        ? (currentLang === 'en' ? 'year' : 'anno') 
+                        : (currentLang === 'en' ? 'years' : 'anni');
+                    detailsList.push(`<strong>${durationLabel}:</strong> ${st.duration} ${yearSuffix}`);
                 }
 
                 if (st.gpa) {
@@ -1431,8 +1600,12 @@
                 left.appendChild(nameDiv);
                 left.appendChild(detailsDiv);
                 item.appendChild(left);
-                studentsList.appendChild(item);
+                fragment.appendChild(item);
             });
+
+            studentsList.innerHTML = '';
+            studentsList.appendChild(fragment);
+            window.scrollTo(window.scrollX, scrollY);
         }
 
         // Funzione per eliminare tutti gli studenti sul server
@@ -1451,16 +1624,16 @@
                     const result = await response.json();
 
                     if (!response.ok) {
-                        throw new Error(result.message || 'Errore durante la rimozione');
+                        throw new Error(result.message || (currentLang === 'en' ? 'Error during clearing' : 'Errore durante la rimozione'));
                     }
 
-                    showSuccess(result.message);
+                    showSuccess(translateBackendMessage(result.message, currentLang));
                     studentsData = [];
                     updateStudentsList();
 
                 } catch (error) {
                     console.error(error);
-                    showError('Errore durante l\'eliminazione: ' + error.message);
+                    showError((currentLang === 'en' ? 'Error during clearing: ' : 'Errore durante l\'eliminazione: ') + translateBackendMessage(error.message, currentLang));
                 }
             }
         }
@@ -1472,14 +1645,20 @@
         }
 
         function resetForm() {
+            const currentLang = document.documentElement.lang || 'it';
             durationGroup.classList.add('hidden');
+            durationInput.required = false;
+            durationInput.value = '';
             resetGpaScale();
             gpaScaleContainer.classList.add('hidden');
             qualificationSelect.disabled = true;
-            qualificationSelect.innerHTML = '<option value="">-- Seleziona paese prima --</option>';
+            qualificationSelect.innerHTML = `<option value="">${currentLang === 'en' ? '-- Select country first --' : '-- Seleziona paese prima --'}</option>`;
             const gpaLabel = document.querySelector('label[for="gpa"]');
             if (gpaLabel) gpaLabel.classList.remove('required');
         }
+
+        // Inizializza lingua di default (Italiano)
+        setLanguage('it');
 
         function showSuccess(message = 'Operazione completata con successo!') {
             successMessage.textContent = message;

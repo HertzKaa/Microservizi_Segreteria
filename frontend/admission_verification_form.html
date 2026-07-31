@@ -663,22 +663,28 @@
         }
 
         .batch-table th {
-            background: rgba(255, 255, 255, 0.02);
-            color: var(--text-muted);
+            background: #2D3748;
+            color: var(--text-primary);
             font-weight: 700;
             text-transform: uppercase;
             font-size: 11px;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+        }
+
+        .batch-table tbody tr:nth-child(odd) {
+            background-color: #1E293B;
+        }
+
+        .batch-table tbody tr:nth-child(even) {
+            background-color: #182232;
         }
 
         .batch-table tbody tr:hover {
-            background: rgba(255, 255, 255, 0.02);
+            background-color: #28354A;
         }
 
         .badge {
             display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
             font-size: 10px;
             font-weight: 700;
             text-transform: uppercase;
@@ -686,15 +692,28 @@
         }
 
         .badge.admitted {
-            background: var(--success-bg);
-            color: var(--success-text);
-            border: 1px solid var(--success-border);
+            background-color: #065F46;
+            color: #A7F3D0;
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: none;
         }
 
         .badge.rejected {
-            background: var(--error-bg);
-            color: var(--error-text);
-            border: 1px solid var(--error-border);
+            background-color: #991B1B;
+            color: #FECDD3;
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: none;
+        }
+
+        .batch-table .col-notes {
+            font-size: 12px;
+            color: #94A3B8;
+            text-align: left;
+            white-space: normal;
+            max-width: 250px;
+            word-break: break-word;
         }
 
         /* GENERAL UTILITIES & ANIMATIONS */
@@ -897,6 +916,96 @@
         .flatpickr-months .flatpickr-next-month:hover svg {
             fill: var(--accent-color) !important;
         }
+
+        /* ADMIN TOOLBAR STYLES */
+        .admin-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .admin-toolbar-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .admin-toolbar-filters input {
+            padding: 8px 12px;
+            font-size: 13px;
+            min-width: 180px;
+            flex: 1;
+            height: 38px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-input);
+            border-radius: 8px;
+            color: #ffffff;
+            font-family: inherit;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .admin-toolbar-filters select {
+            padding: 8px 12px;
+            padding-right: 36px !important;
+            font-size: 13px;
+            min-width: 140px;
+            flex: 1;
+            height: 38px;
+            background-color: #2d3748 !important;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23ef4444" d="M6 9L1 4h10z"/></svg>') !important;
+            background-repeat: no-repeat !important;
+            background-position: right 12px center !important;
+            background-size: 12px !important;
+            border: 1px solid var(--border-input);
+            border-radius: 8px;
+            color: #ffffff;
+            font-family: inherit;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            appearance: none;
+        }
+
+        .admin-toolbar-filters input:focus,
+        .admin-toolbar-filters select:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+        }
+
+        .btn-export-csv {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            font-size: 13px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            height: 38px;
+            border: none;
+            white-space: nowrap;
+        }
+
+        .btn-export-csv:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-export-csv:active {
+            transform: translateY(0);
+        }
     </style>
 </head>
 
@@ -1062,12 +1171,9 @@
                 <h2 data-i18n="adminArea">Area Segreteria (Caricamento Massivo)</h2>
                 <div class="format-info">
                     <strong data-i18n="supportedFormats">Formato del file supportato (.json, .xlsx, .ttl):</strong><br>
-                    • <strong data-i18n="jsonFormat">JSON:</strong> Array di oggetti con chiavi:
-                    <code>name, course, country, qualification, duration, gpa, gpaScale</code>.<br>
-                    • <strong data-i18n="excelFormat">Excel:</strong> Colonne ordinate o nominate: Nome, Corso
-                    (Undergraduate/Postgraduate), Paese (India/Iran), Qualifica (key), Durata, GPA, Scala.<br>
-                    • <strong data-i18n="turtleFormat">Turtle (.ttl):</strong> Carica direttamente il file generato
-                    dall'altra pagina (es. <code>students_registered.ttl</code>).
+                    • <span data-i18n="jsonFormat"><strong>JSON:</strong> Array di oggetti con chiavi: <code>name, course, country, qualification, duration, gpa, gpaScale</code>.</span><br>
+                    • <span data-i18n="excelFormat"><strong>Excel:</strong> Colonne ordinate o nominate: Nome, Corso (Undergraduate/Postgraduate), Paese (India/Iran), Qualifica (key), Durata, GPA, Scala.</span><br>
+                    • <span data-i18n="turtleFormat"><strong>Turtle (.ttl):</strong> Carica direttamente il file generato dall'altra pagina (es. <code>students_registered.ttl</code>).</span>
                 </div>
 
                 <form id="adminBatchForm">
@@ -1084,6 +1190,27 @@
 
                 <!-- Tabella per i Risultati Massivi -->
                 <div class="batch-table-container hidden" id="batchResultsContainer">
+                    <!-- Control Toolbar (Filtri, Ricerca e Azioni) -->
+                    <div class="admin-toolbar">
+                        <div class="admin-toolbar-filters">
+                            <input type="text" id="batchSearchInput" placeholder="Cerca studente per nome..." data-i18n-placeholder="filterPlaceholder">
+                            <select id="batchStatusFilter">
+                                <option value="all" data-i18n="filterStatusAll">Tutti gli esiti</option>
+                                <option value="admitted" data-i18n="filterStatusAdmitted">Solo Ammessi</option>
+                                <option value="rejected" data-i18n="filterStatusRejected">Solo Non Ammessi</option>
+                            </select>
+                            <select id="batchSortFilter">
+                                <option value="default" data-i18n="sortDefault">Ordine originale (Default)</option>
+                                <option value="nameAZ" data-i18n="sortNameAZ">Nome (A-Z)</option>
+                                <option value="nameZA" data-i18n="sortNameZA">Nome (Z-A)</option>
+                                <option value="admittedFirst" data-i18n="sortOutcomeAdmitted">Esito (Prima Ammessi)</option>
+                                <option value="rejectedFirst" data-i18n="sortOutcomeRejected">Esito (Prima Non Ammessi)</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn-export-csv" id="batchExportCsvBtn">
+                            <span data-i18n="exportCSV">Esporta CSV</span>
+                        </button>
+                    </div>
                     <table class="batch-table">
                         <thead>
                             <tr>
@@ -1092,7 +1219,7 @@
                                 <th data-i18n="tableCourse">Corso</th>
                                 <th data-i18n="tableCountry">Paese</th>
                                 <th data-i18n="tableResult">Esito</th>
-                                <th data-i18n="tableNotes">Nota / Errore</th>
+                                <th class="col-notes" data-i18n="tableNotes">Nota / Errore</th>
                             </tr>
                         </thead>
                         <tbody id="batchResultsBody">
@@ -1134,6 +1261,133 @@
     <script>
         // URL del backend
         const BACKEND_URL = 'http://localhost:5000';
+        let currentBatchResults = [];
+        let currentFilteredResults = [];
+        let applyFiltersAndRender;
+        let updateQualifications;
+        let updateGpaScale;
+        let showResult;
+        let lastResult = null;
+        let lastRequestData = null;
+
+        function translateBackendMessage(msg, lang) {
+            if (!msg) return msg;
+            if (lang !== 'en') return msg;
+
+            // Static translations
+            const staticTranslations = {
+                "Criteri formali non configurati per questo tipo di corso.": 
+                    "Formal criteria not configured for this type of course.",
+                "Il titolo 'DiplomMotevasete' (11 anni di scolarità) non è sufficiente. In Italia sono richiesti almeno 12 anni (es. DiplomMotevasetePreUniversitary o il diploma post-2018/19).": 
+                    "The 'DiplomMotevasete' qualification (11 years of schooling) is not sufficient. In Italy, at least 12 years are required (e.g. DiplomMotevasetePreUniversitary or the post-2018/19 certificate).",
+                "Requisiti formali superati, ma idoneità negata dal ragionatore logico (vincoli ontologici non soddisfatti).": 
+                    "Formal requirements met, but eligibility denied by the logical reasoner (ontology constraints not satisfied).",
+                "Dati incompleti o non mappabili": 
+                    "Incomplete or non-mappable data",
+                "Durata corso mancante": 
+                    "Missing course duration",
+                "Nessun file caricato": 
+                    "No file uploaded",
+                "File non selezionato": 
+                    "No file selected",
+                "Nessuno studente valido trovato nel file.": 
+                    "No valid student found in the file.",
+                "Formato file non supportato. Carica solo file .json, .xlsx o .ttl": 
+                    "Unsupported file format. Please upload only .json, .xlsx or .ttl files",
+                "File di archivio sul server azzerato.":
+                    "Archive file on the server cleared.",
+                "Candidato idoneo sia secondo i vincoli ontologici che il modello decisionale Machine Learning.":
+                    "Candidate eligible according to both ontology constraints and the Machine Learning decision model.",
+                "Modello ML non disponibile.":
+                    "ML model not available.",
+                "Seleziona un file valido.":
+                    "Please select a valid file.",
+                "Errore durante l'elaborazione del file.":
+                    "Error during file processing."
+            };
+
+            if (staticTranslations[msg]) {
+                return staticTranslations[msg];
+            }
+
+            // Regex matching for dynamic messages
+
+            // Pattern: Il titolo '{qualification}' non è abilitante per l'accesso a un corso {course} per studenti provenienti da {country}.
+            const titleMatch = msg.match(/^Il titolo '([^']+)' non è abilitante per l'accesso a un corso ([a-zA-Z]+) per studenti provenienti da ([a-zA-Z]+)\.$/);
+            if (titleMatch) {
+                const qual = titleMatch[1];
+                const course = titleMatch[2];
+                const country = titleMatch[3];
+                return `The qualification '${qual}' does not grant eligibility for admission to a ${course} course for students from ${country}.`;
+            }
+
+            // Pattern: Media voti (GPA) insufficiente: ottenuto {gpa}, richiesto minimo {required_gpa} ({gpa_scale}).
+            const gpaMatch = msg.match(/^Media voti \(GPA\) insufficiente: ottenuto ([^,]+), richiesto minimo ([^ ]+) \(([^)]+)\)\.$/);
+            if (gpaMatch) {
+                const gpa = gpaMatch[1];
+                const req = gpaMatch[2];
+                const scale = gpaMatch[3];
+                return `Insufficient grade average (GPA): obtained ${gpa}, minimum required ${req} (${scale}).`;
+            }
+
+            // Pattern: Durata del titolo insufficiente per '{qualification}': inseriti {duration} anni, richiesto minimo {required_dur}.
+            const durMatch = msg.match(/^Durata del titolo insufficiente per '([^']+)': inseriti (\d+) anni, richiesto minimo (\d+)\.$/);
+            if (durMatch) {
+                const qual = durMatch[1];
+                const dur = durMatch[2];
+                const req = durMatch[3];
+                const yearWord = req === '1' ? 'year' : 'years';
+                const enteredYearWord = dur === '1' ? 'year' : 'years';
+                return `Insufficient qualification duration for '${qual}': entered ${dur} ${enteredYearWord}, minimum required ${req} ${yearWord}.`;
+            }
+
+            // Pattern: Qualifica '{qualification_key}' non valida per {country}/{course}
+            const qualValMatch = msg.match(/^Qualifica '([^']+)' non valida per ([^/]+)\/([a-zA-Z]+)$/);
+            if (qualValMatch) {
+                const key = qualValMatch[1];
+                const country = qualValMatch[2];
+                const course = qualValMatch[3];
+                return `Qualification '${key}' is not valid for ${country}/${course}`;
+            }
+
+            // Pattern: Candidato non idoneo secondo il modello decisionale per {country}. La votazione conseguita ({voto_pct*100:.1f}% su scala {gpa_scale}) risulta insufficiente rispetto ai requisiti accademici di ammissibilità.
+            const mlFailGpaMatch = msg.match(/^Candidato non idoneo secondo il modello decisionale per ([a-zA-Z]+)\. La votazione conseguita \(([^%]+)% su scala ([^)]+)\) risulta insufficiente rispetto ai requisiti accademici di ammissibilità\.$/);
+            if (mlFailGpaMatch) {
+                const country = mlFailGpaMatch[1];
+                const pct = mlFailGpaMatch[2];
+                const scale = mlFailGpaMatch[3];
+                return `Candidate not eligible according to the decision model for ${country}. The grade obtained (${pct}% on a ${scale} scale) is insufficient compared to the academic eligibility requirements.`;
+            }
+
+            // Pattern: Candidato non idoneo secondo il modello decisionale per {country}. Valutazione basata sulle soglie di età relativa ({float(eta_diff_corso):+.1f} anni rispetto alla media del corso) e sulla competitività del voto normalizzato.
+            const mlFailAgeMatch = msg.match(/^Candidato non idoneo secondo il modello decisionale per ([a-zA-Z]+)\. Valutazione basata sulle soglie di età relativa \(([^ ]+) anni rispetto alla media del corso\) e sulla competitività del voto normalizzato\.$/);
+            if (mlFailAgeMatch) {
+                const country = mlFailAgeMatch[1];
+                const diff = mlFailAgeMatch[2];
+                return `Candidate not eligible according to the decision model for ${country}. Evaluation based on relative age thresholds (${diff} years relative to the course average) and normalized grade competitiveness.`;
+            }
+
+            // Pattern: Candidato idoneo secondo il modello decisionale per {country}. Profilo competitivo per voto accademico ({voto_pct*100:.1f}% su scala {gpa_scale}) ed età ponderata rispetto al corso (scostamento {float(eta_diff_corso):+.1f} anni).
+            const mlPassMatch = msg.match(/^Candidato idoneo secondo il modello decisionale per ([a-zA-Z]+)\. Profilo competitivo per voto accademico \(([^%]+)% su scala ([^)]+)\) ed età ponderata rispetto al corso \(scostamento ([^ ]+) anni\)\.$/);
+            if (mlPassMatch) {
+                const country = mlPassMatch[1];
+                const pct = mlPassMatch[2];
+                const scale = mlPassMatch[3];
+                const diff = mlPassMatch[4];
+                return `Candidate eligible according to the decision model for ${country}. Competitive profile for academic grade (${pct}% on a ${scale} scale) and age weighted to the course (offset ${diff} years).`;
+            }
+
+            // Pattern: Criticità Età: Il candidato ha un'età calcolata di {calculated_age} anni (inferiore all'età minima consigliata di {min_age_required} anni per l'accesso a un corso {course}).
+            const ageWarnMatch = msg.match(/^Criticità Età: Il candidato ha un'età calcolata di (\d+) anni \(inferiore all'età minima consigliata di (\d+) anni per l'accesso a un corso ([a-zA-Z]+)\)\.$/);
+            if (ageWarnMatch) {
+                const age = ageWarnMatch[1];
+                const minAge = ageWarnMatch[2];
+                const course = ageWarnMatch[3];
+                return `Age warning: The candidate has a calculated age of ${age} years (below the minimum recommended age of ${minAge} years for admission to a ${course} course).`;
+            }
+
+            return msg;
+        }
 
         const translations = {
             en: {
@@ -1163,9 +1417,9 @@
                 reset: "Reset",
                 adminArea: "Secretary Area (Bulk Upload)",
                 supportedFormats: "Supported file formats (.json, .xlsx, .ttl):",
-                jsonFormat: "JSON:",
-                excelFormat: "Excel:",
-                turtleFormat: "Turtle (.ttl):",
+                jsonFormat: "<strong>JSON:</strong> Array of objects with keys: <code>name, course, country, qualification, duration, gpa, gpaScale</code>.",
+                excelFormat: "<strong>Excel:</strong> Columns ordered or named: Name, Course (Undergraduate/Postgraduate), Country (India/Iran), Qualification (key), Duration, GPA, Scale.",
+                turtleFormat: "<strong>Turtle (.ttl):</strong> Upload the file directly generated from the other page (e.g. <code>students_registered.ttl</code>).",
                 selectFile: "Select File (Excel, JSON or Turtle)",
                 startBatchVerification: "Start Batch Verification",
                 tableIndex: "#",
@@ -1182,6 +1436,17 @@
                 footerMeta: "Copyright &copy; 2026 &bull; Student Registry Office",
                 footerCreditsMain: 'Developed by <strong class="developer-name">Fabio Grelloni</strong> &amp; <strong class="developer-name">Claudio Cozzolino</strong>',
                 footerCreditsSub: "Degree Course in Computer Science",
+                filterPlaceholder: "Search student by name...",
+                filterStatusAll: "All results",
+                filterStatusAdmitted: "Only Admitted",
+                filterStatusRejected: "Only Not Admitted",
+                sortDefault: "Original order (Default)",
+                sortNameAZ: "Name (A-Z)",
+                sortNameZA: "Name (Z-A)",
+                sortOutcomeAdmitted: "Outcome (Admitted First)",
+                sortOutcomeRejected: "Outcome (Not Admitted First)",
+                exportCSV: "Export CSV",
+                noResultsFound: "No results found",
             },
             it: {
                 title: "Verifica Ammissione ML",
@@ -1210,9 +1475,9 @@
                 reset: "Ripulisci",
                 adminArea: "Area Segreteria (Caricamento Massivo)",
                 supportedFormats: "Formato del file supportato (.json, .xlsx, .ttl):",
-                jsonFormat: "JSON:",
-                excelFormat: "Excel:",
-                turtleFormat: "Turtle (.ttl):",
+                jsonFormat: "<strong>JSON:</strong> Array di oggetti con chiavi: <code>name, course, country, qualification, duration, gpa, gpaScale</code>.",
+                excelFormat: "<strong>Excel:</strong> Colonne ordinate o nominate: Nome, Corso (Undergraduate/Postgraduate), Paese (India/Iran), Qualifica (key), Durata, GPA, Scala.",
+                turtleFormat: "<strong>Turtle (.ttl):</strong> Carica direttamente il file generato dall'altra pagina (es. <code>students_registered.ttl</code>).",
                 selectFile: "Seleziona File (Excel, JSON o Turtle)",
                 startBatchVerification: "Avvia Verifica Massiva",
                 tableIndex: "#",
@@ -1229,6 +1494,17 @@
                 footerMeta: "Copyright &copy; 2026 &bull; Area Segreteria Studenti",
                 footerCreditsMain: 'Sviluppato da <strong class="developer-name">Fabio Grelloni</strong> &amp; <strong class="developer-name">Claudio Cozzolino</strong>',
                 footerCreditsSub: "Corso di Laurea in Computer Science",
+                filterPlaceholder: "Cerca studente per nome...",
+                filterStatusAll: "Tutti gli esiti",
+                filterStatusAdmitted: "Solo Ammessi",
+                filterStatusRejected: "Solo Non Ammessi",
+                sortDefault: "Ordine originale (Default)",
+                sortNameAZ: "Nome (A-Z)",
+                sortNameZA: "Nome (Z-A)",
+                sortOutcomeAdmitted: "Esito (Prima Ammessi)",
+                sortOutcomeRejected: "Esito (Prima Non Ammessi)",
+                exportCSV: "Esporta CSV",
+                noResultsFound: "Nessun risultato trovato",
             }
         };
 
@@ -1237,6 +1513,12 @@
                 const key = element.getAttribute('data-i18n');
                 if (translations[lang] && translations[lang][key]) {
                     element.innerHTML = translations[lang][key];
+                }
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[lang] && translations[lang][key]) {
+                    element.placeholder = translations[lang][key];
                 }
             });
             document.documentElement.lang = lang;
@@ -1263,6 +1545,30 @@
             // Aggiorna bottoni attivi nello switcher
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`lang-${lang}`).classList.add('active');
+
+            // Refresh batch results table in the new language if results exist
+            if (typeof applyFiltersAndRender === 'function' && currentBatchResults && currentBatchResults.length > 0) {
+                applyFiltersAndRender();
+            }
+
+            // Refresh dynamic form fields if they are defined
+            const qualSel = document.getElementById('qualification');
+            if (typeof updateQualifications === 'function' && qualSel) {
+                const savedVal = qualSel.value;
+                updateQualifications();
+                qualSel.value = savedVal;
+            }
+            const gpaScaleSel = document.getElementById('gpaScale');
+            if (typeof updateGpaScale === 'function' && gpaScaleSel) {
+                const savedVal = gpaScaleSel.value;
+                updateGpaScale();
+                gpaScaleSel.value = savedVal;
+            }
+
+            // Refresh single verification results if they exist
+            if (typeof showResult === 'function' && lastResult && lastRequestData) {
+                showResult(lastResult, lastRequestData);
+            }
         }
 
         // Mapping di qualifiche per paese/corso
@@ -1329,9 +1635,9 @@
             // Event Listeners
             document.getElementById('lang-it').addEventListener('click', () => setLanguage('it'));
             document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
-            courseSelect.addEventListener('change', updateQualifications);
-            countrySelect.addEventListener('change', updateQualificationsAndScales);
-            qualificationSelect.addEventListener('change', updateDurationField);
+            courseSelect.addEventListener('change', () => updateQualifications());
+            countrySelect.addEventListener('change', () => updateQualificationsAndScales());
+            qualificationSelect.addEventListener('change', () => updateDurationField());
             form.addEventListener('submit', handleVerification);
             form.addEventListener('reset', resetForm);
 
@@ -1380,9 +1686,10 @@
                 successMessage.style.display = 'none';
                 batchResultsContainer.classList.add('hidden');
 
+                const currentLang = document.documentElement.lang || 'it';
                 const file = batchFileInput.files[0];
                 if (!file) {
-                    showError("Seleziona un file valido.");
+                    showError(currentLang === 'en' ? "Please select a valid file." : "Seleziona un file valido.");
                     return;
                 }
 
@@ -1401,15 +1708,15 @@
                     const result = await response.json();
 
                     if (!response.ok) {
-                        throw new Error(result.error || 'Errore durante l\'elaborazione del file.');
+                        throw new Error(result.error || (currentLang === 'en' ? 'Error during file processing.' : 'Errore durante l\'elaborazione del file.'));
                     }
 
-                    showSuccess(`Elaborazione batch completata con successo! ${result.total} studenti verificati.`);
+                    showSuccess(currentLang === 'en' ? `Batch processing completed successfully! ${result.total} students verified.` : `Elaborazione batch completata con successo! ${result.total} studenti verificati.`);
                     renderBatchResults(result.results);
 
                 } catch (error) {
                     console.error(error);
-                    showError(error.message);
+                    showError(translateBackendMessage(error.message, currentLang));
                 } finally {
                     batchSubmitBtn.disabled = false;
                     batchSubmitBtn.textContent = document.documentElement.lang === 'en' ? 'Start Batch Verification' : 'Avvia Verifica Massiva';
@@ -1418,20 +1725,119 @@
 
             // Render dei risultati del batch all'interno della tabella
             function renderBatchResults(results) {
-                batchResultsContainer.classList.remove('hidden');
-                batchResultsBody.innerHTML = '';
+                currentBatchResults = results;
+                
+                // Reset filter and sort inputs to default when new results are loaded
+                const searchInput = document.getElementById('batchSearchInput');
+                const statusFilter = document.getElementById('batchStatusFilter');
+                const sortFilter = document.getElementById('batchSortFilter');
+                if (searchInput) searchInput.value = '';
+                if (statusFilter) statusFilter.value = 'all';
+                if (sortFilter) sortFilter.value = 'default';
 
-                results.forEach((res, index) => {
+                applyFiltersAndRender();
+                
+                // Scroll layout smoothly to table container
+                batchResultsContainer.classList.remove('hidden');
+                setTimeout(() => {
+                    batchResultsContainer.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            }
+
+            applyFiltersAndRender = function() {
+                if (!batchResultsBody) return;
+                
+                const scrollY = window.scrollY;
+                const fragment = document.createDocumentFragment();
+                
+                const searchInput = document.getElementById('batchSearchInput');
+                const statusFilter = document.getElementById('batchStatusFilter');
+                const sortFilter = document.getElementById('batchSortFilter');
+                
+                const searchVal = searchInput ? searchInput.value.toLowerCase().trim() : '';
+                const statusVal = statusFilter ? statusFilter.value : 'all';
+                const sortVal = sortFilter ? sortFilter.value : 'default';
+
+                // 1. Filter
+                let filtered = currentBatchResults.filter(res => {
+                    const nameMatch = (res.name || '').toLowerCase().includes(searchVal);
+                    
+                    let statusMatch = true;
+                    if (statusVal === 'admitted') {
+                        statusMatch = res.admitted === true;
+                    } else if (statusVal === 'rejected') {
+                        statusMatch = res.admitted === false;
+                    }
+                    
+                    return nameMatch && statusMatch;
+                });
+
+                // 2. Sort
+                let sorted = [...filtered];
+                if (sortVal === 'nameAZ') {
+                    sorted.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+                } else if (sortVal === 'nameZA') {
+                    sorted.sort((a, b) => (b.name || '').localeCompare(a.name || ''));
+                } else if (sortVal === 'admittedFirst') {
+                    sorted.sort((a, b) => {
+                        if (a.admitted && !b.admitted) return -1;
+                        if (!a.admitted && b.admitted) return 1;
+                        return 0;
+                    });
+                } else if (sortVal === 'rejectedFirst') {
+                    sorted.sort((a, b) => {
+                        if (!a.admitted && b.admitted) return -1;
+                        if (a.admitted && !b.admitted) return 1;
+                        return 0;
+                    });
+                }
+
+                currentFilteredResults = sorted;
+
+                // 3. Render
+                if (sorted.length === 0) {
+                    const tr = document.createElement('tr');
+                    const td = document.createElement('td');
+                    td.colSpan = 6;
+                    td.style.textAlign = 'center';
+                    td.style.padding = '24px';
+                    td.style.color = 'var(--text-muted)';
+                    td.setAttribute('data-i18n', 'noResultsFound');
+                    td.textContent = document.documentElement.lang === 'en' ? 'No results found' : 'Nessun risultato trovato';
+                    tr.appendChild(td);
+                    fragment.appendChild(tr);
+                    
+                    batchResultsBody.innerHTML = '';
+                    batchResultsBody.appendChild(fragment);
+                    window.scrollTo(window.scrollX, scrollY);
+                    return;
+                }
+
+                sorted.forEach((res) => {
                     const tr = document.createElement('tr');
 
+                    // Find original index
+                    const originalIndex = currentBatchResults.indexOf(res) + 1;
+
                     const tdIndex = document.createElement('td');
-                    tdIndex.textContent = index + 1;
+                    tdIndex.textContent = originalIndex;
 
                     const tdName = document.createElement('td');
                     tdName.innerHTML = `<strong>${res.name}</strong>`;
 
                     const tdCourse = document.createElement('td');
-                    tdCourse.textContent = res.course ? res.course : '-';
+                    const currentLang = document.documentElement.lang || 'it';
+                    let courseDisplay = res.course || '-';
+                    if (res.course === 'Undergraduate') {
+                        courseDisplay = currentLang === 'en' ? 'Undergraduate' : 'Triennale (Undergraduate)';
+                    } else if (res.course === 'Postgraduate') {
+                        courseDisplay = currentLang === 'en' ? 'Postgraduate' : 'Magistrale (Postgraduate)';
+                    } else if (res.course === 'Triennale') {
+                        courseDisplay = currentLang === 'en' ? 'Undergraduate' : 'Triennale (Undergraduate)';
+                    } else if (res.course === 'Magistrale') {
+                        courseDisplay = currentLang === 'en' ? 'Postgraduate' : 'Magistrale (Postgraduate)';
+                    }
+                    tdCourse.textContent = courseDisplay;
 
                     const tdCountry = document.createElement('td');
                     tdCountry.textContent = res.country ? res.country : '-';
@@ -1449,8 +1855,8 @@
                     tdStatus.appendChild(badge);
 
                     const tdError = document.createElement('td');
-                    tdError.style.fontSize = '11px';
-                    tdError.textContent = res.error ? res.error : '-';
+                    tdError.className = 'col-notes';
+                    tdError.textContent = res.error ? translateBackendMessage(res.error, currentLang) : '-';
 
                     tr.appendChild(tdIndex);
                     tr.appendChild(tdName);
@@ -1459,13 +1865,96 @@
                     tr.appendChild(tdStatus);
                     tr.appendChild(tdError);
 
-                    batchResultsBody.appendChild(tr);
+                    fragment.appendChild(tr);
                 });
 
-                // Scroll layout smoothly to table
-                setTimeout(() => {
-                    batchResultsContainer.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
+                batchResultsBody.innerHTML = '';
+                batchResultsBody.appendChild(fragment);
+                
+                // Ripristina lo scroll per evitare salti di layout
+                window.scrollTo(window.scrollX, scrollY);
+            };
+
+            function exportFilteredResultsToCSV() {
+                const currentLang = document.documentElement.lang || 'it';
+                if (!currentFilteredResults || currentFilteredResults.length === 0) {
+                    showError(currentLang === 'en' ? "No data to export" : "Nessun dato da esportare");
+                    return;
+                }
+
+                // CSV headers: Nome, Corso, Paese, Esito, Nota/Errore
+                const headers = currentLang === 'en' 
+                    ? ["Name", "Course", "Country", "Outcome", "Note/Error"]
+                    : ["Nome", "Corso", "Paese", "Esito", "Nota/Errore"];
+
+                // Escape CSV field
+                function escapeCSV(val) {
+                    if (val === undefined || val === null) return '';
+                    let str = String(val);
+                    if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+                        str = '"' + str.replace(/"/g, '""') + '"';
+                    }
+                    return str;
+                }
+
+                let csvContent = '\uFEFF'; // UTF-8 BOM
+                csvContent += headers.map(escapeCSV).join(',') + '\n';
+
+                currentFilteredResults.forEach(res => {
+                    const outcome = res.admitted 
+                        ? (currentLang === 'en' ? 'Admitted' : 'AMMESSO')
+                        : (currentLang === 'en' ? 'Rejected' : 'NON AMMESSO');
+
+                    let courseDisplay = res.course || '';
+                    if (res.course === 'Undergraduate') {
+                        courseDisplay = currentLang === 'en' ? 'Undergraduate' : 'Triennale (Undergraduate)';
+                    } else if (res.course === 'Postgraduate') {
+                        courseDisplay = currentLang === 'en' ? 'Postgraduate' : 'Magistrale (Postgraduate)';
+                    } else if (res.course === 'Triennale') {
+                        courseDisplay = currentLang === 'en' ? 'Undergraduate' : 'Triennale (Undergraduate)';
+                    } else if (res.course === 'Magistrale') {
+                        courseDisplay = currentLang === 'en' ? 'Postgraduate' : 'Magistrale (Postgraduate)';
+                    }
+
+                    const row = [
+                        res.name || '',
+                        courseDisplay,
+                        res.country || '',
+                        outcome,
+                        res.error ? translateBackendMessage(res.error, currentLang) : ''
+                    ];
+                    csvContent += row.map(escapeCSV).join(',') + '\n';
+                });
+
+                // Create blob and download link
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.setAttribute("href", url);
+                link.setAttribute("download", `risultati_ammissione_${new Date().toISOString().slice(0, 10)}.csv`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            // Aggiungi event listeners per i controlli toolbar
+            const batchSearchInput = document.getElementById('batchSearchInput');
+            const batchStatusFilter = document.getElementById('batchStatusFilter');
+            const batchSortFilter = document.getElementById('batchSortFilter');
+            const batchExportCsvBtn = document.getElementById('batchExportCsvBtn');
+
+            if (batchSearchInput) {
+                batchSearchInput.addEventListener('input', applyFiltersAndRender);
+            }
+            if (batchStatusFilter) {
+                batchStatusFilter.addEventListener('change', applyFiltersAndRender);
+            }
+            if (batchSortFilter) {
+                batchSortFilter.addEventListener('change', applyFiltersAndRender);
+            }
+            if (batchExportCsvBtn) {
+                batchExportCsvBtn.addEventListener('click', exportFilteredResultsToCSV);
             }
 
             // Aggiorna le qualifiche disponibili
@@ -1474,12 +1963,15 @@
                 updateGpaScale();
             }
 
-            function updateQualifications() {
+            updateQualifications = function() {
+                const currentLang = document.documentElement.lang || 'it';
                 const course = courseSelect.value;
                 const country = countrySelect.value;
 
-                qualificationSelect.innerHTML = '<option value="">-- Seleziona titolo --</option>';
+                qualificationSelect.innerHTML = `<option value="">${currentLang === 'en' ? '-- Select qualification --' : '-- Seleziona titolo --'}</option>`;
                 durationGroup.classList.add('hidden');
+                durationInput.required = false;
+                durationInput.value = '';
 
                 if (!course || !country) {
                     qualificationSelect.disabled = true;
@@ -1489,10 +1981,49 @@
                 qualificationSelect.disabled = false;
                 const qualifications = qualificationsByCountryCourse[country]?.[course] || [];
 
+                // Qualifiche translation lookup table
+                const qualTranslations = {
+                    'en': {
+                        'AllIndiaSeniorSchool': 'All-India Senior School',
+                        'IndianSchoolCert': 'Indian School Certificate',
+                        'IntermediateExam': 'Intermediate Examination',
+                        'HigherSecondarySchool': 'Higher Secondary School',
+                        'HigherSecondaryPartII': 'Higher Secondary Examination Part II',
+                        'HonoursBachelor': 'Honours Bachelor',
+                        'ProfessionalBachelor': 'Professional Bachelor',
+                        'PassGeneralBachelor': 'Pass/General Bachelor',
+                        'MasterDegree': 'Master\'s Degree',
+                        'PostgraduateBachelor': 'Postgraduate Bachelor',
+                        'DiplomMotevasete': 'Diplom-e-Motevasete',
+                        'SecondaryEdu2018': 'Secondary Education from 2018',
+                        'Kardani': 'Associate Degree (Kardani)',
+                        'Karshenasi': 'Bachelor Degree (Karshenasi)',
+                        'KarshenasiNapayvasteh': 'Discontinuous Degree (Karshenasi-napayvasteh)'
+                    },
+                    'it': {
+                        'AllIndiaSeniorSchool': 'All-India Senior School',
+                        'IndianSchoolCert': 'Indian School Certificate',
+                        'IntermediateExam': 'Intermediate Examination',
+                        'HigherSecondarySchool': 'Higher Secondary School',
+                        'HigherSecondaryPartII': 'Higher Secondary Examination Part II',
+                        'HonoursBachelor': 'Honours Bachelor',
+                        'ProfessionalBachelor': 'Professional Bachelor',
+                        'PassGeneralBachelor': 'Pass/General Bachelor',
+                        'MasterDegree': 'Master\'s Degree',
+                        'PostgraduateBachelor': 'Postgraduate Bachelor',
+                        'DiplomMotevasete': 'Diplom-e-Motevasete',
+                        'SecondaryEdu2018': 'Certificato dal 2018/19',
+                        'Kardani': 'Associate Degree (Kardani)',
+                        'Karshenasi': 'Bachelor Degree (Karshenasi)',
+                        'KarshenasiNapayvasteh': 'Laurea a Ciclo Discontinuo (Karshenasi-napayvasteh)'
+                    }
+                };
+
                 qualifications.forEach(qual => {
                     const option = document.createElement('option');
                     option.value = qual.key;
-                    option.textContent = qual.label;
+                    const translatedLabel = qualTranslations[currentLang]?.[qual.key] || qual.label;
+                    option.textContent = translatedLabel;
                     option.dataset.requiresDuration = qual.requiresDuration;
                     qualificationSelect.appendChild(option);
                 });
@@ -1513,10 +2044,11 @@
             }
 
             // Aggiorna la scala dei voti
-            function updateGpaScale() {
+            updateGpaScale = function() {
+                const currentLang = document.documentElement.lang || 'it';
                 const country = countrySelect.value;
 
-                gpaScaleSelect.innerHTML = '<option value="">-- Seleziona scala --</option>';
+                gpaScaleSelect.innerHTML = `<option value="">${currentLang === 'en' ? '-- Select scale --' : '-- Seleziona scala --'}</option>`;
 
                 if (!country) {
                     gpaScaleSelect.disabled = true;
@@ -1528,15 +2060,15 @@
                 if (country === 'Iran') {
                     const option = document.createElement('option');
                     option.value = 'Base20';
-                    option.textContent = 'Su 20';
+                    option.textContent = currentLang === 'en' ? 'Out of 20' : 'Su 20';
                     option.selected = true;
                     gpaScaleSelect.appendChild(option);
                 } else if (country === 'India') {
                     const scales = [
-                        { value: 'Base100', label: 'Su 100' },
-                        { value: 'Base10', label: 'Su 10' },
-                        { value: 'Base8', label: 'Su 8' },
-                        { value: 'Base4', label: 'Su 4' }
+                        { value: 'Base100', label: currentLang === 'en' ? 'Out of 100' : 'Su 100' },
+                        { value: 'Base10', label: currentLang === 'en' ? 'Out of 10' : 'Su 10' },
+                        { value: 'Base8', label: currentLang === 'en' ? 'Out of 8' : 'Su 8' },
+                        { value: 'Base4', label: currentLang === 'en' ? 'Out of 4' : 'Su 4' }
                     ];
                     scales.forEach(scale => {
                         const option = document.createElement('option');
@@ -1548,9 +2080,14 @@
             }
 
             function resetForm() {
+                const currentLang = document.documentElement.lang || 'it';
                 durationGroup.classList.add('hidden');
+                durationInput.required = false;
+                durationInput.value = '';
                 qualificationSelect.disabled = true;
                 gpaScaleSelect.disabled = true;
+                qualificationSelect.innerHTML = `<option value="">${currentLang === 'en' ? '-- Select country and course first --' : '-- Seleziona paese e corso prima --'}</option>`;
+                gpaScaleSelect.innerHTML = `<option value="">${currentLang === 'en' ? '-- Select country first --' : '-- Seleziona paese prima --'}</option>`;
                 resultBox.style.display = 'none';
                 successMessage.style.display = 'none';
                 errorMessage.style.display = 'none';
@@ -1673,6 +2210,8 @@
                         throw new Error(result.error || 'Errore durante la verifica');
                     }
 
+                    lastResult = result;
+                    lastRequestData = data;
                     // Mostra il risultato
                     showResult(result, data);
                     showSuccess(`Verifica completata per ${data.name}`);
@@ -1686,7 +2225,7 @@
                 }
             }
 
-            function showResult(result, data) {
+            showResult = function(result, data, shouldScroll = true) {
                 const admitted = result.admitted;
                 const hasAgeWarning = result.has_age_warning || (result.ml_evaluation && result.ml_evaluation.has_age_warning);
                 const ageWarningMsg = result.age_warning_message || (result.ml_evaluation && result.ml_evaluation.age_warning_message);
@@ -1699,16 +2238,17 @@
                 // Banner Warning Giallo per criticità Sotto-Età
                 let warningHtml = '';
                 if (hasAgeWarning) {
+                    const translatedWarn = translateBackendMessage(ageWarningMsg, currentLang) || (currentLang === 'en' ? 'The candidate is unusually young for the selected course level. Manual administrative verification required.' : 'Il candidato risulta eccessivamente giovane per il livello di corso selezionato. Verificare la data di nascita.');
                     warningHtml = `
-                        <div style="margin-top: 12px; padding: 10px 14px; background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; border-radius: 8px; color: #fbbf24; font-size: 13px; text-align: left; line-height: 1.4; display: flex; align-items: flex-start; gap: 10px;">
+                        <div style="margin-top: 12px; padding: 10px 14px; background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; border-radius: 8px; font-size: 13px; text-align: left; line-height: 1.4; display: flex; align-items: flex-start; gap: 10px;">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:2px;">
                                 <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
                                 <line x1="12" y1="9" x2="12" y2="13"/>
                                 <line x1="12" y1="17" x2="12.01" y2="17"/>
                             </svg>
                             <div>
-                                <strong>${currentLang === 'en' ? 'CRITICAL WARNING (UNDER-AGE CANDIDATE)' : 'CRITICITÀ SEGNALATA (SOTTO-ETÀ)'}:</strong><br>
-                                ${ageWarningMsg || (currentLang === 'en' ? 'The candidate is unusually young for the selected course level. Manual administrative verification required.' : 'Il candidato risulta eccessivamente giovane per il livello di corso selezionato. Verificare la data di nascita.')}
+                                <strong style="color: #fbbf24;">${currentLang === 'en' ? 'CRITICAL WARNING (UNDER-AGE CANDIDATE)' : 'CRITICITÀ SEGNALATA (SOTTO-ETÀ)'}:</strong><br>
+                                <span style="color: var(--text-secondary);">${translatedWarn}</span>
                             </div>
                         </div>
                     `;
@@ -1720,7 +2260,7 @@
                     explanationHtml = `
                         <div style="margin-top: 12px; padding: 12px; background: rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid ${hasAgeWarning ? '#f59e0b' : (admitted ? 'var(--success-border)' : 'var(--error-border)')}; font-size: 13px; text-align: left; line-height: 1.5;">
                             <strong>${currentLang === 'en' ? 'Reason / Explanation' : 'Motivazione / Dettagli'}:</strong><br>
-                            ${result.explanation}
+                            <span style="color: var(--text-secondary);">${translateBackendMessage(result.explanation, currentLang)}</span>
                         </div>
                     `;
                 }
@@ -1789,10 +2329,12 @@
                     `;
                 }
 
-                // Scroll smoothly to results
-                setTimeout(() => {
-                    resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 100);
+                // Scroll smoothly to results (only when requested, i.e. not during language toggle)
+                if (shouldScroll) {
+                    setTimeout(() => {
+                        resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 100);
+                }
             }
 
             // Mostra messaggio di successo
