@@ -579,6 +579,25 @@
             justify-content: center;
             transition: color 0.2s ease;
         }
+
+        .spinner-circle {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(239, 68, 68, 0.1);
+            border-top: 4px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .result-box.loading-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--border-color);
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
     </style>
 </head>
 
@@ -971,8 +990,21 @@
                     return;
                 }
 
+                const currentLang = document.documentElement.lang || 'it';
+                const loadingText = currentLang === 'en' ? 'Interrogating OWL Ontology in progress...' : 'Interrogazione Ontologia OWL in corso...';
                 verifyBtn.disabled = true;
-                verifyBtn.innerHTML = `<span class="loading"></span> ${document.documentElement.lang === 'en' ? 'Verifying Ontology...' : 'Verifica Ontologica...'}`;
+                verifyBtn.innerHTML = `<span class="loading"></span> ${loadingText}`;
+
+                // Mostra il caricamento overlay nell'area del risultato
+                resultBox.style.display = 'block';
+                resultBox.className = 'result-box loading-box';
+                resultIcon.innerHTML = `<div class="spinner-circle" style="width: 32px; height: 32px; border-width: 3px;"></div>`;
+                resultText.innerHTML = `<div style="font-size: 15px; font-weight: 600; color: var(--text-secondary);">${loadingText}</div>`;
+                
+                // Scorre la vista per focalizzare l'area risultati caricante
+                setTimeout(() => {
+                    resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
 
                 const payload = {
                     name: document.getElementById('name').value.replace(/\s+/g, '_'),
@@ -998,10 +1030,11 @@
 
                     showResult(result, payload);
                 } catch (err) {
+                    resultBox.style.display = 'none';
                     showError(`Errore: ${err.message}`);
                 } finally {
                     verifyBtn.disabled = false;
-                    verifyBtn.textContent = document.documentElement.lang === 'en' ? 'Verify Admission' : 'Verifica Ammissione';
+                    verifyBtn.textContent = currentLang === 'en' ? 'Verify Admission' : 'Verifica Ammissione';
                 }
             });
 
@@ -1009,6 +1042,7 @@
                 // In questa pagina (Verifica Ammissione Ontologica), valutiamo ESCLUSIVAMENTE l'Ontologia OWL
                 const ontologyAdmitted = result.ontology_admitted;
                 resultBox.style.display = 'block';
+                resultBox.className = 'result-box';
                 resultBox.classList.remove('admitted', 'rejected');
 
                 const currentLang = document.documentElement.lang || 'it';

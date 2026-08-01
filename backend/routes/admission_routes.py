@@ -4,7 +4,7 @@ import json
 import logging
 from rdflib import Graph, URIRef
 from config import QUALIFICATIONS_MAP, TTL_FILE_PATH, ADMISSION_THRESHOLDS
-from services.ontology_service import get_current_ontology, create_individuals_and_check
+from services.ontology_service import get_current_ontology, create_individuals_and_check, check_admission_batch_ontology
 from services.student_service import check_rejection_reason, append_student_to_ttl, file_lock
 from services.ml_service import evaluate_ml_admission
 
@@ -82,20 +82,13 @@ def check_admission():
         if requires_duration and not duration:
             return jsonify({"admitted": False, "error": "Durata obbligatoria per questa qualifica"}), 400
 
-        # Controllo GPA bloccante
-        rules = ADMISSION_THRESHOLDS.get(country, {}).get(course, {})
-        min_gpa_rules = rules.get("min_gpa", {})
-        gpa_insufficient = False
-        gpa_explanation = None
-        if gpa_scale in min_gpa_rules:
-            required_gpa = min_gpa_rules[gpa_scale]
-            if gpa is not None and gpa < required_gpa:
-                gpa_insufficient = True
-                gpa_explanation = f"Media voti (GPA) insufficiente: ottenuto {gpa}, richiesto minimo {required_gpa} ({gpa_scale})."
+        # Controllo in memoria bloccante (GPA, Durata, Qualifica)
+        rejection_reason = check_rejection_reason(country, course, qualification_key, duration, gpa, gpa_scale)
+        is_rejected_in_memory = not rejection_reason.startswith("Requisiti formali superati")
 
-        if gpa_insufficient:
+        if is_rejected_in_memory:
             ontology_admitted = False
-            logger.info(f"GPA insufficiente per {name}: ottenuto {gpa}, richiesto minimo {required_gpa} ({gpa_scale}). Ammissione ontologica saltata.")
+            logger.info(f"Studente {name} rifiutato per controlli in memoria: {rejection_reason}. Ammissione ontologica saltata.")
         else:
             # Crea gli individui nell'ontologia e controlla l'ammissione formale
             ontology_admitted = create_individuals_and_check(
@@ -129,8 +122,8 @@ def check_admission():
 
         # Calcola il motivo dell'esclusione se non ammesso
         explanation = None
-        if gpa_insufficient:
-            explanation = gpa_explanation
+        if is_rejected_in_memory:
+            explanation = rejection_reason
         elif not ontology_admitted:
             explanation = check_rejection_reason(country, course, qualification_key, duration, gpa, gpa_scale)
         elif ml_result and ml_result.get('evaluatable') and not ml_result.get('admitted'):
@@ -252,7 +245,7 @@ def clear_registered_ttl():
             if os.path.exists(TTL_FILE_PATH):
                 os.remove(TTL_FILE_PATH)
                 logger.info("File unico rimosso con successo dal server.")
-            return jsonify({"status": "success", "message": "File di archivio sul server azzerato."}), 200
+        return jsonify({"status": "success", "message": "File di archivio sul server azzerato."}), 200
     except Exception as e:
         logger.error(f"Errore durante la cancellazione del file: {str(e)}")
         return jsonify({"status": "error", "message": str(e)}), 500
@@ -286,15 +279,14 @@ def check_admission_batch():
 
         # 2. PARSING FILE EXCEL (.xlsx, .xls)
         elif filename.endswith('.xlsx') or filename.endswith('.xls'):
-            if openpyxl is None:
-                return jsonify({"error": "Libreria openpyxl non installata sul server. Esegui 'pip install openpyxl'"}), 500
+            try:
+                import pandas as pd
+            except ImportError:
+                return jsonify({"error": "Libreria pandas non installata sul server."}), 500
 
             try:
-                wb = openpyxl.load_workbook(file, data_only=True)
-                sheet = wb.active
-
-                # Leggiamo la prima riga per mappare le intestazioni delle colonne
-                headers = [str(cell.value).strip().lower() if cell.value else "" for cell in sheet[1]]
+                df = pd.read_excel(file)
+                headers = [str(col).strip().lower() for col in df.columns]
 
                 # Associazione flessibile delle colonne basata sul nome della colonna
                 mapping = {
@@ -320,41 +312,49 @@ def check_admission_batch():
                         "qualification": 3, "duration": 4, "gpa": 5, "gpaScale": 6
                     }
 
-                # Scorre le righe a partire dalla seconda (salta l'header)
-                for row_idx, row in enumerate(sheet.iter_rows(min_row=2, values_only=True), start=2):
-                    if not any(row):  # Salta righe completamente vuote
+                # Iterazione efficiente
+                for row_tuple in df.itertuples(index=True):
+                    row = list(row_tuple)[1:]
+                    if not any(pd.notna(val) for val in row):  # Salta righe completamente vuote
                         continue
 
                     try:
                         name_val = row[mapping["name"]] if mapping["name"] < len(row) else None
-                        if not name_val or str(name_val).strip() == "":
-                            continue  # Salta se manca il nome dello studente
+                        if pd.isna(name_val) or str(name_val).strip() == "" or str(name_val).lower() == "nan":
+                            continue
 
-                        # Parsing sicuro di Corso, Paese, Qualifica
-                        course_val = str(row[mapping["course"]]).strip() if mapping["course"] < len(row) and row[mapping["course"]] else ""
-                        country_val = str(row[mapping["country"]]).strip() if mapping["country"] < len(row) and row[mapping["country"]] else ""
-                        qualification_val = str(row[mapping["qualification"]]).strip() if mapping["qualification"] < len(row) and row[mapping["qualification"]] else ""
+                        def clean_str(val):
+                            if pd.isna(val) or val is None:
+                                return ""
+                            s = str(val).strip()
+                            if s.lower() == "nan":
+                                return ""
+                            return s
+
+                        course_val = clean_str(row[mapping["course"]])
+                        country_val = clean_str(row[mapping["country"]])
+                        qualification_val = clean_str(row[mapping["qualification"]])
 
                         # Parsing sicuro di Duration (tollera celle vuote o stringhe vuote)
                         duration_val = row[mapping["duration"]] if mapping["duration"] < len(row) else None
                         duration_int = None
-                        if duration_val is not None and str(duration_val).strip() != "":
+                        if pd.notna(duration_val) and str(duration_val).strip() != "" and str(duration_val).lower() != "nan":
                             try:
-                                duration_int = int(float(duration_val))  # Converte anche se Excel scrive "4.0"
+                                duration_int = int(float(duration_val))
                             except (ValueError, TypeError):
                                 duration_int = None
 
                         # Parsing sicuro di GPA (tollera formati diversi)
                         gpa_val = row[mapping["gpa"]] if mapping["gpa"] < len(row) else None
                         gpa_float = 0.0
-                        if gpa_val is not None and str(gpa_val).strip() != "":
+                        if pd.notna(gpa_val) and str(gpa_val).strip() != "" and str(gpa_val).lower() != "nan":
                             try:
                                 gpa_float = float(gpa_val)
                             except (ValueError, TypeError):
                                 gpa_float = 0.0
 
                         # Parsing sicuro di GPAScale
-                        gpa_scale_val = str(row[mapping["gpaScale"]]).strip() if mapping["gpaScale"] >= 0 and mapping["gpaScale"] < len(row) and row[mapping["gpaScale"]] else ""
+                        gpa_scale_val = clean_str(row[mapping["gpaScale"]])
 
                         student = {
                             "name": str(name_val).strip(),
@@ -367,9 +367,10 @@ def check_admission_batch():
                         }
                         students_to_check.append(student)
                     except Exception as row_error:
-                        logger.warning(f"Errore di lettura alla riga Excel {row_idx}: {str(row_error)}")
+                        logger.warning(f"Errore di lettura alla riga Excel: {str(row_error)}")
                         continue
             except Exception as e:
+                logger.error(f"Errore nella lettura del file Excel con pandas: {str(e)}", exc_info=True)
                 return jsonify({"error": f"Errore nella lettura del file Excel: {str(e)}"}), 400
 
         # 3. PARSING FILE TURTLE (.ttl)
@@ -462,8 +463,10 @@ def check_admission_batch():
         if not students_to_check:
             return jsonify({"error": "Nessuno studente valido trovato nel file."}), 400
 
-        # 4. ELABORAZIONE DI CIASCUN RECORD TRAMITE RAGIONATORE
+        # 4. ELABORAZIONE DI CIASCUN RECORD
         batch_results = []
+        students_to_reason = []
+
         for student in students_to_check:
             try:
                 name = student.get('name', 'StudenteBatch').replace(' ', '_')
@@ -514,37 +517,42 @@ def check_admission_batch():
                     })
                     continue
 
-                # Controllo GPA bloccante
-                rules = ADMISSION_THRESHOLDS.get(country, {}).get(course, {})
-                min_gpa_rules = rules.get("min_gpa", {})
-                gpa_insufficient = False
-                explanation = None
-                if gpa_scale in min_gpa_rules:
-                    required_gpa = min_gpa_rules[gpa_scale]
-                    if gpa is not None and gpa < required_gpa:
-                        gpa_insufficient = True
-                        explanation = f"Media voti (GPA) insufficiente: ottenuto {gpa}, richiesto minimo {required_gpa} ({gpa_scale})."
+                # Controllo in memoria bloccante (GPA, Durata, Qualifica)
+                rejection_reason = check_rejection_reason(country, course, qualification_key, duration, gpa, gpa_scale)
+                is_rejected_in_memory = not rejection_reason.startswith("Requisiti formali superati")
 
-                if gpa_insufficient:
-                    admitted = False
+                if is_rejected_in_memory:
+                    batch_results.append({
+                        "name": name.replace('_', ' '),
+                        "course": course,
+                        "country": country,
+                        "qualification": qualification_key,
+                        "admitted": False,
+                        "status": "Non Ammesso",
+                        "error": rejection_reason
+                    })
                 else:
-                    # Esegui la verifica tramite il reasoning
-                    admitted = create_individuals_and_check(
-                        name, country, course,
-                        qual_class_name, duration, gpa, gpa_scale
-                    )
-                    if not admitted:
-                        explanation = check_rejection_reason(country, course, qualification_key, duration, gpa, gpa_scale)
-
-                batch_results.append({
-                    "name": name.replace('_', ' '),
-                    "course": course,
-                    "country": country,
-                    "qualification": qualification_key,
-                    "admitted": admitted,
-                    "status": "Ammesso" if admitted else "Non Ammesso",
-                    "error": explanation
-                })
+                    # Aggiunge alla lista per il ragionamento in batch
+                    students_to_reason.append({
+                        "index": len(batch_results),
+                        "name": name,
+                        "country": country,
+                        "course": course,
+                        "qual_class_name": qual_class_name,
+                        "duration": duration,
+                        "gpa": gpa,
+                        "gpa_scale": gpa_scale
+                    })
+                    # Placeholder temporaneo nei risultati
+                    batch_results.append({
+                        "name": name.replace('_', ' '),
+                        "course": course,
+                        "country": country,
+                        "qualification": qualification_key,
+                        "admitted": False,
+                        "status": "Non Ammesso",
+                        "error": None
+                    })
 
             except Exception as student_error:
                 batch_results.append({
@@ -552,6 +560,21 @@ def check_admission_batch():
                     "admitted": False,
                     "error": f"Errore interno di lavoro: {str(student_error)}"
                 })
+
+        # Eseguiamo il ragionamento in batch per gli studenti che hanno superato i controlli preliminari
+        if students_to_reason:
+            try:
+                reason_results = check_admission_batch_ontology(students_to_reason)
+                for original_idx, admitted in reason_results.items():
+                    batch_results[original_idx]["admitted"] = admitted
+                    batch_results[original_idx]["status"] = "Ammesso" if admitted else "Non Ammesso"
+                    if not admitted:
+                        batch_results[original_idx]["error"] = "Requisiti formali superati, ma idoneità negata dal ragionatore logico (vincoli ontologici non soddisfatti)."
+            except Exception as reason_error:
+                logger.error(f"Errore durante il ragionamento in batch: {str(reason_error)}")
+                for s in students_to_reason:
+                    original_idx = s["index"]
+                    batch_results[original_idx]["error"] = f"Errore durante la verifica ontologica: {str(reason_error)}"
 
         return jsonify({
             "status": "success",

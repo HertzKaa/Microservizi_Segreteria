@@ -21,10 +21,11 @@ py -m venv venv
 # py -m venv --without-pip venv
 
 # Activate virtual environment
-.\venv\Scripts\Activate.ps1  # On macOS/Linux use: source venv/bin/activate
+.\venv\Scripts\Activate.ps1  
+# On macOS/Linux use: source venv/bin/activate
 
 # Upgrade pip and install dependencies
-python -m pip install --upgrade pip
+python -m pip install --upgrade pip openpyxl
 pip install -r requirements.txt
 
 # Run the backend

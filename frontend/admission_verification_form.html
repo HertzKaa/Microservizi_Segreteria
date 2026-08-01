@@ -604,6 +604,18 @@
             border-color: #475569;
         }
 
+        .admin-switch-btn.active {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-text);
+            border-color: var(--accent-color);
+            border-style: solid;
+        }
+
+        .admin-switch-btn.active:hover {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ffffff;
+        }
+
         .admin-panel {
             width: 100%;
             margin-bottom: 40px;
@@ -1006,6 +1018,94 @@
         .btn-export-csv:active {
             transform: translateY(0);
         }
+
+        /* BATCH LOADER OVERLAY */
+        .batch-loader-container {
+            background: var(--bg-surface);
+            border: 1px dashed var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 32px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .batch-loader-container.fade-out {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .loader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .spinner-circle {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(239, 68, 68, 0.1);
+            border-top: 4px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-text {
+            color: var(--text-primary);
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-indicator {
+            width: 40%;
+            height: 100%;
+            background: var(--accent-gradient);
+            border-radius: 3px;
+            position: absolute;
+            animation: progress-indet 1.8s infinite ease-in-out;
+        }
+
+        @keyframes progress-indet {
+            0% {
+                left: -40%;
+            }
+            50% {
+                left: 100%;
+                width: 60%;
+            }
+            100% {
+                left: 100%;
+                width: 40%;
+            }
+        }
+
+        .result-box.loading-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--border-color);
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
     </style>
 </head>
 
@@ -1187,6 +1287,17 @@
                         Avvia Verifica Massiva
                     </button>
                 </form>
+
+                <!-- Loader Overlay per la verifica massiva -->
+                <div class="batch-loader-container hidden" id="batchLoaderContainer">
+                    <div class="loader-content">
+                        <div class="spinner-circle"></div>
+                        <div class="loader-text" data-i18n="batchProcessingText">Elaborazione file e verifica ontologica in corso...</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-indicator"></div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Tabella per i Risultati Massivi -->
                 <div class="batch-table-container hidden" id="batchResultsContainer">
@@ -1447,6 +1558,7 @@
                 sortOutcomeRejected: "Outcome (Not Admitted First)",
                 exportCSV: "Export CSV",
                 noResultsFound: "No results found",
+                batchProcessingText: "Processing file and ontological verification in progress...",
             },
             it: {
                 title: "Verifica Ammissione ML",
@@ -1505,6 +1617,7 @@
                 sortOutcomeRejected: "Esito (Prima Non Ammessi)",
                 exportCSV: "Esporta CSV",
                 noResultsFound: "Nessun risultato trovato",
+                batchProcessingText: "Elaborazione file e verifica ontologica in corso...",
             }
         };
 
@@ -1629,6 +1742,7 @@
             const adminBatchForm = document.getElementById('adminBatchForm');
             const batchFileInput = document.getElementById('batchFileInput');
             const batchSubmitBtn = document.getElementById('batchSubmitBtn');
+            const batchLoaderContainer = document.getElementById('batchLoaderContainer');
             const batchResultsContainer = document.getElementById('batchResultsContainer');
             const batchResultsBody = document.getElementById('batchResultsBody');
 
@@ -1654,9 +1768,7 @@
                         adminToggleBtn.textContent = currentLang === 'en'
                             ? "Exit Administrator Area"
                             : "Esci dall'Area Amministratore";
-                        adminToggleBtn.style.background = "#fff1f2";
-                        adminToggleBtn.style.color = "var(--error-text)";
-                        adminToggleBtn.style.borderColor = "var(--error-border)";
+                        adminToggleBtn.classList.add('active');
                         showSuccess(currentLang === 'en' ? "Administrator access granted!" : "Accesso Amministratore consentito!");
 
                         // Scroll down to admin panel
@@ -1670,9 +1782,7 @@
                     adminPanel.classList.add('hidden');
                     batchResultsContainer.classList.add('hidden');
                     adminToggleBtn.textContent = translations[currentLang].adminAccess;
-                    adminToggleBtn.style.background = "rgba(255, 255, 255, 0.03)";
-                    adminToggleBtn.style.color = "#94a3b8";
-                    adminToggleBtn.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                    adminToggleBtn.classList.remove('active');
                     adminBatchForm.reset();
                 }
             });
@@ -1698,7 +1808,12 @@
 
                 try {
                     batchSubmitBtn.disabled = true;
-                    batchSubmitBtn.innerHTML = '<span class="loading"></span>';
+                    const loadingText = currentLang === 'en' ? 'Processing file and ontological verification in progress...' : 'Elaborazione file e verifica ontologica in corso...';
+                    batchSubmitBtn.innerHTML = `<span class="loading"></span>${loadingText}`;
+
+                    // Mostra il loader overlay elegante sopra/dentro la tabella
+                    batchLoaderContainer.classList.remove('hidden');
+                    batchLoaderContainer.classList.remove('fade-out');
 
                     const response = await fetch(`${BACKEND_URL}/check-admission-batch`, {
                         method: 'POST',
@@ -1712,10 +1827,17 @@
                     }
 
                     showSuccess(currentLang === 'en' ? `Batch processing completed successfully! ${result.total} students verified.` : `Elaborazione batch completata con successo! ${result.total} studenti verificati.`);
-                    renderBatchResults(result.results);
+                    
+                    // Nasconde il loader con effetto fade-out e mostra la tabella dei risultati
+                    batchLoaderContainer.classList.add('fade-out');
+                    setTimeout(() => {
+                        batchLoaderContainer.classList.add('hidden');
+                        renderBatchResults(result.results);
+                    }, 400);
 
                 } catch (error) {
                     console.error(error);
+                    batchLoaderContainer.classList.add('hidden');
                     showError(translateBackendMessage(error.message, currentLang));
                 } finally {
                     batchSubmitBtn.disabled = false;
@@ -2187,14 +2309,26 @@
             }
 
             async function sendVerificationRequest(data) {
+                const currentLang = document.documentElement.lang || 'it';
                 try {
                     verifyBtn.disabled = true;
-                    resultBox.style.display = 'none';
                     successMessage.style.display = 'none';
                     errorMessage.style.display = 'none';
 
-                    // Mostra il caricamento
-                    verifyBtn.innerHTML = '<span class="loading"></span>';
+                    // Mostra il caricamento sul pulsante con testo specifico
+                    const loadingText = currentLang === 'en' ? 'Interrogating OWL Ontology in progress...' : 'Interrogazione Ontologia OWL in corso...';
+                    verifyBtn.innerHTML = `<span class="loading"></span>${loadingText}`;
+
+                    // Mostra il caricamento overlay nell'area del risultato
+                    resultBox.style.display = 'block';
+                    resultBox.className = 'result-box loading-box';
+                    resultIcon.innerHTML = `<div class="spinner-circle" style="width: 32px; height: 32px; border-width: 3px;"></div>`;
+                    resultText.innerHTML = `<div style="font-size: 15px; font-weight: 600; color: var(--text-secondary);">${loadingText}</div>`;
+                    
+                    // Scorre la vista per focalizzare l'area risultati caricante
+                    setTimeout(() => {
+                        resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 100);
 
                     const response = await fetch(`${BACKEND_URL}/check-admission`, {
                         method: 'POST',
@@ -2218,10 +2352,11 @@
 
                 } catch (error) {
                     console.error('Errore:', error);
+                    resultBox.style.display = 'none';
                     showError(`Errore: ${error.message}`);
                 } finally {
                     verifyBtn.disabled = false;
-                    verifyBtn.textContent = document.documentElement.lang === 'en' ? 'Verify Admission' : 'Verifica Ammissione';
+                    verifyBtn.textContent = currentLang === 'en' ? 'Verify Admission' : 'Verifica Ammissione';
                 }
             }
 
@@ -2231,6 +2366,7 @@
                 const ageWarningMsg = result.age_warning_message || (result.ml_evaluation && result.ml_evaluation.age_warning_message);
 
                 resultBox.style.display = 'block';
+                resultBox.className = 'result-box';
                 resultBox.classList.remove('admitted', 'rejected');
 
                 const currentLang = document.documentElement.lang || 'it';
