@@ -58,9 +58,9 @@ ADMISSION_THRESHOLDS = {
             },
             "min_gpa": {
                 "Base100": 60.0,
-                "Base10": 6.0,
-                "Base8": 5.0,
-                "Base4": 2.5
+                "Base10": 7.0,
+                "Base8": 5.6,
+                "Base4": 2.8
             }
         }
     },
@@ -79,7 +79,7 @@ ADMISSION_THRESHOLDS = {
                 "KarshenasiNapayvasteh": 2     # Karshenasi Napayvasteh richiede minimo 2 anni
             },
             "min_gpa": {
-                "Base20": 12.0                  # Voto minimo su 20 in Iran per l'ammissione magistrale
+                "Base20": 15.0                  # Voto minimo su 20 in Iran per l'ammissione magistrale
             }
         }
     }

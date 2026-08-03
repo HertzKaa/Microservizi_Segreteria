@@ -43,6 +43,19 @@ def check_rejection_reason(country, course, qualification, duration, gpa, gpa_sc
             if duration is not None and duration < required_dur:
                 return f"Durata del titolo insufficiente per '{qualification}': inseriti {duration} anni, richiesto minimo {required_dur}."
 
+    # Diagnostica di dettaglio per combinazioni ontologiche non soddisfatte (es. requisiti di titoli doppi/integrativi)
+    if country == "India" and course == "Postgraduate":
+        if qualification == "PassGeneralBachelor":
+            return "Il titolo 'PassGeneralBachelor' (Bachelor triennale generico indiano) non è sufficiente da solo. Richiede l'integrazione con un titolo post-laurea addizionale (PostgraduateBachelor o Master) per raggiungere la scolarità minima richiesta."
+        if qualification in ["PostgraduateBachelor", "MasterDegree"]:
+            return f"Il titolo '{qualification}' (corso di specializzazione post-laurea) richiede il possesso propedeutico di un Bachelor triennale di base (PassGeneralBachelor) per soddisfare i requisiti ministeriali."
+
+    if country == "Iran" and course == "Postgraduate":
+        if qualification == "KarshenasiNapayvasteh":
+            return "La laurea discontinua ('KarshenasiNapayvasteh') richiede il possesso propedeutico di un diploma associato ('Kardani') di almeno 2 anni per completare il ciclo accademico minimo richiesto."
+        if qualification == "Kardani":
+            return "Il diploma associato ('Kardani') è un titolo biennale e non equivale a un Bachelor. Richiede il completamento di una successiva laurea discontinua ('KarshenasiNapayvasteh') di almeno 2 anni."
+
     return "Requisiti formali superati, ma idoneità negata dal ragionatore logico (vincoli ontologici non soddisfatti)."
 
 

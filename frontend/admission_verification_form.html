@@ -670,7 +670,7 @@
 
         .batch-table th,
         .batch-table td {
-            padding: 14px 18px;
+            padding: 18px 18px;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -723,9 +723,59 @@
             font-size: 12px;
             color: #94A3B8;
             text-align: left;
-            white-space: normal;
+            cursor: pointer;
+        }
+
+        .col-notes-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            width: 100%;
             max-width: 250px;
+            border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
+            transition: border-bottom-color 0.2s ease, color 0.2s ease;
+            padding-bottom: 2px;
+        }
+
+        .col-notes-inner .note-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+        }
+
+        .col-notes-inner .expand-icon {
+            font-size: 8px;
+            color: var(--accent-color);
+            opacity: 0.6;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .col-notes:hover .col-notes-inner {
+            color: #ffffff;
+            border-bottom-color: var(--accent-color);
+        }
+
+        .col-notes:hover .col-notes-inner .expand-icon {
+            opacity: 1;
+        }
+
+        .col-notes.expanded .col-notes-inner {
+            border-bottom-color: transparent;
+        }
+
+        .col-notes.expanded .col-notes-inner .note-text {
+            white-space: normal;
             word-break: break-word;
+            overflow: visible;
+        }
+
+        .col-notes.expanded .col-notes-inner .expand-icon {
+            transform: rotate(180deg);
+            opacity: 1;
         }
 
         /* GENERAL UTILITIES & ANIMATIONS */
@@ -1978,7 +2028,22 @@
 
                     const tdError = document.createElement('td');
                     tdError.className = 'col-notes';
-                    tdError.textContent = res.error ? translateBackendMessage(res.error, currentLang) : '-';
+                    const fullError = res.error ? translateBackendMessage(res.error, currentLang) : '-';
+                    
+                    if (res.error) {
+                        tdError.innerHTML = `
+                            <div class="col-notes-inner">
+                                <span class="note-text">${fullError}</span>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                        `;
+                        tdError.title = currentLang === 'en' ? 'Click to expand/collapse' : 'Clicca per espandere/comprimere';
+                        tdError.addEventListener('click', () => {
+                            tdError.classList.toggle('expanded');
+                        });
+                    } else {
+                        tdError.textContent = '-';
+                    }
 
                     tr.appendChild(tdIndex);
                     tr.appendChild(tdName);

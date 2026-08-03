@@ -1,0 +1,16 @@
+﻿Nome,Corso,Paese,Esito,Nota/Errore
+Rajesh Koothrappali,Magistrale (Postgraduate),India,AMMESSO,
+Animesh Kumar,Magistrale (Postgraduate),India,NON AMMESSO,"Durata del titolo insufficiente per 'ProfessionalBachelor': inseriti 3 anni, richiesto minimo 4."
+Priya Patel,Magistrale (Postgraduate),India,NON AMMESSO,"Media voti (GPA) insufficiente: ottenuto 5.5, richiesto minimo 7.0 (Base10)."
+Dev Patel,Triennale (Undergraduate),India,NON AMMESSO,"Media voti (GPA) insufficiente: ottenuto 45.0, richiesto minimo 50.0 (Base100)."
+Aarav Sharma,Triennale (Undergraduate),India,AMMESSO,
+Amitabh Bachchan,Magistrale (Postgraduate),India,NON AMMESSO,"Requisiti formali superati, ma idoneità negata dal ragionatore logico (vincoli ontologici non soddisfatti)."
+Shirin Ebadi,Triennale (Undergraduate),Iran,NON AMMESSO,Il titolo 'DiplomMotevasete' (11 anni di scolarità) non è sufficiente. In Italia sono richiesti almeno 12 anni (es. DiplomMotevasetePreUniversitary o il diploma post-2018/19).
+Reza Pahlavi,Magistrale (Postgraduate),Iran,NON AMMESSO,"Media voti (GPA) insufficiente: ottenuto 11.5, richiesto minimo 15.0 (Base20)."
+Maryam Mirzakhani,Magistrale (Postgraduate),Iran,AMMESSO,
+Farshad Ahmadi,Triennale (Undergraduate),Iran,AMMESSO,
+Kianoush Rostami,Triennale (Undergraduate),Iran,NON AMMESSO,"Media voti (GPA) insufficiente: ottenuto 9.5, richiesto minimo 10.0 (Base20)."
+Elham Aminzadeh,Magistrale (Postgraduate),Iran,NON AMMESSO,"Media voti (GPA) insufficiente: ottenuto 14.5, richiesto minimo 15.0 (Base20)."
+Sania Mirza,Magistrale (Postgraduate),India,NON AMMESSO,"Requisiti formali superati, ma idoneità negata dal ragionatore logico (vincoli ontologici non soddisfatti)."
+Virat Kohli,Magistrale (Postgraduate),India,NON AMMESSO,"Durata del titolo insufficiente per 'HonoursBachelor': inseriti 2 anni, richiesto minimo 3."
+Sohrab Sepehri,Magistrale (Postgraduate),Iran,NON AMMESSO,"Media voti (GPA) insufficiente: ottenuto 13.8, richiesto minimo 15.0 (Base20)."
