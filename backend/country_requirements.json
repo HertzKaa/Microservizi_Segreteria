@@ -1,0 +1,184 @@
+{
+    "India": {
+        "country_code": "IN",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base10",
+                "label_it": "Su 10",
+                "label_en": "On 10"
+            },
+            {
+                "value": "Base8",
+                "label_it": "Su 8",
+                "label_en": "On 8"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "AllIndiaSeniorSchool",
+                    "label": "AllIndiaSeniorSchoolCertificate",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "IndianSchoolCert",
+                    "label": "IndianSchoolCertificate",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "IntermediateExam",
+                    "label": "IntermediateExaminationCertificate",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "HigherSecondarySchool",
+                    "label": "HigherSecondarySchoolCertificate",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "HigherSecondaryPartII",
+                    "label": "HigherSecondaryExaminationCertificatePartII",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "HonoursBachelor",
+                    "label": "HonoursBachelorDegree",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "ProfessionalBachelor",
+                    "label": "ProfessionalBachelorDegree",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "PassGeneralBachelor",
+                    "label": "PassGeneralBachelorDegree",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "MasterDegree",
+                    "label": "MasterDegree",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "PostgraduateBachelor",
+                    "label": "PostgraduateBachelorDegree",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "AllIndiaSeniorSchool",
+                    "IndianSchoolCert",
+                    "IntermediateExam",
+                    "HigherSecondarySchool",
+                    "HigherSecondaryPartII"
+                ],
+                "min_gpa": {
+                    "Base100": 50.0
+                }
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "HonoursBachelor",
+                    "ProfessionalBachelor",
+                    "PassGeneralBachelor",
+                    "MasterDegree",
+                    "PostgraduateBachelor"
+                ],
+                "min_duration": {
+                    "HonoursBachelor": 3,
+                    "ProfessionalBachelor": 4,
+                    "PassGeneralBachelor": 3,
+                    "PostgraduateBachelor": 1,
+                    "MasterDegree": 1
+                },
+                "min_gpa": {
+                    "Base100": 60.0,
+                    "Base10": 7.0,
+                    "Base8": 5.6,
+                    "Base4": 2.8
+                }
+            }
+        }
+    },
+    "Iran": {
+        "country_code": "IR",
+        "gpa_scales": [
+            {
+                "value": "Base20",
+                "label_it": "Su 20",
+                "label_en": "On 20"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "DiplomMotevasete",
+                    "label": "DiplomEMotevasete",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "SecondaryEdu2018",
+                    "label": "SecondaryEducationFrom2018",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "Kardani",
+                    "label": "Kardani",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "Karshenasi",
+                    "label": "Karshenasi",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "KarshenasiNapayvasteh",
+                    "label": "KarshenasiNapayvasteh",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "SecondaryEdu2018",
+                    "Kardani"
+                ],
+                "min_gpa": {
+                    "Base20": 10.0
+                }
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "Karshenasi",
+                    "KarshenasiNapayvasteh"
+                ],
+                "min_duration": {
+                    "Karshenasi": 4,
+                    "KarshenasiNapayvasteh": 2
+                },
+                "min_gpa": {
+                    "Base20": 15.0
+                }
+            }
+        }
+    }
+}

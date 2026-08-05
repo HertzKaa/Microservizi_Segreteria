@@ -1,7 +1,8 @@
 import os
 import logging
 import threading
-from config import ADMISSION_THRESHOLDS, TTL_FILE_PATH
+from config import TTL_FILE_PATH
+from services.requirements_service import get_admission_thresholds_dynamic
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +14,8 @@ def check_rejection_reason(country, course, qualification, duration, gpa, gpa_sc
     Analizza i dati dello studente rispetto alle soglie configurate e
     restituisce una stringa con la motivazione dettagliata dell'eventuale esclusione.
     """
-    rules = ADMISSION_THRESHOLDS.get(country, {}).get(course, {})
+    thresholds = get_admission_thresholds_dynamic()
+    rules = thresholds.get(country, {}).get(course, {})
     if not rules:
         return "Criteri formali non configurati per questo tipo di corso."
 

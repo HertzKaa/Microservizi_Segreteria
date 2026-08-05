@@ -3,10 +3,11 @@ import os
 import json
 import logging
 from rdflib import Graph, URIRef
-from config import QUALIFICATIONS_MAP, TTL_FILE_PATH, ADMISSION_THRESHOLDS
+from config import TTL_FILE_PATH
 from services.ontology_service import get_current_ontology, create_individuals_and_check, check_admission_batch_ontology
 from services.student_service import check_rejection_reason, append_student_to_ttl, file_lock
 from services.ml_service import evaluate_ml_admission
+from services.requirements_service import get_qualifications_map_dynamic, get_admission_thresholds_dynamic, load_requirements, save_requirements
 
 # Tentativo di importare openpyxl per il caricamento massivo tramite file Excel
 
@@ -56,7 +57,8 @@ def check_admission():
         if course not in ["Undergraduate", "Postgraduate"]:
             return jsonify({"admitted": False, "error": "Corso non valido"}), 400
 
-        if country not in ["India", "Iran"]:
+        reqs = load_requirements()
+        if country not in reqs:
             return jsonify({"admitted": False, "error": "Paese non valido"}), 400
 
         logger.info(f"Elaborazione: {name} - {country} - {course} - {qualification_key}")
@@ -66,8 +68,9 @@ def check_admission():
         qual_class_name = None
         requires_duration = False
 
-        if country in QUALIFICATIONS_MAP and course in QUALIFICATIONS_MAP[country]:
-            for key, class_name, requires_dur in QUALIFICATIONS_MAP[country][course]:
+        qualifications_map = get_qualifications_map_dynamic()
+        if country in qualifications_map and course in qualifications_map[country]:
+            for key, class_name, requires_dur in qualifications_map[country][course]:
                 if key == qualification_key:
                     qual_class_name = class_name
                     requires_duration = requires_dur
@@ -159,10 +162,11 @@ def get_qualifications():
     country = request.args.get('country')
     course = request.args.get('course')
 
-    if country not in QUALIFICATIONS_MAP or course not in QUALIFICATIONS_MAP[country]:
+    qualifications_map = get_qualifications_map_dynamic()
+    if country not in qualifications_map or course not in qualifications_map[country]:
         return jsonify({"qualifications": []}), 400
 
-    quals = QUALIFICATIONS_MAP[country][course]
+    quals = qualifications_map[country][course]
     return jsonify({
         "qualifications": [
             {"key": key, "label": label, "requiresDuration": requires_duration}
@@ -175,19 +179,19 @@ def get_gpa_scales():
     """Endpoint per ottenere le scale GPA disponibili per un paese"""
     country = request.args.get('country')
 
-    if country == "Iran":
-        scales = [{"value": "Base20", "label": "Su 20"}]
-    elif country == "India":
-        scales = [
-            {"value": "Base100", "label": "Su 100"},
-            {"value": "Base10", "label": "Su 10"},
-            {"value": "Base8", "label": "Su 8"},
-            {"value": "Base4", "label": "Su 4"}
-        ]
-    else:
+    reqs = load_requirements()
+    if country not in reqs:
         return jsonify({"scales": []}), 400
 
-    return jsonify({"scales": scales}), 200
+    scales = reqs[country].get("gpa_scales", [])
+    # Formatta le scale con il campo 'label' basato sull'italiano di base o il client
+    formatted_scales = []
+    for s in scales:
+        formatted_scales.append({
+            "value": s["value"],
+            "label": s.get("label_it", s.get("label", s["value"]))
+        })
+    return jsonify({"scales": formatted_scales}), 200
 
 @admission_bp.route('/register-student', methods=['POST'])
 def register_student():
@@ -428,8 +432,9 @@ def check_admission_batch():
                     qualification_key = "NoCertificate"
                     if qual_type_uri:
                         local_qual_name = qual_type_uri.split("#")[-1]
-                        # Ricerchiamo la chiave corrispondente nel nostro QUALIFICATIONS_MAP
-                        for country_name, courses in QUALIFICATIONS_MAP.items():
+                        # Ricerchiamo la chiave corrispondente nel nostro qualifications_map
+                        qualifications_map = get_qualifications_map_dynamic()
+                        for country_name, courses in qualifications_map.items():
                             for course_name, quals in courses.items():
                                 for key, class_name, _ in quals:
                                     if class_name == local_qual_name:
@@ -489,8 +494,9 @@ def check_admission_batch():
                 qual_class_name = None
                 requires_duration = False
 
-                if country in QUALIFICATIONS_MAP and course in QUALIFICATIONS_MAP[country]:
-                    for key, class_name, requires_dur in QUALIFICATIONS_MAP[country][course]:
+                qualifications_map = get_qualifications_map_dynamic()
+                if country in qualifications_map and course in qualifications_map[country]:
+                    for key, class_name, requires_dur in qualifications_map[country][course]:
                         if key == qualification_key:
                             qual_class_name = class_name
                             requires_duration = requires_dur
@@ -629,3 +635,91 @@ def delete_students():
     except Exception as e:
         logger.error(f"Errore durante la rimozione mirata: {str(e)}", exc_info=True)
         return jsonify({"status": "error", "message": f"Errore sul server: {str(e)}"}), 500
+
+@admission_bp.route('/api/requirements', methods=['GET'])
+def get_requirements():
+    """Restituisce la struttura JSON con tutte le nazioni configurate e le relative soglie"""
+    try:
+        reqs = load_requirements(force_reload=True)
+        return jsonify(reqs), 200
+    except Exception as e:
+        logger.error(f"Errore recupero requisiti: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@admission_bp.route('/api/requirements', methods=['POST'])
+def add_requirement():
+    """Aggiunge una nuova nazione con i suoi parametri standardizzati"""
+    try:
+        data = request.get_json()
+        country_name = data.get('country')
+        
+        if not country_name:
+            return jsonify({"error": "Nome nazione mancante"}), 400
+            
+        reqs = load_requirements()
+        if country_name in reqs:
+            return jsonify({"error": f"Nazione {country_name} gia esistente"}), 400
+            
+        # Struttura standard
+        reqs[country_name] = {
+            "country_code": data.get('country_code', 'XX'),
+            "gpa_scales": data.get('gpa_scales', []),
+            "qualifications": data.get('qualifications', {"Undergraduate": [], "Postgraduate": []}),
+            "thresholds": data.get('thresholds', {
+                "Undergraduate": {"eligible_qualifications": [], "min_gpa": {}},
+                "Postgraduate": {"eligible_qualifications": [], "min_duration": {}, "min_gpa": {}}
+            })
+        }
+        
+        if save_requirements(reqs):
+            return jsonify({"message": f"Nazione {country_name} aggiunta con successo", "requirements": reqs[country_name]}), 200
+        else:
+            return jsonify({"error": "Impossibile salvare i requisiti"}), 500
+    except Exception as e:
+        logger.error(f"Errore aggiunta requisiti: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@admission_bp.route('/api/requirements/<country>', methods=['PUT'])
+def update_requirement(country):
+    """Aggiorna le soglie/requisiti di una nazione esistente"""
+    try:
+        data = request.get_json()
+        reqs = load_requirements()
+        
+        if country not in reqs:
+            return jsonify({"error": f"Nazione {country} non trovata"}), 404
+            
+        # Aggiorna i campi passati
+        if 'country_code' in data:
+            reqs[country]['country_code'] = data['country_code']
+        if 'gpa_scales' in data:
+            reqs[country]['gpa_scales'] = data['gpa_scales']
+        if 'qualifications' in data:
+            reqs[country]['qualifications'] = data['qualifications']
+        if 'thresholds' in data:
+            reqs[country]['thresholds'] = data['thresholds']
+            
+        if save_requirements(reqs):
+            return jsonify({"message": f"Nazione {country} aggiornata con successo", "requirements": reqs[country]}), 200
+        else:
+            return jsonify({"error": "Impossibile salvare i requisiti"}), 500
+    except Exception as e:
+        logger.error(f"Errore aggiornamento requisiti per {country}: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@admission_bp.route('/api/requirements/<country>', methods=['DELETE'])
+def delete_requirement(country):
+    """Elimina una nazione e le sue configurazioni di requisiti"""
+    try:
+        reqs = load_requirements()
+        if country not in reqs:
+            return jsonify({"error": f"Nazione {country} non trovata"}), 404
+            
+        del reqs[country]
+        if save_requirements(reqs):
+            return jsonify({"message": f"Nazione {country} eliminata con successo"}), 200
+        else:
+            return jsonify({"error": "Impossibile salvare i requisiti"}), 500
+    except Exception as e:
+        logger.error(f"Errore eliminazione nazione {country}: {e}")
+        return jsonify({"error": str(e)}), 500

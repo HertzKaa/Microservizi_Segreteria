@@ -266,6 +266,11 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .page-container.admin-mode {
+            max-width: 1200px;
         }
 
         /* HERO SECTION */
@@ -605,15 +610,35 @@
         }
 
         .admin-switch-btn.active {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--error-text);
-            border-color: var(--accent-color);
-            border-style: solid;
+            background: rgba(239, 68, 68, 0.18);
+            color: #ffffff;
+            border: 1px solid #ef4444;
+            font-weight: 700;
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.2);
+            transition: all 0.25s ease;
         }
 
         .admin-switch-btn.active:hover {
-            background: rgba(239, 68, 68, 0.15);
+            background: rgba(239, 68, 68, 0.28);
             color: #ffffff;
+            border-color: #fca5a5;
+            box-shadow: 0 0 14px rgba(239, 68, 68, 0.45);
+        }
+
+        #adminExitBtn {
+            background: rgba(239, 68, 68, 0.18) !important;
+            border: 1px solid #ef4444 !important;
+            color: #ef4444 !important;
+            font-weight: 700 !important;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.3) !important;
+            transition: all 0.25s ease;
+        }
+
+        #adminExitBtn:hover {
+            background: rgba(239, 68, 68, 0.28) !important;
+            border-color: #ef4444 !important;
+            color: #fca5a5 !important;
+            box-shadow: 0 0 16px rgba(239, 68, 68, 0.5) !important;
         }
 
         .admin-panel {
@@ -639,16 +664,14 @@
         }
 
         .format-info {
-            background: var(--bg-input);
-            border-left: 4px solid var(--accent-color);
-            border-radius: 8px;
-            padding: 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 18px 22px;
             font-size: 13px;
             color: var(--text-secondary);
             margin-bottom: 24px;
             line-height: 1.6;
-            border: 1px solid var(--border-color);
-            border-left-width: 4px;
         }
 
         /* BATCH RESULTS TABLE */
@@ -1044,8 +1067,9 @@
         }
 
         .btn-export-csv {
-            background: var(--accent-gradient);
-            color: #ffffff;
+            background: rgba(56, 189, 248, 0.18);
+            border: 1px solid #38bdf8;
+            color: #38bdf8;
             font-size: 13px;
             padding: 8px 16px;
             border-radius: 8px;
@@ -1054,19 +1078,17 @@
             align-items: center;
             gap: 6px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
             height: 38px;
-            border: none;
             white-space: nowrap;
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
         }
 
         .btn-export-csv:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-        }
-
-        .btn-export-csv:active {
-            transform: translateY(0);
+            background: rgba(56, 189, 248, 0.28);
+            border-color: #7dd3fc;
+            color: #7dd3fc;
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.45);
         }
 
         /* BATCH LOADER OVERLAY */
@@ -1155,6 +1177,621 @@
             flex-direction: column;
             align-items: center;
             gap: 12px;
+        }
+
+        /* CUSTOM ADMIN TABS & REQUIREMENTS STYLES */
+        .admin-switch-btn.reqs-btn {
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid #d97706;
+            color: #f59e0b;
+            box-shadow: 0 0 8px rgba(245, 158, 11, 0.2);
+            transition: all 0.3s ease;
+            margin-left: 12px;
+        }
+        .admin-switch-btn.reqs-btn:hover {
+            background: rgba(245, 158, 11, 0.18);
+            border-color: #f59e0b;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+        }
+        .admin-switch-btn.reqs-btn.active {
+            background: #f59e0b;
+            border-color: #d97706;
+            color: #0b0f19;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+        }
+        .admin-tabs {
+            display: flex;
+            gap: 16px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+        }
+        .admin-tab-btn {
+            background: transparent;
+            border: none;
+            color: #ffffff !important;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.25s ease;
+            opacity: 0.7;
+        }
+        .admin-tab-btn:hover {
+            opacity: 1;
+        }
+        .admin-tab-btn:hover#tabBatchBtn, .admin-tab-btn.active#tabBatchBtn {
+            opacity: 1;
+            color: #ef4444 !important;
+            border-bottom: 2px solid #ef4444;
+            filter: drop-shadow(0 2px 6px rgba(239, 68, 68, 0.5));
+        }
+        .admin-tab-btn:hover#tabRequirementsBtn, .admin-tab-btn.active#tabRequirementsBtn {
+            opacity: 1;
+            color: #facc15 !important;
+            border-bottom: 2px solid #facc15;
+            filter: drop-shadow(0 2px 6px rgba(250, 204, 21, 0.5));
+        }
+        .admin-tab-content {
+            display: none;
+        }
+        .admin-tab-content.active {
+            display: block;
+        }
+        
+        /* UNIFORM LED SEMI-TRANSPARENT BUTTON SYSTEM */
+        .btn-led {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            outline: none;
+        }
+        .btn-led.green {
+            background: rgba(16, 185, 129, 0.18);
+            border: 1px solid #10b981;
+            color: #10b981;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.2);
+        }
+        .btn-led.green:hover, .btn-led.green.active {
+            background: rgba(16, 185, 129, 0.28);
+            border-color: #34d399;
+            color: #34d399;
+            box-shadow: 0 0 14px rgba(16, 185, 129, 0.45);
+        }
+        .btn-led.blue {
+            background: rgba(56, 189, 248, 0.18);
+            border: 1px solid #38bdf8;
+            color: #38bdf8;
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
+        }
+        .btn-led.blue:hover, .btn-led.blue.active {
+            background: rgba(56, 189, 248, 0.28);
+            border-color: #7dd3fc;
+            color: #7dd3fc;
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.45);
+        }
+        .btn-led.yellow {
+            background: rgba(250, 204, 21, 0.18);
+            border: 1px solid #facc15;
+            color: #facc15;
+            box-shadow: 0 0 8px rgba(250, 204, 21, 0.2);
+        }
+        .btn-led.yellow:hover, .btn-led.yellow.active {
+            background: rgba(250, 204, 21, 0.28);
+            border-color: #fde047;
+            color: #fde047;
+            box-shadow: 0 0 14px rgba(250, 204, 21, 0.45);
+        }
+        .btn-led.red {
+            background: rgba(239, 68, 68, 0.18);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.2);
+        }
+        .btn-led.red:hover, .btn-led.red.active {
+            background: rgba(239, 68, 68, 0.28);
+            border-color: #fca5a5;
+            color: #fca5a5;
+            box-shadow: 0 0 14px rgba(239, 68, 68, 0.45);
+        }
+        .btn-led.white {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.18);
+        }
+        .btn-led.white:hover, .btn-led.white.active {
+            background: rgba(255, 255, 255, 0.22);
+            border-color: #ffffff;
+            color: #ffffff;
+            box-shadow: 0 0 14px rgba(255, 255, 255, 0.35);
+        }
+        
+        /* REQS ACTION BAR TOP (LEFT ALIGNED WITH INCREASED GAP & MARGIN) */
+        .reqs-action-bar-top {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 36px;
+        }
+
+        /* UNIFIED SEARCH / ATTACHED CUSTOM DROPDOWN BAR */
+        .reqs-search-wrapper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            min-width: 320px;
+        }
+        .reqs-search-input {
+            background: #1e293b;
+            border: 1px solid var(--border-color);
+            color: #ffffff;
+            padding: 10px 36px 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            width: 100%;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .reqs-search-input::placeholder {
+            color: #94a3b8;
+        }
+        .reqs-search-input:focus, .reqs-search-input:active {
+            background: #1e293b;
+            border-color: #ef4444;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.35);
+            color: #ffffff;
+        }
+        .reqs-search-arrow-custom {
+            position: absolute;
+            right: 14px;
+            pointer-events: none;
+            color: #e2e8f0;
+            font-size: 11px;
+            transition: color 0.2s ease;
+        }
+
+        /* CUSTOM ATTACHED DROPDOWN MENU UNDER SEARCH INPUT (RED UNICAM BORDER) */
+        .reqs-custom-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 2px;
+            background: #1e293b;
+            border: 1px solid #ef4444;
+            border-radius: 0 0 8px 8px;
+            max-height: 220px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+        }
+        .reqs-dropdown-item {
+            padding: 10px 16px;
+            color: #e2e8f0;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+        .reqs-dropdown-item:last-child {
+            border-bottom: none;
+        }
+        .reqs-dropdown-item:hover, .reqs-dropdown-item.selected {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        /* FULL-WIDTH STACKED COUNTRY CARDS (UNIFORM YELLOW LED ACCENTS) */
+        .reqs-country-cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            width: 100%;
+        }
+        .reqs-card-fullwidth {
+            position: relative;
+            width: 100%;
+            background: var(--bg-surface);
+            border-radius: 14px;
+            padding: 24px 28px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(250, 204, 21, 0.35);
+            border-top: 4px solid #facc15;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+            box-sizing: border-box;
+        }
+        .reqs-card-fullwidth .reqs-card-header-title {
+            color: #facc15;
+        }
+        .reqs-card-fullwidth .reqs-macro-title {
+            color: #facc15;
+            border-bottom: 1px dashed rgba(250, 204, 21, 0.3);
+        }
+
+        /* DISCREET HEADER BADGES FOR EDIT / NEW MODE */
+        .reqs-badge-editing {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid #f59e0b;
+            color: #f59e0b;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            line-height: 1;
+        }
+        .reqs-badge-new {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid #10b981;
+            color: #10b981;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            line-height: 1;
+        }
+
+        /* COUNTRY FLAG BADGE IN TOP-RIGHT CORNER */
+        .reqs-card-flag {
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            width: 38px;
+            height: 24px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        /* COMPACT CARD & TOGGLE DETAILS STYLES */
+        .reqs-card-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 16px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .reqs-summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .reqs-summary-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        .reqs-summary-value {
+            font-size: 13px;
+            font-weight: 400;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        .reqs-details-toggle-wrapper {
+            margin-top: 14px;
+            margin-bottom: 10px;
+        }
+        .btn-details-toggle.is-expanded,
+        .reqs-details-toggle-btn.is-expanded,
+        .btn-led.white.is-expanded {
+            background: rgba(15, 23, 42, 0.85) !important;
+            background-color: rgba(15, 23, 42, 0.85) !important;
+            border: 1px solid rgba(255, 255, 255, 0.25) !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+            color: #94a3b8 !important;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+            font-weight: 600 !important;
+        }
+        .btn-details-toggle.is-expanded .toggle-text,
+        .reqs-details-toggle-btn.is-expanded .toggle-text {
+            color: #94a3b8 !important;
+            font-weight: 600 !important;
+        }
+        .btn-details-toggle.is-expanded:hover,
+        .reqs-details-toggle-btn.is-expanded:hover {
+            background: rgba(15, 23, 42, 0.98) !important;
+            border-color: rgba(255, 255, 255, 0.4) !important;
+            color: #ffffff !important;
+        }
+        .btn-details-toggle.is-expanded:hover .toggle-text,
+        .reqs-details-toggle-btn.is-expanded:hover .toggle-text {
+            color: #ffffff !important;
+        }
+
+        /* RESTYLED 2-COLUMN EXPANDED DETAILS GRID */
+        .reqs-expanded-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 14px;
+            margin-bottom: 16px;
+        }
+        @media (max-width: 768px) {
+            .reqs-expanded-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .reqs-expanded-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(250, 204, 21, 0.3);
+            padding: 18px 20px;
+            border-radius: 10px;
+        }
+        .reqs-expanded-box-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #facc15;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(250, 204, 21, 0.2);
+        }
+
+        /* RESTYLED 2-COLUMN SCALE CHECKBOX CARD GRID WITH SUBTITLES */
+        .reqs-scale-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+        }
+        .reqs-scale-card {
+            background: #1e293b;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            cursor: pointer;
+            transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+            user-select: none;
+        }
+        .reqs-scale-card:hover {
+            border-color: rgba(250, 204, 21, 0.5);
+        }
+        .reqs-scale-card.selected {
+            border-color: #facc15;
+            background: rgba(250, 204, 21, 0.1);
+            box-shadow: 0 0 8px rgba(250, 204, 21, 0.2);
+        }
+        .reqs-scale-card input[type="checkbox"] {
+            accent-color: #facc15;
+            width: 16px;
+            height: 16px;
+            margin-top: 3px;
+            cursor: pointer;
+        }
+        .reqs-scale-card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .reqs-scale-card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .reqs-scale-card-subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+            line-height: 1.3;
+        }
+
+        /* ALTERNATING ACCENT THEMES */
+        .reqs-card-fullwidth.card-accent-yellow {
+            border: 1px solid rgba(250, 204, 21, 0.35);
+            border-top: 4px solid #facc15;
+        }
+        .reqs-card-fullwidth.card-accent-yellow .reqs-card-header-title {
+            color: #facc15;
+        }
+        .reqs-card-fullwidth.card-accent-yellow .reqs-macro-title {
+            color: #facc15;
+            border-bottom: 1px dashed rgba(250, 204, 21, 0.3);
+        }
+
+        .reqs-card-fullwidth.card-accent-white {
+            border: 1px solid rgba(248, 250, 252, 0.25);
+            border-top: 4px solid #f8fafc;
+        }
+        .reqs-card-fullwidth.card-accent-white .reqs-card-header-title {
+            color: #f8fafc;
+        }
+        .reqs-card-fullwidth.card-accent-white .reqs-macro-title {
+            color: #f8fafc;
+            border-bottom: 1px dashed rgba(248, 250, 252, 0.3);
+        }
+
+        .reqs-card-fullwidth.card-accent-red {
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            border-top: 4px solid #ef4444;
+        }
+        .reqs-card-fullwidth.card-accent-red .reqs-card-header-title {
+            color: #ef4444;
+        }
+        .reqs-card-fullwidth.card-accent-red .reqs-macro-title {
+            color: #ef4444;
+            border-bottom: 1px dashed rgba(239, 68, 68, 0.3);
+        }
+
+        .reqs-card-fullwidth.card-accent-green {
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            border-top: 4px solid #10b981;
+        }
+        .reqs-card-fullwidth.card-accent-green .reqs-card-header-title {
+            color: #10b981;
+        }
+        .reqs-card-fullwidth.card-accent-green .reqs-macro-title {
+            color: #10b981;
+            border-bottom: 1px dashed rgba(16, 185, 129, 0.3);
+        }
+
+        /* MACRO SECTION TITLES & SPACING */
+        .reqs-macro-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 28px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+        }
+        .reqs-macro-section {
+            margin-bottom: 32px;
+        }
+        .reqs-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+            .reqs-grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+        .reqs-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .reqs-input-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .reqs-input-group label.required::after {
+            content: " *";
+            color: #ef4444;
+        }
+        .reqs-input {
+            background: var(--bg-input);
+            border: 1px solid var(--border-input);
+            color: var(--text-primary);
+            padding: 12px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+        .reqs-input:focus {
+            border-color: #facc15;
+        }
+        .reqs-checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+            background: var(--bg-input);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .reqs-checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .reqs-checkbox-item input {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+            accent-color: #facc15;
+        }
+        .reqs-gpa-thresholds-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: var(--bg-input);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .reqs-gpa-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .reqs-gpa-row label {
+            width: 120px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .reqs-gpa-row input {
+            width: 100px;
+        }
+        .reqs-quals-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+        }
+        .reqs-quals-table th, .reqs-quals-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+            vertical-align: middle;
+        }
+        .reqs-quals-table th {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.01);
+        }
+        .reqs-quals-table input[type="text"] {
+            width: 95%;
+            padding: 10px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-input);
+            color: var(--text-primary);
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .reqs-quals-table input[type="text"]:focus {
+            border-color: #facc15;
+            box-shadow: 0 0 8px rgba(250, 204, 21, 0.2);
+        }
+        .reqs-quals-table input[type="number"] {
+            width: 80px;
+            padding: 10px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-input);
+            color: var(--text-primary);
+            border-radius: 6px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .reqs-quals-table input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #facc15;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -1311,82 +1948,127 @@
         </form>
 
         <!-- AREA RISERVATA AMMINISTRATORE -->
-        <div class="admin-switch-container">
-            <button class="admin-switch-btn" id="adminToggleBtn" data-i18n="adminAccess">Accedi come Amministratore
-                (Segreteria)</button>
+        <div class="admin-switch-container" id="adminSwitchContainer">
+            <button class="admin-switch-btn" id="adminToggleBtn" data-i18n="adminAccess">Accedi come Amministratore (Segreteria)</button>
         </div>
 
         <div class="admin-panel hidden" id="adminPanel">
+            <!-- Centered Exit Button Wrapper -->
+            <div class="admin-exit-wrapper" id="adminExitWrapper" style="text-align: center; margin-bottom: 24px;">
+                <button type="button" class="admin-switch-btn active" id="adminExitBtn" data-i18n="exitAdminArea">Esci dall'Area Admin</button>
+            </div>
+
             <div class="admin-card">
-                <h2 data-i18n="adminArea">Area Segreteria (Caricamento Massivo)</h2>
-                <div class="format-info">
-                    <strong data-i18n="supportedFormats">Formato del file supportato (.json, .xlsx, .ttl):</strong><br>
-                    • <span data-i18n="jsonFormat"><strong>JSON:</strong> Array di oggetti con chiavi: <code>name, course, country, qualification, duration, gpa, gpaScale</code>.</span><br>
-                    • <span data-i18n="excelFormat"><strong>Excel:</strong> Colonne ordinate o nominate: Nome, Corso (Undergraduate/Postgraduate), Paese (India/Iran), Qualifica (key), Durata, GPA, Scala.</span><br>
-                    • <span data-i18n="turtleFormat"><strong>Turtle (.ttl):</strong> Carica direttamente il file generato dall'altra pagina (es. <code>students_registered.ttl</code>).</span>
+                <!-- Tab Headers -->
+                <div class="admin-tabs">
+                    <button type="button" class="admin-tab-btn active" id="tabBatchBtn" data-i18n="tabBatchVerification">Verifica Ammissione Massiva</button>
+                    <button type="button" class="admin-tab-btn" id="tabRequirementsBtn" data-i18n="tabRequirementsManagement">Requisiti Nazioni</button>
                 </div>
+                <!-- Tab 1: Batch Verification -->
+                <div class="admin-tab-content active" id="tabContentBatch">
+                    <div class="reqs-card-fullwidth card-accent-red" style="margin-top: 10px; margin-bottom: 24px;">
+                        <!-- Header Card con accento Rosso UNICAM -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 2px solid #ef4444;">
+                            <h2 data-i18n="adminArea" style="margin: 0; font-size: 20px; font-weight: 800; color: #ffffff;">Area Segreteria (Caricamento Massivo)</h2>
+                        </div>
 
-                <form id="adminBatchForm">
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label for="batchFileInput" class="required" data-i18n="selectFile">Seleziona File (Excel, JSON
-                            o Turtle)</label>
-                        <input type="file" id="batchFileInput" accept=".json, .xlsx, .xls, .ttl" required>
+                        <!-- Content Box con stile griglia riepilogo -->
+                        <div class="format-info">
+                            <div style="font-size: 11px; font-weight: 500; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px;" data-i18n="supportedFormats">Formato del file supportato (.json, .xlsx, .ttl)</div>
+                            <div style="font-size: 13px; color: #ffffff; line-height: 1.7;">
+                                • <span data-i18n="jsonFormat"><strong>JSON:</strong> Array di oggetti con chiavi: <code>name, course, country, qualification, duration, gpa, gpaScale</code>.</span><br>
+                                • <span data-i18n="excelFormat"><strong>Excel:</strong> Colonne ordinate o nominate: Nome, Corso (Undergraduate/Postgraduate), Paese (India/Iran), Qualifica (key), Durata, GPA, Scala.</span><br>
+                                • <span data-i18n="turtleFormat"><strong>Turtle (.ttl):</strong> Carica direttamente il file generato dall'altra pagina (es. <code>students_registered.ttl</code>).</span>
+                            </div>
+                        </div>
+
+                        <!-- Form Seleziona File & Avvia Verifica -->
+                        <form id="adminBatchForm" style="margin-top: 20px;">
+                            <div style="margin-bottom: 20px;">
+                                <label for="batchFileInput" style="font-size: 11px; font-weight: 500; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; display: block;" data-i18n="selectFile">Seleziona File (Excel, JSON o Turtle)</label>
+                                <div class="reqs-card-summary-grid" style="padding: 14px 18px;">
+                                    <input type="file" id="batchFileInput" accept=".json, .xlsx, .xls, .ttl" required style="width: 100%; color: #ffffff; font-size: 14px; background: transparent; border: none; cursor: pointer;">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-led red" id="batchSubmitBtn" style="width: 100%; padding: 12px; font-size: 14px; margin-top: 10px;" data-i18n="startBatchVerification">
+                                Avvia Verifica Massiva
+                            </button>
+                        </form>
                     </div>
-                    <button type="submit" class="btn-verify" id="batchSubmitBtn" style="width: 100%;"
-                        data-i18n="startBatchVerification">
-                        Avvia Verifica Massiva
-                    </button>
-                </form>
 
-                <!-- Loader Overlay per la verifica massiva -->
-                <div class="batch-loader-container hidden" id="batchLoaderContainer">
-                    <div class="loader-content">
-                        <div class="spinner-circle"></div>
-                        <div class="loader-text" data-i18n="batchProcessingText">Elaborazione file e verifica ontologica in corso...</div>
-                        <div class="progress-bar-container">
-                            <div class="progress-bar-indicator"></div>
+                    <!-- Loader Overlay per la verifica massiva -->
+                    <div class="batch-loader-container hidden" id="batchLoaderContainer">
+                        <div class="loader-content">
+                            <div class="spinner-circle"></div>
+                            <div class="loader-text" data-i18n="batchProcessingText">Elaborazione file e verifica ontologica in corso...</div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-indicator"></div>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Tabella per i Risultati Massivi -->
+                    <div class="batch-table-container hidden" id="batchResultsContainer">
+                        <!-- Control Toolbar (Filtri, Ricerca e Azioni) -->
+                        <div class="admin-toolbar">
+                            <div class="admin-toolbar-filters">
+                                <input type="text" id="batchSearchInput" placeholder="Cerca studente per nome..." data-i18n-placeholder="filterPlaceholder">
+                                <select id="batchStatusFilter">
+                                    <option value="all" data-i18n="filterStatusAll">Tutti gli esiti</option>
+                                    <option value="admitted" data-i18n="filterStatusAdmitted">Solo Ammessi</option>
+                                    <option value="rejected" data-i18n="filterStatusRejected">Solo Non Ammessi</option>
+                                </select>
+                                <select id="batchSortFilter">
+                                    <option value="default" data-i18n="sortDefault">Ordine originale (Default)</option>
+                                    <option value="nameAZ" data-i18n="sortNameAZ">Nome (A-Z)</option>
+                                    <option value="nameZA" data-i18n="sortNameZA">Nome (Z-A)</option>
+                                    <option value="admittedFirst" data-i18n="sortOutcomeAdmitted">Esito (Prima Ammessi)</option>
+                                    <option value="rejectedFirst" data-i18n="sortOutcomeRejected">Esito (Prima Non Ammessi)</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn-export-csv" id="batchExportCsvBtn">
+                                <span data-i18n="exportCSV">Esporta CSV</span>
+                            </button>
+                        </div>
+                        <table class="batch-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="tableIndex">#</th>
+                                    <th data-i18n="tableStudent">Studente</th>
+                                    <th data-i18n="tableCourse">Corso</th>
+                                    <th data-i18n="tableCountry">Paese</th>
+                                    <th data-i18n="tableResult">Esito</th>
+                                    <th class="col-notes" data-i18n="tableNotes">Nota / Errore</th>
+                                </tr>
+                            </thead>
+                            <tbody id="batchResultsBody">
+                                <!-- Righe popolate dinamicamente da JS -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <!-- Tabella per i Risultati Massivi -->
-                <div class="batch-table-container hidden" id="batchResultsContainer">
-                    <!-- Control Toolbar (Filtri, Ricerca e Azioni) -->
-                    <div class="admin-toolbar">
-                        <div class="admin-toolbar-filters">
-                            <input type="text" id="batchSearchInput" placeholder="Cerca studente per nome..." data-i18n-placeholder="filterPlaceholder">
-                            <select id="batchStatusFilter">
-                                <option value="all" data-i18n="filterStatusAll">Tutti gli esiti</option>
-                                <option value="admitted" data-i18n="filterStatusAdmitted">Solo Ammessi</option>
-                                <option value="rejected" data-i18n="filterStatusRejected">Solo Non Ammessi</option>
-                            </select>
-                            <select id="batchSortFilter">
-                                <option value="default" data-i18n="sortDefault">Ordine originale (Default)</option>
-                                <option value="nameAZ" data-i18n="sortNameAZ">Nome (A-Z)</option>
-                                <option value="nameZA" data-i18n="sortNameZA">Nome (Z-A)</option>
-                                <option value="admittedFirst" data-i18n="sortOutcomeAdmitted">Esito (Prima Ammessi)</option>
-                                <option value="rejectedFirst" data-i18n="sortOutcomeRejected">Esito (Prima Non Ammessi)</option>
-                            </select>
-                        </div>
-                        <button type="button" class="btn-export-csv" id="batchExportCsvBtn">
-                            <span data-i18n="exportCSV">Esporta CSV</span>
-                        </button>
+                <!-- Tab 2: Requirements Management -->
+                <div class="admin-tab-content" id="tabContentRequirements">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 2px solid #facc15;">
+                        <h2 data-i18n="reqsManagementTitle" style="margin: 0; font-size: 20px; font-weight: 800; color: #ffffff;">Gestione Requisiti Minimi per Nazione</h2>
                     </div>
-                    <table class="batch-table">
-                        <thead>
-                            <tr>
-                                <th data-i18n="tableIndex">#</th>
-                                <th data-i18n="tableStudent">Studente</th>
-                                <th data-i18n="tableCourse">Corso</th>
-                                <th data-i18n="tableCountry">Paese</th>
-                                <th data-i18n="tableResult">Esito</th>
-                                <th class="col-notes" data-i18n="tableNotes">Nota / Errore</th>
-                            </tr>
-                        </thead>
-                        <tbody id="batchResultsBody">
-                            <!-- Righe popolate dinamicamente da JS -->
-                        </tbody>
-                    </table>
+                    
+                    <!-- Top Action Bar (Left Aligned) -->
+                    <div class="reqs-action-bar-top">
+                        <button type="button" class="btn-led white" id="btnActionAddCountry" data-i18n="actionAddCountry">Aggiungi Nuova Nazione</button>
+                        <div class="reqs-search-wrapper">
+                            <input type="text" id="reqsSearchInput" class="reqs-search-input" placeholder="Cerca o seleziona nazione..." data-i18n-placeholder="searchCountryPlaceholder" autocomplete="off">
+                            <span class="reqs-search-arrow-custom">&#9660;</span>
+                            <div id="reqsSearchDropdownMenu" class="reqs-custom-dropdown-menu hidden"></div>
+                        </div>
+                    </div>
+
+                    <!-- Full-Width Stacked Country Cards List -->
+                    <div class="reqs-country-cards-list" id="reqsCountryCardsList">
+                        <!-- Dynamic stacked full-width cards rendered here -->
+                    </div>
+                </div>
                 </div>
             </div>
         </div>
@@ -1609,6 +2291,45 @@
                 exportCSV: "Export CSV",
                 noResultsFound: "No results found",
                 batchProcessingText: "Processing file and ontological verification in progress...",
+                manageCountryRequirements: "Manage Country Requirements",
+                tabBatchVerification: "Massive Admission Verification",
+                tabRequirementsManagement: "Country Requirements",
+                reqsManagementTitle: "Admission Requirements Management by Country",
+                selectCountryToEdit: "Select Country to Edit:",
+                addNewCountryBtn: "Add New Country",
+                saveCountryReqsBtn: "Save Changes",
+                deleteCountryBtn: "Delete Country",
+                countryNameLabel: "Country Name",
+                countryCodeLabel: "ISO Country Code",
+                gpaScalesSectionTitle: "Enabled GPA Scales",
+                gpaThresholdsSectionTitle: "Minimum GPA Thresholds per Scale",
+                undergradReqsTitle: "Undergraduate Requirements",
+                postgradReqsTitle: "Postgraduate Requirements",
+                minGpaUndergradTitle: "Minimum GPA Thresholds - Undergraduate",
+                minGpaPostgradTitle: "Minimum GPA Thresholds - Postgraduate",
+                qualsListTitle: "Eligible Qualifications",
+                tableQualKey: "Code (Key)",
+                tableQualLabel: "Description (Label)",
+                tableQualDuration: "Requires Duration",
+                tableQualMinDuration: "Min Duration (Years)",
+                tableQualAction: "Remove",
+                addQualBtn: "Add Qualification Title",
+                actionAddCountry: "Add New Country",
+                actionEditCountry: "Modify Existing Country",
+                exitAdminArea: "Exit Admin Area",
+                saveNewCountryBtn: "Save New Country",
+                searchCountryPlaceholder: "Search or select country...",
+                showCompleteDetails: "Show complete details",
+                hideCompleteDetails: "Hide complete details",
+                editCountryBtn: "Edit Country",
+                enabledGpaScales: "Enabled GPA Scales",
+                undergradMinGpa: "Undergrad Min GPA",
+                postgradMinGpa: "Postgrad Min GPA",
+                undergradCourse: "Undergraduate Course (Triennale)",
+                postgradCourse: "Postgraduate Course (Magistrale)",
+                editingBadge: "EDITING",
+                newCountryBadge: "NEW COUNTRY",
+                cancelBtn: "Cancel",
             },
             it: {
                 title: "Verifica Ammissione ML",
@@ -1623,7 +2344,7 @@
                 selectCourse: "-- Seleziona corso --",
                 undergraduate: "Triennale (Undergraduate)",
                 postgraduate: "Magistrale (Postgraduate)",
-                countryOfOrigin: "Paese di Provenienza",
+                countryOfOrigin: "Paese di Origine",
                 selectCountry: "-- Seleziona paese --",
                 qualification: "Titolo di Studio",
                 qualificationTitle: "Titolo di Studio",
@@ -1668,6 +2389,45 @@
                 exportCSV: "Esporta CSV",
                 noResultsFound: "Nessun risultato trovato",
                 batchProcessingText: "Elaborazione file e verifica ontologica in corso...",
+                manageCountryRequirements: "Gestisci Requisiti Nazioni",
+                tabBatchVerification: "Verifica Ammissione Massiva",
+                tabRequirementsManagement: "Requisiti Nazioni",
+                reqsManagementTitle: "Gestione Requisiti Minimi per Nazione",
+                selectCountryToEdit: "Seleziona Nazione da Modificare:",
+                addNewCountryBtn: "Aggiungi Nuova Nazione",
+                saveCountryReqsBtn: "Salva Modifiche",
+                deleteCountryBtn: "Elimina Nazione",
+                countryNameLabel: "Nome Nazione",
+                countryCodeLabel: "Codice ISO Paese",
+                gpaScalesSectionTitle: "Scale di Voto Abilitate",
+                gpaThresholdsSectionTitle: "Soglie Minime GPA per Scala",
+                undergradReqsTitle: "Titoli Abilitanti Triennale (Undergraduate)",
+                postgradReqsTitle: "Titoli Abilitanti Magistrale (Postgraduate)",
+                minGpaUndergradTitle: "Soglie GPA Minime - Corso Triennale (Undergraduate)",
+                minGpaPostgradTitle: "Soglie GPA Minime - Corso Magistrale (Postgraduate)",
+                qualsListTitle: "Titoli di Studio Abilitanti",
+                tableQualKey: "Codice (Key)",
+                tableQualLabel: "Descrizione (Label)",
+                tableQualDuration: "Richiede Durata",
+                tableQualMinDuration: "Durata Minima (Anni)",
+                tableQualAction: "Rimuovi",
+                addQualBtn: "Aggiungi Titolo di Studio",
+                actionAddCountry: "Aggiungi Nuova Nazione",
+                actionEditCountry: "Modifica Nazione Esistente",
+                exitAdminArea: "Esci dall'Area Admin",
+                saveNewCountryBtn: "Salva Nuova Nazione",
+                searchCountryPlaceholder: "Cerca o seleziona nazione...",
+                showCompleteDetails: "Mostra dettagli completi",
+                hideCompleteDetails: "Nascondi dettagli completi",
+                editCountryBtn: "Modifica Nazione",
+                enabledGpaScales: "Scale Voto Abilitate",
+                undergradMinGpa: "GPA Min. Triennale",
+                postgradMinGpa: "GPA Min. Magistrale",
+                undergradCourse: "Corso Triennale (Undergraduate)",
+                postgradCourse: "Corso Magistrale (Postgraduate)",
+                editingBadge: "MODIFICA IN CORSO",
+                newCountryBadge: "NUOVA NAZIONE",
+                cancelBtn: "Annulla",
             }
         };
 
@@ -1685,6 +2445,11 @@
                 }
             });
             document.documentElement.lang = lang;
+
+            // Re-render country cards if active in admin panel
+            if (typeof renderFullWidthCountryCards === 'function' && typeof allRequirements !== 'undefined' && Object.keys(allRequirements).length > 0) {
+                renderFullWidthCountryCards();
+            }
 
             // Aggiorna placeholder per la data di nascita
             const birthDateInput = document.getElementById('birthDate');
@@ -1789,6 +2554,7 @@
             // Elementi DOM Amministratore
             const adminToggleBtn = document.getElementById('adminToggleBtn');
             const adminPanel = document.getElementById('adminPanel');
+            const adminSwitchContainer = document.getElementById('adminSwitchContainer');
             const adminBatchForm = document.getElementById('adminBatchForm');
             const batchFileInput = document.getElementById('batchFileInput');
             const batchSubmitBtn = document.getElementById('batchSubmitBtn');
@@ -1805,35 +2571,28 @@
             form.addEventListener('submit', handleVerification);
             form.addEventListener('reset', resetForm);
 
-            // Toggle della visualizzazione Area Admin
+            // Accedi all'Area Admin
             adminToggleBtn.addEventListener('click', () => {
                 const currentLang = document.documentElement.lang || 'it';
-                if (adminPanel.classList.contains('hidden')) {
-                    const promptMsg = currentLang === 'en'
-                        ? "Enter administrator password:"
-                        : "Inserisci la password dell'amministratore:";
-                    const psw = prompt(promptMsg);
-                    if (psw === "admin") {
-                        adminPanel.classList.remove('hidden');
-                        adminToggleBtn.textContent = currentLang === 'en'
-                            ? "Exit Administrator Area"
-                            : "Esci dall'Area Amministratore";
-                        adminToggleBtn.classList.add('active');
-                        showSuccess(currentLang === 'en' ? "Administrator access granted!" : "Accesso Amministratore consentito!");
+                const promptMsg = currentLang === 'en'
+                    ? "Enter administrator password:"
+                    : "Inserisci la password dell'amministratore:";
+                const psw = prompt(promptMsg);
+                if (psw === "admin") {
+                    adminPanel.classList.remove('hidden');
+                    if (adminSwitchContainer) adminSwitchContainer.style.display = 'none';
+                    document.querySelector('.page-container').classList.add('admin-mode');
+                    showSuccess(currentLang === 'en' ? "Administrator access granted!" : "Accesso Amministratore consentito!");
 
-                        // Scroll down to admin panel
-                        setTimeout(() => {
-                            adminPanel.scrollIntoView({ behavior: 'smooth' });
-                        }, 100);
-                    } else if (psw !== null) {
-                        showError(currentLang === 'en' ? "Wrong password!" : "Password errata!");
-                    }
-                } else {
-                    adminPanel.classList.add('hidden');
-                    batchResultsContainer.classList.add('hidden');
-                    adminToggleBtn.textContent = translations[currentLang].adminAccess;
-                    adminToggleBtn.classList.remove('active');
-                    adminBatchForm.reset();
+                    // Carica i dati delle nazioni all'accesso
+                    populateCountries();
+
+                    // Scroll down to admin panel
+                    setTimeout(() => {
+                        adminPanel.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                } else if (psw !== null) {
+                    showError(currentLang === 'en' ? "Wrong password!" : "Password errata!");
                 }
             });
 
@@ -2144,13 +2903,792 @@
                 batchExportCsvBtn.addEventListener('click', exportFilteredResultsToCSV);
             }
 
+            // ==========================================
+            // GESTIONE DINAMICA REQUISITI NAZIONI (ADMIN)
+            // ==========================================
+            let allRequirements = {};
+
+            const tabBatchBtn = document.getElementById('tabBatchBtn');
+            const tabRequirementsBtn = document.getElementById('tabRequirementsBtn');
+            const tabContentBatch = document.getElementById('tabContentBatch');
+            const tabContentRequirements = document.getElementById('tabContentRequirements');
+            const adminExitBtn = document.getElementById('adminExitBtn');
+
+            // Top Actions & Unified Search Input
+            const btnActionAddCountry = document.getElementById('btnActionAddCountry');
+            const reqsSearchInput = document.getElementById('reqsSearchInput');
+            const reqsCountryCardsList = document.getElementById('reqsCountryCardsList');
+
+            // Caricamento e popolamento nazioni
+            async function populateCountries() {
+                try {
+                    const res = await fetch('http://localhost:5000/api/requirements');
+                    if (!res.ok) return;
+                    allRequirements = await res.json();
+                    
+                    const currentLang = document.documentElement.lang || 'it';
+                    const savedVal = countrySelect.value;
+                    
+                    countrySelect.innerHTML = `<option value="">${currentLang === 'en' ? '-- Select country --' : '-- Seleziona paese --'}</option>`;
+                    
+                    // Popola datalist per il menu a cascata della barra di ricerca
+                    const datalist = document.getElementById('countrySearchDatalist');
+                    if (datalist) datalist.innerHTML = "";
+
+                    Object.keys(allRequirements).forEach(country => {
+                        const option = document.createElement('option');
+                        option.value = country;
+                        option.textContent = country;
+                        countrySelect.appendChild(option);
+
+                        if (datalist) {
+                            const opt = document.createElement('option');
+                            opt.value = country;
+                            datalist.appendChild(opt);
+                        }
+                    });
+                    
+                    if (savedVal && allRequirements[savedVal]) {
+                        countrySelect.value = savedVal;
+                    }
+                    
+                    renderFullWidthCountryCards();
+                } catch (e) {
+                    console.error("Errore caricamento requisiti nazioni:", e);
+                }
+            }
+
+            // Tab Switching
+            function switchAdminTab(tabName) {
+                if (tabName === 'batch') {
+                    tabBatchBtn.classList.add('active');
+                    tabRequirementsBtn.classList.remove('active');
+                    tabContentBatch.classList.add('active');
+                    tabContentRequirements.classList.remove('active');
+                } else {
+                    tabBatchBtn.classList.remove('active');
+                    tabRequirementsBtn.classList.add('active');
+                    tabContentBatch.classList.remove('active');
+                    tabContentRequirements.classList.add('active');
+                    
+                    if (Object.keys(allRequirements).length === 0) {
+                        populateCountries();
+                    } else {
+                        renderFullWidthCountryCards();
+                    }
+                }
+            }
+
+            tabBatchBtn.addEventListener('click', () => switchAdminTab('batch'));
+            tabRequirementsBtn.addEventListener('click', () => switchAdminTab('requirements'));
+
+            // Esci dall'Area Admin
+            if (adminExitBtn) {
+                adminExitBtn.addEventListener('click', () => {
+                    adminPanel.classList.add('hidden');
+                    if (adminSwitchContainer) adminSwitchContainer.style.display = 'block';
+                    document.querySelector('.page-container').classList.remove('admin-mode');
+                    batchResultsContainer.classList.add('hidden');
+                    adminBatchForm.reset();
+                    switchAdminTab('batch');
+                });
+            }
+
+            // Helper per la bandierina nazione
+            function getCountryFlagUrl(countryCode) {
+                if (!countryCode) return "";
+                return `https://flagcdn.com/w80/${countryCode.toLowerCase()}.png`;
+            }
+
+            // RENDERIZZA LE CARD DELLE NAZIONI (UNIFORMI IN GIALLO LED)
+            function renderFullWidthCountryCards() {
+                if (!reqsCountryCardsList) return;
+                reqsCountryCardsList.innerHTML = "";
+                const currentLang = document.documentElement.lang || 'it';
+                
+                const countries = Object.keys(allRequirements);
+                if (countries.length === 0) {
+                    reqsCountryCardsList.innerHTML = `<div style="color:var(--text-muted); font-size:14px; text-align:center; padding: 30px;">${currentLang === 'en' ? 'No country requirements registered yet.' : 'Nessuna nazione registrata al momento.'}</div>`;
+                    return;
+                }
+                
+                countries.forEach((country) => {
+                    const data = allRequirements[country];
+                    
+                    const card = document.createElement('div');
+                    card.className = "reqs-card-fullwidth card-accent-yellow";
+                    card.id = `country_card_${country.replace(/\s+/g, '_')}`;
+                    card.setAttribute('data-country-name', country.toLowerCase());
+
+                    renderCompactCardMode(card, country, data);
+                    reqsCountryCardsList.appendChild(card);
+                });
+            }
+
+            // MODALITÀ 1: CARD COMPATTA DI CONSULTAZIONE CON DETTAGLI ESPANDIBILI (2 COLONNE)
+            function renderCompactCardMode(card, countryName, data) {
+                const currentLang = document.documentElement.lang || 'it';
+                const code = data?.country_code || countryName.slice(0, 2).toUpperCase();
+                const flagUrl = getCountryFlagUrl(code);
+
+                const enabledScalesList = (data?.gpa_scales || [])
+                    .map(s => `<div style="color:#ffffff; font-weight:400;">${s.value} <span style="color:#94a3b8; font-size:12px;">(${s.label_it || s.label_en})</span></div>`)
+                    .join('') || '<div style="color:#94a3b8;">-</div>';
+                
+                const underGpa = data?.thresholds?.Undergraduate?.min_gpa || {};
+                const underGpaSummary = Object.entries(underGpa)
+                    .map(([k, v]) => `<div style="color:#ffffff; font-weight:400;"><span style="color:#94a3b8;">${k}:</span> ${v}</div>`)
+                    .join('') || '<div style="color:#94a3b8;">-</div>';
+
+                const postGpa = data?.thresholds?.Postgraduate?.min_gpa || {};
+                const postGpaSummary = Object.entries(postGpa)
+                    .map(([k, v]) => `<div style="color:#ffffff; font-weight:400;"><span style="color:#94a3b8;">${k}:</span> ${v}</div>`)
+                    .join('') || '<div style="color:#94a3b8;">-</div>';
+
+                const underQuals = (data?.qualifications?.Undergraduate || []);
+                const underQualsList = underQuals.map(q => `• <strong>${q.key}</strong>: ${q.label}`).join('<br>') || '-';
+
+                const postQuals = (data?.qualifications?.Postgraduate || []);
+                const postQualsList = postQuals.map(q => {
+                    const minDurText = q.min_duration ? ` (${currentLang === 'en' ? 'min' : 'min.'} ${q.min_duration} ${currentLang === 'en' ? 'years' : 'anni'})` : '';
+                    return `• <strong>${q.key}</strong>: ${q.label}${minDurText}`;
+                }).join('<br>') || '-';
+
+                card.innerHTML = `
+                    <!-- Bandierina in alto a destra -->
+                    <img src="${flagUrl}" alt="${countryName}" class="reqs-card-flag" onerror="this.style.display='none'">
+
+                    <!-- Header Card -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px dashed var(--border-color); padding-right: 50px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <h3 class="reqs-card-header-title" style="margin: 0; font-size: 20px; font-weight: 800;">${countryName}</h3>
+                            <span class="reqs-card-code" style="background: rgba(250, 204, 21, 0.15); border: 1px solid #facc15; color: #facc15; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 700;">${code}</span>
+                        </div>
+                    </div>
+
+                    <!-- Summary Grid -->
+                    <div class="reqs-card-summary-grid">
+                        <div class="reqs-summary-item">
+                            <span class="reqs-summary-label" data-i18n="enabledGpaScales">${translations[currentLang]?.enabledGpaScales || (currentLang === 'en' ? 'Enabled GPA Scales' : 'Scale Voto Abilitate')}</span>
+                            <span class="reqs-summary-value">${enabledScalesList}</span>
+                        </div>
+                        <div class="reqs-summary-item">
+                            <span class="reqs-summary-label" data-i18n="undergradMinGpa">${translations[currentLang]?.undergradMinGpa || (currentLang === 'en' ? 'Undergrad Min GPA' : 'GPA Min. Triennale')}</span>
+                            <span class="reqs-summary-value">${underGpaSummary}</span>
+                        </div>
+                        <div class="reqs-summary-item">
+                            <span class="reqs-summary-label" data-i18n="postgradMinGpa">${translations[currentLang]?.postgradMinGpa || (currentLang === 'en' ? 'Postgrad Min GPA' : 'GPA Min. Magistrale')}</span>
+                            <span class="reqs-summary-value">${postGpaSummary}</span>
+                        </div>
+                    </div>
+
+                    <!-- Bottone Espansione Dettagli in BIANCO LED -->
+                    <div class="reqs-details-toggle-wrapper">
+                        <button type="button" class="btn-led white reqs-details-toggle-btn btn-details-toggle" style="width: 100%; padding: 8px 14px; font-size: 13px;">
+                            <span class="toggle-text" data-i18n="showCompleteDetails">${translations[currentLang]?.showCompleteDetails || (currentLang === 'en' ? 'Show complete details' : 'Mostra dettagli completi')}</span>
+                        </button>
+                    </div>
+
+                    <!-- Dettagli Espansi Riformattati su 2 Colonne -->
+                    <div class="reqs-expanded-details hidden">
+                        <div class="reqs-expanded-grid">
+                            <div class="reqs-expanded-box">
+                                <div class="reqs-expanded-box-title" data-i18n="undergradCourse">${translations[currentLang]?.undergradCourse || (currentLang === 'en' ? 'Undergraduate Course (Triennale)' : 'Corso Triennale (Undergraduate)')}</div>
+                                <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">${underQualsList}</div>
+                            </div>
+                            <div class="reqs-expanded-box">
+                                <div class="reqs-expanded-box-title" data-i18n="postgradCourse">${translations[currentLang]?.postgradCourse || (currentLang === 'en' ? 'Postgraduate Course (Magistrale)' : 'Corso Magistrale (Postgraduate)')}</div>
+                                <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">${postQualsList}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottone Modifica Nazione -->
+                    <button type="button" class="btn-led yellow btn-trigger-edit-card" data-i18n="editCountryBtn" style="width: 100%; margin-top: 14px; padding: 12px; font-size: 14px;">
+                        ${translations[currentLang]?.editCountryBtn || (currentLang === 'en' ? 'Edit Country' : 'Modifica Nazione')}
+                    </button>
+                `;
+
+                // Event listener per mostrare/nascondere dettagli completi con stato attivo dinamico
+                const toggleBtn = card.querySelector('.reqs-details-toggle-btn');
+                const detailsBox = card.querySelector('.reqs-expanded-details');
+                toggleBtn.addEventListener('click', () => {
+                    const isHidden = detailsBox.classList.toggle('hidden');
+                    const txtSpan = toggleBtn.querySelector('.toggle-text');
+                    if (isHidden) {
+                        toggleBtn.classList.remove('is-expanded');
+                        toggleBtn.classList.remove('active-toggle');
+                        if (txtSpan) {
+                            txtSpan.setAttribute('data-i18n', 'showCompleteDetails');
+                            txtSpan.textContent = translations[currentLang]?.showCompleteDetails || (currentLang === 'en' ? 'Show complete details' : 'Mostra dettagli completi');
+                        }
+                    } else {
+                        toggleBtn.classList.add('is-expanded');
+                        toggleBtn.classList.add('active-toggle');
+                        if (txtSpan) {
+                            txtSpan.setAttribute('data-i18n', 'hideCompleteDetails');
+                            txtSpan.textContent = translations[currentLang]?.hideCompleteDetails || (currentLang === 'en' ? 'Hide complete details' : 'Nascondi dettagli completi');
+                        }
+                    }
+                });
+
+                // Event listener per attivare la modalità modifica
+                card.querySelector('.btn-trigger-edit-card').addEventListener('click', () => {
+                    renderEditCardMode(card, countryName, data, false);
+                });
+            }
+
+            // MODALITÀ 2: CARD EDITABILE DI MODIFICA / CREAZIONE
+            function renderEditCardMode(card, countryName, data, isNew) {
+                const currentLang = document.documentElement.lang || 'it';
+                const code = data?.country_code || (isNew ? "" : countryName.slice(0, 2).toUpperCase());
+                const flagUrl = getCountryFlagUrl(code);
+                const enabledScales = (data?.gpa_scales || []).map(s => s.value);
+
+                card.innerHTML = `
+                    <img src="${flagUrl}" alt="${countryName}" class="reqs-card-flag" style="${code ? '' : 'display: none;'}" onerror="this.style.display='none'">
+
+                    <!-- Card Header -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px dashed var(--border-color); padding-right: 50px;">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            ${isNew 
+                                ? `<input type="text" class="reqs-input input-country-name" placeholder="${currentLang === 'en' ? 'Country Name (e.g. China)' : 'Nome Nazione (es. China)'}" style="font-size: 16px; font-weight: 700; width: 220px;" required>`
+                                : `<h3 class="reqs-card-header-title" style="margin: 0; font-size: 20px; font-weight: 800;">${countryName}</h3>`
+                            }
+                            <input type="text" class="reqs-input input-country-code" value="${code}" placeholder="${currentLang === 'en' ? 'ISO (e.g. CN)' : 'ISO (es. CN)'}" maxlength="2" style="width: 70px; text-transform: uppercase; text-align: center; font-weight: 700;" required>
+                            <span class="${isNew ? 'reqs-badge-new' : 'reqs-badge-editing'}">
+                                ${isNew 
+                                    ? (currentLang === 'en' ? 'NEW COUNTRY' : 'NUOVA NAZIONE') 
+                                    : (currentLang === 'en' ? 'EDITING' : 'MODIFICA IN CORSO')
+                                }
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Macro-Sezione 1: Scale di Voto Abilitate (Griglia a 2 Colonne con Titolo e Sottotitolo) -->
+                    <div class="reqs-macro-section">
+                        <div class="reqs-macro-title" data-i18n="gpaScalesSectionTitle">Scale di Voto Abilitate</div>
+                        <div class="reqs-scale-card-grid grid-scales">
+                            <div class="reqs-scale-card ${enabledScales.includes('Base100') ? 'selected' : ''}">
+                                <input type="checkbox" value="Base100" ${enabledScales.includes('Base100') ? 'checked' : ''}>
+                                <div class="reqs-scale-card-content">
+                                    <span class="reqs-scale-card-title">Base 100</span>
+                                    <span class="reqs-scale-card-subtitle">${currentLang === 'en' ? 'Evaluation on scale 0 - 100' : 'Valutazione su scala 0 - 100'}</span>
+                                </div>
+                            </div>
+                            <div class="reqs-scale-card ${enabledScales.includes('Base20') ? 'selected' : ''}">
+                                <input type="checkbox" value="Base20" ${enabledScales.includes('Base20') ? 'checked' : ''}>
+                                <div class="reqs-scale-card-content">
+                                    <span class="reqs-scale-card-title">Base 20</span>
+                                    <span class="reqs-scale-card-subtitle">${currentLang === 'en' ? 'Evaluation on scale 0 - 20' : 'Valutazione su scala 0 - 20'}</span>
+                                </div>
+                            </div>
+                            <div class="reqs-scale-card ${enabledScales.includes('Base10') ? 'selected' : ''}">
+                                <input type="checkbox" value="Base10" ${enabledScales.includes('Base10') ? 'checked' : ''}>
+                                <div class="reqs-scale-card-content">
+                                    <span class="reqs-scale-card-title">Base 10</span>
+                                    <span class="reqs-scale-card-subtitle">${currentLang === 'en' ? 'Evaluation on scale 0 - 10' : 'Valutazione su scala 0 - 10'}</span>
+                                </div>
+                            </div>
+                            <div class="reqs-scale-card ${enabledScales.includes('Base8') ? 'selected' : ''}">
+                                <input type="checkbox" value="Base8" ${enabledScales.includes('Base8') ? 'checked' : ''}>
+                                <div class="reqs-scale-card-content">
+                                    <span class="reqs-scale-card-title">Base 8</span>
+                                    <span class="reqs-scale-card-subtitle">${currentLang === 'en' ? 'Evaluation on scale 0 - 8' : 'Valutazione su scala 0 - 8'}</span>
+                                </div>
+                            </div>
+                            <div class="reqs-scale-card ${enabledScales.includes('Base4') ? 'selected' : ''}">
+                                <input type="checkbox" value="Base4" ${enabledScales.includes('Base4') ? 'checked' : ''}>
+                                <div class="reqs-scale-card-content">
+                                    <span class="reqs-scale-card-title">Base 4</span>
+                                    <span class="reqs-scale-card-subtitle">${currentLang === 'en' ? 'Evaluation on scale 0 - 4' : 'Valutazione su scala 0 - 4'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Macro-Sezione 2: Soglie GPA Minime -->
+                    <div class="reqs-macro-section">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                            <div style="background: rgba(255, 255, 255, 0.01); border: 1px solid var(--border-color); padding: 20px; border-radius: 8px;">
+                                <label style="font-size: 15px; font-weight: 700; display: block; margin-bottom: 14px; color: #facc15;" data-i18n="minGpaUndergradTitle">Soglie GPA Minime - Corso Triennale (Undergraduate)</label>
+                                <div class="reqs-gpa-thresholds-container container-undergrad-gpa"></div>
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.01); border: 1px solid var(--border-color); padding: 20px; border-radius: 8px;">
+                                <label style="font-size: 15px; font-weight: 700; display: block; margin-bottom: 14px; color: #facc15;" data-i18n="minGpaPostgradTitle">Soglie GPA Minime - Corso Magistrale (Postgraduate)</label>
+                                <div class="reqs-gpa-thresholds-container container-postgrad-gpa"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Macro-Sezione 3: Titoli Abilitanti Triennale -->
+                    <div class="reqs-macro-section">
+                        <div class="reqs-macro-title" data-i18n="undergradReqsTitle">Titoli Abilitanti Triennale (Undergraduate)</div>
+                        <div style="margin-top: 14px; margin-bottom: 20px; overflow-x: auto;">
+                            <table class="reqs-quals-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="tableQualKey">Codice (Key)</th>
+                                        <th data-i18n="tableQualLabel">Descrizione (Label)</th>
+                                        <th data-i18n="tableQualDuration" style="text-align: center;">Richiede Durata</th>
+                                        <th data-i18n="tableQualMinDuration" style="text-align: center;">Durata Minima (Anni)</th>
+                                        <th data-i18n="tableQualAction" style="text-align: center;">Rimuovi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="body-undergrad-quals"></tbody>
+                            </table>
+                            <button type="button" class="btn-led white btn-add-undergrad-qual" data-i18n="addQualBtn" style="margin-top: 14px; margin-bottom: 12px;">Aggiungi Titolo di Studio</button>
+                        </div>
+                    </div>
+
+                    <!-- Macro-Sezione 4: Titoli Abilitanti Magistrale -->
+                    <div class="reqs-macro-section">
+                        <div class="reqs-macro-title" data-i18n="postgradReqsTitle">Titoli Abilitanti Magistrale (Postgraduate)</div>
+                        <div style="margin-top: 14px; margin-bottom: 24px; overflow-x: auto;">
+                            <table class="reqs-quals-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="tableQualKey">Codice (Key)</th>
+                                        <th data-i18n="tableQualLabel">Descrizione (Label)</th>
+                                        <th data-i18n="tableQualDuration" style="text-align: center;">Richiede Durata</th>
+                                        <th data-i18n="tableQualMinDuration" style="text-align: center;">Durata Minima (Anni)</th>
+                                        <th data-i18n="tableQualAction" style="text-align: center;">Rimuovi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="body-postgrad-quals"></tbody>
+                            </table>
+                            <button type="button" class="btn-led white btn-add-postgrad-qual" data-i18n="addQualBtn" style="margin-top: 14px; margin-bottom: 12px;">Aggiungi Titolo di Studio</button>
+                        </div>
+                    </div>
+
+                    <!-- Card Footer: Bottoni Salva, Elimina e Annulla -->
+                    <div style="display: flex; justify-content: flex-end; gap: 14px; padding-top: 20px; border-top: 1px dashed var(--border-color);">
+                        <button type="button" class="btn-led yellow btn-save-card" data-i18n="${isNew ? 'saveNewCountryBtn' : 'saveCountryReqsBtn'}">
+                            ${isNew 
+                                ? (currentLang === 'en' ? 'Save New Country' : 'Salva Nuova Nazione') 
+                                : (currentLang === 'en' ? 'Save Changes' : 'Salva Modifiche')
+                            }
+                        </button>
+                        ${!isNew ? `<button type="button" class="btn-led red btn-delete-card">${currentLang === 'en' ? 'Delete Country' : 'Elimina Nazione'}</button>` : ''}
+                        <button type="button" class="btn-led btn-cancel-edit" style="background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border-color); color: #ffffff;">
+                            ${currentLang === 'en' ? 'Cancel' : 'Annulla'}
+                        </button>
+                    </div>
+                `;
+
+                // Listener per l'anteprima automatica e in tempo reale della bandierina nazione
+                const inputCode = card.querySelector('.input-country-code');
+                const inputName = card.querySelector('.input-country-name');
+                const flagImg = card.querySelector('.reqs-card-flag');
+
+                const countryIsoMap = {
+                    'china': 'CN', 'cina': 'CN',
+                    'brazil': 'BR', 'brasile': 'BR',
+                    'germany': 'DE', 'germania': 'DE',
+                    'france': 'FR', 'francia': 'FR',
+                    'spain': 'ES', 'spagna': 'ES',
+                    'japan': 'JP', 'giappone': 'JP',
+                    'united states': 'US', 'usa': 'US', 'stati uniti': 'US',
+                    'united kingdom': 'GB', 'uk': 'GB', 'regno unito': 'GB',
+                    'canada': 'CA',
+                    'australia': 'AU',
+                    'india': 'IN',
+                    'iran': 'IR',
+                    'egypt': 'EG', 'egitto': 'EG',
+                    'turkey': 'TR', 'turchia': 'TR',
+                    'mexico': 'MX', 'messico': 'MX',
+                    'argentina': 'AR',
+                    'colombia': 'CO',
+                    'nigeria': 'NG',
+                    'pakistan': 'PK',
+                    'vietnam': 'VN',
+                    'russia': 'RU',
+                    'ukraine': 'UA', 'ucraina': 'UA',
+                    'italy': 'IT', 'italia': 'IT'
+                };
+
+                const updateFlagPreview = () => {
+                    if (!inputCode || !flagImg) return;
+                    const isoVal = inputCode.value.trim().toUpperCase();
+                    if (isoVal.length === 2) {
+                        flagImg.src = `https://flagcdn.com/w80/${isoVal.toLowerCase()}.png`;
+                        flagImg.style.display = 'block';
+                    } else {
+                        flagImg.style.display = 'none';
+                    }
+                };
+
+                if (inputCode) {
+                    inputCode.addEventListener('input', updateFlagPreview);
+                }
+
+                if (inputName) {
+                    inputName.addEventListener('input', () => {
+                        const nameVal = inputName.value.trim().toLowerCase();
+                        if (countryIsoMap[nameVal] && (!inputCode.value || inputCode.value.length < 2)) {
+                            inputCode.value = countryIsoMap[nameVal];
+                            updateFlagPreview();
+                        }
+                    });
+                }
+
+                // Renderizza campi GPA e Tabelle Qualifiche per la Card Editabile
+                const gridScales = card.querySelector('.grid-scales');
+                const underGpaContainer = card.querySelector('.container-undergrad-gpa');
+                const postGpaContainer = card.querySelector('.container-postgrad-gpa');
+                const underBody = card.querySelector('.body-undergrad-quals');
+                const postBody = card.querySelector('.body-postgrad-quals');
+
+                // Gestisci selezione interattiva delle card per le scale
+                gridScales.querySelectorAll('.reqs-scale-card').forEach(scaleCard => {
+                    const cb = scaleCard.querySelector('input[type="checkbox"]');
+                    scaleCard.addEventListener('click', (e) => {
+                        if (e.target !== cb) cb.checked = !cb.checked;
+                        scaleCard.classList.toggle('selected', cb.checked);
+                        renderCardGpaFields();
+                    });
+                });
+
+                function renderCardGpaFields() {
+                    const selectedScales = [];
+                    gridScales.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => selectedScales.push(cb.value));
+                    
+                    const thresholds = data?.thresholds || {};
+                    renderGpaContainer(underGpaContainer, selectedScales, thresholds?.Undergraduate?.min_gpa || {});
+                    renderGpaContainer(postGpaContainer, selectedScales, thresholds?.Postgraduate?.min_gpa || {});
+                }
+
+                function renderGpaContainer(container, selectedScales, gpaValues) {
+                    container.innerHTML = "";
+                    if (selectedScales.length === 0) {
+                        container.innerHTML = `<div style="font-size:12px; color:var(--text-muted);">${currentLang === 'en' ? 'Select at least one scale above.' : 'Seleziona almeno una scala di voto sopra.'}</div>`;
+                        return;
+                    }
+                    selectedScales.forEach(scale => {
+                        const val = gpaValues[scale] !== undefined ? gpaValues[scale] : "";
+                        const div = document.createElement('div');
+                        div.className = "reqs-gpa-row";
+                        div.innerHTML = `
+                            <label for="gpa_${countryName}_${scale}">GPA ${scale}</label>
+                            <input type="number" step="0.01" min="0" class="reqs-input input-gpa-val" data-scale="${scale}" value="${val}" style="padding: 6px 10px; width: 100px;">
+                        `;
+                        container.appendChild(div);
+                    });
+                }
+
+                renderCardGpaFields();
+
+                // Popola righe qualifiche
+                (data?.qualifications?.Undergraduate || []).forEach(q => addQualRowToTable(underBody, q.key, q.label, q.requiresDuration, q.min_duration));
+                (data?.qualifications?.Postgraduate || []).forEach(q => addQualRowToTable(postBody, q.key, q.label, q.requiresDuration, q.min_duration));
+
+                // Bottoni Aggiungi Titolo di Studio in BIANCO LED
+                card.querySelector('.btn-add-undergrad-qual').addEventListener('click', () => addQualRowToTable(underBody));
+                card.querySelector('.btn-add-postgrad-qual').addEventListener('click', () => addQualRowToTable(postBody));
+
+                // Pulsante elimina
+                const deleteBtn = card.querySelector('.btn-delete-card');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', () => deleteCountryCardHandler(countryName));
+                }
+
+                // Pulsante annulla
+                card.querySelector('.btn-cancel-edit').addEventListener('click', () => {
+                    if (isNew) {
+                        card.remove();
+                    } else {
+                        renderCompactCardMode(card, countryName, data);
+                    }
+                });
+
+                // Pulsante salva modifiche diretto
+                card.querySelector('.btn-save-card').addEventListener('click', () => saveCountryCardHandler(card, countryName, isNew));
+            }
+
+            function addQualRowToTable(tbody, key = "", label = "", requiresDuration = false, minDuration = "") {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><input type="text" value="${key}" class="reqs-qual-key" style="text-align: left;" required placeholder="Es. Kardani"></td>
+                    <td><input type="text" value="${label}" class="reqs-qual-label" style="text-align: left;" required placeholder="Es. Associate Degree"></td>
+                    <td style="text-align: center;"><input type="checkbox" class="reqs-qual-duration-cb" ${requiresDuration ? 'checked' : ''}></td>
+                    <td style="text-align: center;"><input type="number" class="reqs-qual-min-dur" value="${minDuration !== undefined && minDuration !== null ? minDuration : ''}" style="width: 70px;" min="1" placeholder="-"></td>
+                    <td style="text-align: center;"><button type="button" class="btn-led red btn-remove-row" style="padding: 4px 10px; font-size: 12px;">Rimuovi</button></td>
+                `;
+                tr.querySelector('.btn-remove-row').addEventListener('click', () => tr.remove());
+                tbody.appendChild(tr);
+            }
+
+            // BARRA DI RICERCA INTELLIGENTE CON MENU A TENDINA ATTACCATO ADERENTE (CUSTOM DROPDOWN)
+            const reqsSearchDropdownMenu = document.getElementById('reqsSearchDropdownMenu');
+            const reqsSearchWrapper = document.querySelector('.reqs-search-wrapper');
+
+            function updateCustomSearchDropdownMenu(filterQuery = "") {
+                if (!reqsSearchDropdownMenu) return;
+                reqsSearchDropdownMenu.innerHTML = "";
+                const currentLang = document.documentElement.lang || 'it';
+                
+                const countries = Object.keys(allRequirements).filter(c => 
+                    c.toLowerCase().includes(filterQuery.toLowerCase())
+                );
+                
+                if (countries.length === 0) {
+                    reqsSearchDropdownMenu.innerHTML = `<div style="padding: 10px 16px; color: var(--text-muted); font-size: 13px;">${currentLang === 'en' ? 'No country found' : 'Nessuna nazione trovata'}</div>`;
+                    return;
+                }
+                
+                countries.forEach(country => {
+                    const item = document.createElement('div');
+                    item.className = 'reqs-dropdown-item';
+                    item.textContent = country;
+                    item.addEventListener('click', () => {
+                        selectCountryFromCustomDropdown(country);
+                    });
+                    reqsSearchDropdownMenu.appendChild(item);
+                });
+            }
+
+            function selectCountryFromCustomDropdown(countryName) {
+                if (!reqsSearchInput) return;
+                reqsSearchInput.value = countryName;
+                if (reqsSearchDropdownMenu) reqsSearchDropdownMenu.classList.add('hidden');
+                
+                filterCountryCardsByQuery(countryName);
+                
+                const targetCard = document.getElementById(`country_card_${countryName.replace(/\s+/g, '_')}`);
+                if (targetCard) {
+                    targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+
+            function filterCountryCardsByQuery(query) {
+                const q = query.trim().toLowerCase();
+                const cards = reqsCountryCardsList.querySelectorAll('.reqs-card-fullwidth');
+                cards.forEach(card => {
+                    const countryAttr = card.getAttribute('data-country-name');
+                    if (!countryAttr) return;
+                    if (countryAttr.includes(q)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            if (reqsSearchInput) {
+                reqsSearchInput.addEventListener('focus', () => {
+                    updateCustomSearchDropdownMenu(reqsSearchInput.value);
+                    if (reqsSearchDropdownMenu) reqsSearchDropdownMenu.classList.remove('hidden');
+                });
+                
+                reqsSearchInput.addEventListener('input', () => {
+                    updateCustomSearchDropdownMenu(reqsSearchInput.value);
+                    if (reqsSearchDropdownMenu) reqsSearchDropdownMenu.classList.remove('hidden');
+                    filterCountryCardsByQuery(reqsSearchInput.value);
+                });
+            }
+
+            // Chiudi il menu a tendina se si clicca fuori dal campo di ricerca
+            document.addEventListener('click', (e) => {
+                if (reqsSearchWrapper && !reqsSearchWrapper.contains(e.target)) {
+                    if (reqsSearchDropdownMenu) reqsSearchDropdownMenu.classList.add('hidden');
+                }
+            });
+
+            // AZIONE: AGGIUNGI NUOVA NAZIONE (PREPEND CARD GIALLA LED IN MODALITÀ EDITING)
+            if (btnActionAddCountry) {
+                btnActionAddCountry.addEventListener('click', () => {
+                    const existingNew = reqsCountryCardsList.querySelector('.card-is-new');
+                    if (existingNew) {
+                        existingNew.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        const inputName = existingNew.querySelector('.input-country-name');
+                        if (inputName) inputName.focus();
+                        return;
+                    }
+
+                    const newCard = document.createElement('div');
+                    newCard.className = 'reqs-card-fullwidth card-accent-yellow card-is-new';
+                    renderEditCardMode(newCard, "", {}, true);
+                    
+                    reqsCountryCardsList.prepend(newCard);
+                    newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    const inputName = newCard.querySelector('.input-country-name');
+                    if (inputName) inputName.focus();
+                });
+            }
+
+            // GESTORE SALVATAGGIO DIRETTO SULLA CARD
+            async function saveCountryCardHandler(cardElement, existingCountryName, isNew) {
+                const currentLang = document.documentElement.lang || 'it';
+                
+                let countryName = existingCountryName;
+                if (isNew) {
+                    const inputName = cardElement.querySelector('.input-country-name');
+                    countryName = inputName ? inputName.value.trim() : "";
+                }
+                
+                const inputCode = cardElement.querySelector('.input-country-code');
+                const countryCode = inputCode ? inputCode.value.trim().toUpperCase() : "";
+                
+                if (!countryName || !countryCode) {
+                    showError(currentLang === 'en' ? "Please fill in Country Name and ISO Code." : "Inserisci il Nome Nazione e il Codice ISO.");
+                    return;
+                }
+
+                // Raccoglie scale abilitate
+                const scaleCheckboxes = cardElement.querySelectorAll('.grid-scales input[type="checkbox"]:checked');
+                if (scaleCheckboxes.length === 0) {
+                    showError(currentLang === 'en' ? "Select at least one enabled GPA scale." : "Seleziona almeno una scala di voto abilitata.");
+                    return;
+                }
+
+                const gpaScales = [];
+                const scaleLabelsMap = {
+                    'Base100': { it: 'Su 100', en: 'On 100' },
+                    'Base20': { it: 'Su 20', en: 'On 20' },
+                    'Base10': { it: 'Su 10', en: 'On 10' },
+                    'Base8': { it: 'Su 8', en: 'On 8' },
+                    'Base4': { it: 'Su 4', en: 'On 4' }
+                };
+
+                scaleCheckboxes.forEach(cb => {
+                    const val = cb.value;
+                    gpaScales.push({
+                        value: val,
+                        label_it: scaleLabelsMap[val]?.it || val,
+                        label_en: scaleLabelsMap[val]?.en || val
+                    });
+                });
+
+                // Raccoglie thresholds
+                const undergradGpa = {};
+                cardElement.querySelectorAll('.container-undergrad-gpa .reqs-gpa-row').forEach(row => {
+                    const input = row.querySelector('input');
+                    const scaleName = input.getAttribute('data-scale');
+                    undergradGpa[scaleName] = parseFloat(input.value) || 0;
+                });
+
+                const postgradGpa = {};
+                cardElement.querySelectorAll('.container-postgrad-gpa .reqs-gpa-row').forEach(row => {
+                    const input = row.querySelector('input');
+                    const scaleName = input.getAttribute('data-scale');
+                    postgradGpa[scaleName] = parseFloat(input.value) || 0;
+                });
+
+                // Raccoglie qualifiche
+                const undergradQuals = gatherQualsTableDataFromTbody(cardElement.querySelector('.body-undergrad-quals'));
+                const postgradQuals = gatherQualsTableDataFromTbody(cardElement.querySelector('.body-postgrad-quals'));
+
+                const minDurationMap = {};
+                postgradQuals.forEach(q => {
+                    if (q.requiresDuration && q.min_duration) {
+                        minDurationMap[q.key] = parseInt(q.min_duration) || 0;
+                    }
+                });
+
+                const payload = {
+                    country: countryName,
+                    country_code: countryCode,
+                    gpa_scales: gpaScales,
+                    qualifications: {
+                        Undergraduate: undergradQuals.map(q => ({ key: q.key, label: q.label, requiresDuration: q.requiresDuration })),
+                        Postgraduate: postgradQuals.map(q => ({ key: q.key, label: q.label, requiresDuration: q.requiresDuration }))
+                    },
+                    thresholds: {
+                        Undergraduate: {
+                            eligible_qualifications: undergradQuals.map(q => q.key),
+                            min_gpa: undergradGpa
+                        },
+                        Postgraduate: {
+                            eligible_qualifications: postgradQuals.map(q => q.key),
+                            min_duration: minDurationMap,
+                            min_gpa: postgradGpa
+                        }
+                    }
+                };
+
+                try {
+                    const url = isNew 
+                        ? 'http://localhost:5000/api/requirements'
+                        : `http://localhost:5000/api/requirements/${countryName}`;
+                    const method = isNew ? 'POST' : 'PUT';
+
+                    const res = await fetch(url, {
+                        method: method,
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await res.json();
+                    if (!res.ok) throw new Error(result.error || "Errore durante il salvataggio");
+
+                    showSuccess(currentLang === 'en' ? `Requirements for ${countryName} saved successfully!` : `Requisiti per ${countryName} salvati con successo!`);
+
+                    await populateCountries();
+                } catch (e) {
+                    showError(currentLang === 'en' ? "Error saving requirements: " + e.message : "Errore salvataggio requisiti: " + e.message);
+                }
+            }
+
+            function gatherQualsTableDataFromTbody(tbody) {
+                if (!tbody) return [];
+                const quals = [];
+                tbody.querySelectorAll('tr').forEach(tr => {
+                    const keyInput = tr.querySelector('.reqs-qual-key');
+                    const labelInput = tr.querySelector('.reqs-qual-label');
+                    const durCb = tr.querySelector('.reqs-qual-duration-cb');
+                    const minDurInput = tr.querySelector('.reqs-qual-min-dur');
+
+                    const key = keyInput ? keyInput.value.trim() : "";
+                    const label = labelInput ? labelInput.value.trim() : "";
+                    const reqDur = durCb ? durCb.checked : false;
+                    const minDurVal = minDurInput ? minDurInput.value : "";
+                    const minDur = minDurVal ? parseInt(minDurVal) : null;
+
+                    if (key && label) {
+                        quals.push({ key, label, requiresDuration: reqDur, min_duration: minDur });
+                    }
+                });
+                return quals;
+            }
+
+            // GESTORE ELIMINAZIONE CARD NAZIONE
+            async function deleteCountryCardHandler(countryName) {
+                const currentLang = document.documentElement.lang || 'it';
+                if (!countryName) return;
+
+                const confirmMsg = currentLang === 'en'
+                    ? `Are you sure you want to delete requirements for ${countryName}?`
+                    : `Sei sicuro di voler eliminare i requisiti per la nazione ${countryName}?`;
+
+                if (!confirm(confirmMsg)) return;
+
+                try {
+                    const res = await fetch(`http://localhost:5000/api/requirements/${countryName}`, {
+                        method: 'DELETE'
+                    });
+
+                    const result = await res.json();
+                    if (!res.ok) throw new Error(result.error || "Errore durante l'eliminazione");
+
+                    showSuccess(currentLang === 'en' ? `Requirements for ${countryName} deleted successfully` : `Requisiti nazione ${countryName} eliminati con successo`);
+
+                    await populateCountries();
+                } catch (e) {
+                    showError(currentLang === 'en' ? "Error deleting country: " + e.message : "Errore eliminazione nazione: " + e.message);
+                }
+            }
+
+            // ==========================================
+            // FINE GESTIONE REQUISITI NAZIONI (ADMIN)
+            // ===============================================================================
+
             // Aggiorna le qualifiche disponibili
             function updateQualificationsAndScales() {
                 updateQualifications();
                 updateGpaScale();
             }
 
-            updateQualifications = function() {
+            updateQualifications = async function() {
                 const currentLang = document.documentElement.lang || 'it';
                 const course = courseSelect.value;
                 const country = countrySelect.value;
@@ -2165,55 +3703,66 @@
                     return;
                 }
 
-                qualificationSelect.disabled = false;
-                const qualifications = qualificationsByCountryCourse[country]?.[course] || [];
-
-                // Qualifiche translation lookup table
-                const qualTranslations = {
-                    'en': {
-                        'AllIndiaSeniorSchool': 'All-India Senior School',
-                        'IndianSchoolCert': 'Indian School Certificate',
-                        'IntermediateExam': 'Intermediate Examination',
-                        'HigherSecondarySchool': 'Higher Secondary School',
-                        'HigherSecondaryPartII': 'Higher Secondary Examination Part II',
-                        'HonoursBachelor': 'Honours Bachelor',
-                        'ProfessionalBachelor': 'Professional Bachelor',
-                        'PassGeneralBachelor': 'Pass/General Bachelor',
-                        'MasterDegree': 'Master\'s Degree',
-                        'PostgraduateBachelor': 'Postgraduate Bachelor',
-                        'DiplomMotevasete': 'Diplom-e-Motevasete',
-                        'SecondaryEdu2018': 'Secondary Education from 2018',
-                        'Kardani': 'Associate Degree (Kardani)',
-                        'Karshenasi': 'Bachelor Degree (Karshenasi)',
-                        'KarshenasiNapayvasteh': 'Discontinuous Degree (Karshenasi-napayvasteh)'
-                    },
-                    'it': {
-                        'AllIndiaSeniorSchool': 'All-India Senior School',
-                        'IndianSchoolCert': 'Indian School Certificate',
-                        'IntermediateExam': 'Intermediate Examination',
-                        'HigherSecondarySchool': 'Higher Secondary School',
-                        'HigherSecondaryPartII': 'Higher Secondary Examination Part II',
-                        'HonoursBachelor': 'Honours Bachelor',
-                        'ProfessionalBachelor': 'Professional Bachelor',
-                        'PassGeneralBachelor': 'Pass/General Bachelor',
-                        'MasterDegree': 'Master\'s Degree',
-                        'PostgraduateBachelor': 'Postgraduate Bachelor',
-                        'DiplomMotevasete': 'Diplom-e-Motevasete',
-                        'SecondaryEdu2018': 'Certificato dal 2018/19',
-                        'Kardani': 'Associate Degree (Kardani)',
-                        'Karshenasi': 'Bachelor Degree (Karshenasi)',
-                        'KarshenasiNapayvasteh': 'Laurea a Ciclo Discontinuo (Karshenasi-napayvasteh)'
+                try {
+                    const res = await fetch(`http://localhost:5000/qualifications?country=${country}&course=${course}`);
+                    if (!res.ok) {
+                        qualificationSelect.disabled = true;
+                        return;
                     }
-                };
+                    const data = await res.json();
+                    
+                    qualificationSelect.disabled = false;
+                    const qualifications = data.qualifications || [];
 
-                qualifications.forEach(qual => {
-                    const option = document.createElement('option');
-                    option.value = qual.key;
-                    const translatedLabel = qualTranslations[currentLang]?.[qual.key] || qual.label;
-                    option.textContent = translatedLabel;
-                    option.dataset.requiresDuration = qual.requiresDuration;
-                    qualificationSelect.appendChild(option);
-                });
+                    // Qualifiche translation lookup table
+                    const qualTranslations = {
+                        'en': {
+                            'AllIndiaSeniorSchool': 'All-India Senior School',
+                            'IndianSchoolCert': 'Indian School Certificate',
+                            'IntermediateExam': 'Intermediate Examination',
+                            'HigherSecondarySchool': 'Higher Secondary School',
+                            'HigherSecondaryPartII': 'Higher Secondary Examination Part II',
+                            'HonoursBachelor': 'Honours Bachelor',
+                            'ProfessionalBachelor': 'Professional Bachelor',
+                            'PassGeneralBachelor': 'Pass/General Bachelor',
+                            'MasterDegree': 'Master\'s Degree',
+                            'PostgraduateBachelor': 'Postgraduate Bachelor',
+                            'DiplomMotevasete': 'Diplom-e-Motevasete',
+                            'SecondaryEdu2018': 'Secondary Education from 2018',
+                            'Kardani': 'Associate Degree (Kardani)',
+                            'Karshenasi': 'Bachelor Degree (Karshenasi)',
+                            'KarshenasiNapayvasteh': 'Discontinuous Degree (Karshenasi-napayvasteh)'
+                        },
+                        'it': {
+                            'AllIndiaSeniorSchool': 'All-India Senior School',
+                            'IndianSchoolCert': 'Indian School Certificate',
+                            'IntermediateExam': 'Intermediate Examination',
+                            'HigherSecondarySchool': 'Higher Secondary School',
+                            'HigherSecondaryPartII': 'Higher Secondary Examination Part II',
+                            'HonoursBachelor': 'Honours Bachelor',
+                            'ProfessionalBachelor': 'Professional Bachelor',
+                            'PassGeneralBachelor': 'Pass/General Bachelor',
+                            'MasterDegree': 'Master\'s Degree',
+                            'PostgraduateBachelor': 'Postgraduate Bachelor',
+                            'DiplomMotevasete': 'Diplom-e-Motevasete',
+                            'SecondaryEdu2018': 'Certificato dal 2018/19',
+                            'Kardani': 'Associate Degree (Kardani)',
+                            'Karshenasi': 'Bachelor Degree (Karshenasi)',
+                            'KarshenasiNapayvasteh': 'Laurea a Ciclo Discontinuo (Karshenasi-napayvasteh)'
+                        }
+                    };
+
+                    qualifications.forEach(qual => {
+                        const option = document.createElement('option');
+                        option.value = qual.key;
+                        const translatedLabel = qualTranslations[currentLang]?.[qual.key] || qual.label;
+                        option.textContent = translatedLabel;
+                        option.dataset.requiresDuration = qual.requiresDuration;
+                        qualificationSelect.appendChild(option);
+                    });
+                } catch (e) {
+                    console.error("Errore caricamento qualifiche:", e);
+                }
             }
 
             function updateDurationField() {
@@ -2231,7 +3780,7 @@
             }
 
             // Aggiorna la scala dei voti
-            updateGpaScale = function() {
+            updateGpaScale = async function() {
                 const currentLang = document.documentElement.lang || 'it';
                 const country = countrySelect.value;
 
@@ -2242,27 +3791,42 @@
                     return;
                 }
 
-                gpaScaleSelect.disabled = false;
+                try {
+                    const res = await fetch(`http://localhost:5000/gpa-scales?country=${country}`);
+                    if (!res.ok) {
+                        gpaScaleSelect.disabled = true;
+                        return;
+                    }
+                    const data = await res.json();
+                    
+                    gpaScaleSelect.disabled = false;
+                    const scales = data.scales || [];
+                    
+                    const scaleTranslations = {
+                        'en': {
+                            'Base100': 'Out of 100',
+                            'Base20': 'Out of 20',
+                            'Base10': 'Out of 10',
+                            'Base8': 'Out of 8',
+                            'Base4': 'Out of 4'
+                        },
+                        'it': {
+                            'Base100': 'Su 100',
+                            'Base20': 'Su 20',
+                            'Base10': 'Su 10',
+                            'Base8': 'Su 8',
+                            'Base4': 'Su 4'
+                        }
+                    };
 
-                if (country === 'Iran') {
-                    const option = document.createElement('option');
-                    option.value = 'Base20';
-                    option.textContent = currentLang === 'en' ? 'Out of 20' : 'Su 20';
-                    option.selected = true;
-                    gpaScaleSelect.appendChild(option);
-                } else if (country === 'India') {
-                    const scales = [
-                        { value: 'Base100', label: currentLang === 'en' ? 'Out of 100' : 'Su 100' },
-                        { value: 'Base10', label: currentLang === 'en' ? 'Out of 10' : 'Su 10' },
-                        { value: 'Base8', label: currentLang === 'en' ? 'Out of 8' : 'Su 8' },
-                        { value: 'Base4', label: currentLang === 'en' ? 'Out of 4' : 'Su 4' }
-                    ];
                     scales.forEach(scale => {
                         const option = document.createElement('option');
                         option.value = scale.value;
-                        option.textContent = scale.label;
+                        option.textContent = scaleTranslations[currentLang]?.[scale.value] || scale.label;
                         gpaScaleSelect.appendChild(option);
                     });
+                } catch (e) {
+                    console.error("Errore caricamento scale GPA:", e);
                 }
             }
 
@@ -2588,6 +4152,9 @@
                 console.error('✗ Impossibile connettersi al backend:', error);
                 showError('Impossibile connettersi al backend. Assicurati che il server sia avviato su http://localhost:5000');
             }
+
+            // Carica nazioni dall'API REST prima dell'autocompilazione
+            await populateCountries();
 
             // AUTOCOMPILAZIONE DA PARAMETRI URL
             const urlParams = new URLSearchParams(window.location.search);
