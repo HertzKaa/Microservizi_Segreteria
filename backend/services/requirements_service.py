@@ -11,6 +11,7 @@ requirements_lock = threading.Lock()
 
 # Cache in memoria
 _cached_requirements = None
+_last_mtime = 0
 
 def initialize_default_requirements():
     """Costruisce la configurazione iniziale di default leggendola da config.py"""
@@ -71,11 +72,13 @@ def initialize_default_requirements():
     return default_reqs
 
 def load_requirements(force_reload=False):
-    """Carica i requisiti dal file JSON. Inizializza se non presente."""
-    global _cached_requirements
+    """Carica i requisiti dal file JSON. Inizializza se non presente o ricarica se modificato su disco."""
+    global _cached_requirements, _last_mtime
     
     with requirements_lock:
-        if _cached_requirements is not None and not force_reload:
+        file_mtime = os.path.getmtime(REQUIREMENTS_FILE) if os.path.exists(REQUIREMENTS_FILE) else 0
+        
+        if _cached_requirements is not None and not force_reload and file_mtime <= _last_mtime:
             return _cached_requirements
             
         if not os.path.exists(REQUIREMENTS_FILE):
@@ -85,6 +88,7 @@ def load_requirements(force_reload=False):
                 with open(REQUIREMENTS_FILE, 'w', encoding='utf-8') as f:
                     json.dump(default_reqs, f, indent=4, ensure_ascii=False)
                 _cached_requirements = default_reqs
+                _last_mtime = os.path.getmtime(REQUIREMENTS_FILE) if os.path.exists(REQUIREMENTS_FILE) else 0
             except Exception as e:
                 logger.error(f"Impossibile scrivere il file di requisiti di default: {e}")
                 return default_reqs
@@ -92,6 +96,7 @@ def load_requirements(force_reload=False):
             try:
                 with open(REQUIREMENTS_FILE, 'r', encoding='utf-8') as f:
                     _cached_requirements = json.load(f)
+                _last_mtime = file_mtime
             except Exception as e:
                 logger.error(f"Errore di lettura da country_requirements.json: {e}. Uso fallback defaults.")
                 return initialize_default_requirements()

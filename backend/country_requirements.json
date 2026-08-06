@@ -1,4 +1,1310 @@
 {
+    "International Baccalaureate (IB)": {
+        "country_code": "IB",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "DiplomaDiInternationalBaccalaureateDiplomaProgramme",
+                    "label": "Diploma di International Baccalaureate (Diploma Programme - IBDP) ottenuto dopo 12 anni di scolarità e rilasciato da un’istituzione scolastica ufficialmente riconosciuta dall’International Baccalaureate Organization (IBO) che soddisfi i seguenti requisiti:",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": []
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "DiplomaDiInternationalBaccalaureateDiplomaProgramme"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "European Baccalaureate (EB)": {
+        "country_code": "EU",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [],
+            "Postgraduate": []
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Afghanistan": {
+        "country_code": "AF",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "12thGradeGraduationCertificate",
+                    "label": "12th Grade graduation certificate",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "EsameDiAccessoAllUniversitKankor",
+                    "label": "esame di accesso all’università Kankor examination",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegree",
+                    "label": "Bachelor ‘s degree",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "12thGradeGraduationCertificate",
+                    "EsameDiAccessoAllUniversitKankor"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegree"
+                ],
+                "min_duration": {
+                    "BachelorDegree": 4
+                },
+                "min_gpa": {
+                    "Base100": 75.0
+                }
+            }
+        }
+    },
+    "Albania": {
+        "country_code": "AL",
+        "gpa_scales": [
+            {
+                "value": "Base10",
+                "label_it": "Su 10",
+                "label_en": "On 10"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "DiplomMaturShtetRore",
+                    "label": "Diplomë e Maturës Shtetërore",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "DFtesPjekuriePerTitoliDi",
+                    "label": "Dëftesë Pjekurie (per titoli di studio conseguiti fino 2011)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "DiplomBachelor",
+                    "label": "Diplomë Bachelor",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "DiplomNivelitParPerTitoliDi",
+                    "label": "Diplomë e Nivelit të Parë (per titoli di studio conseguito fino al 2008)",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "DiplomMaturShtetRore",
+                    "DFtesPjekuriePerTitoliDi"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "DiplomBachelor",
+                    "DiplomNivelitParPerTitoliDi"
+                ],
+                "min_duration": {},
+                "min_gpa": {
+                    "Base10": 7.0
+                }
+            }
+        }
+    },
+    "Algeria": {
+        "country_code": "DZ",
+        "gpa_scales": [
+            {
+                "value": "Base20",
+                "label_it": "Su 20",
+                "label_en": "On 20"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "BaccalaurAtDeEnseignementSecondaireUpper",
+                    "label": "Baccalauréat de l’Enseignement Secondaire / يوﻧﺎﺛﻟا مﯾﻠﻌﺗﻟا ﺎﯾروﻟﺎﻛﺑ ةدﺎﮭﺷ (upper secondary general education)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "Licence",
+                    "label": "Licence",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "LicenceOfTheSystMeClassique",
+                    "label": "Licence of the système classique (precedente al 2004)",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "DiplMeTudesSupRieuresDipl",
+                    "label": "Diplôme d'Études Supérieures o Diplôme d'Ingénieur",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "BaccalaurAtDeEnseignementSecondaireUpper"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "Licence",
+                    "LicenceOfTheSystMeClassique",
+                    "DiplMeTudesSupRieuresDipl"
+                ],
+                "min_duration": {
+                    "Licence": 3,
+                    "LicenceOfTheSystMeClassique": 3,
+                    "DiplMeTudesSupRieuresDipl": 3
+                },
+                "min_gpa": {
+                    "Base20": 10.5
+                }
+            }
+        }
+    },
+    "Arabia Saudita": {
+        "country_code": "SA",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "GeneralSecondaryEducationCertificateTawjihiyah",
+                    "label": "General Secondary Education Certificate (Tawjihiyah)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegree",
+                    "label": "Bachelor’s degree",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "GeneralSecondaryEducationCertificateTawjihiyah"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegree"
+                ],
+                "min_duration": {
+                    "BachelorDegree": 4
+                },
+                "min_gpa": {}
+            }
+        }
+    },
+    "Australia": {
+        "country_code": "AU",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "AustralianCapitalTerritoryYear12Certificate",
+                    "label": "Australian Capital Territory Year 12 Certificate (ACT Year 12 Certificate)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "NswHigherSchoolCertificateHsc",
+                    "label": "NSW Higher School Certificate (HSC)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "QueenslandCertificateOfEducationQce",
+                    "label": "Queensland Certificate of Education (QCE)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "SouthAustralianCertificateOfEducationSace",
+                    "label": "South Australian Certificate of Education (SACE)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "TasmanianCertificateOfEducationTce",
+                    "label": "Tasmanian Certificate of Education (TCE)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "VictorianCertificateOfEducationVce",
+                    "label": "Victorian Certificate of Education (VCE)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "WesternAustralianCertificateOfEducationWace",
+                    "label": "Western Australian Certificate of Education (WACE)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "NorthernTerritoryCertificateOfEducationAnd",
+                    "label": "Northern Territory Certificate of Education and Training",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "AustralianTertiaryAdmissionRankAtarCertificato",
+                    "label": "Australian Tertiary Admission Rank (ATAR) certificato dal Tertiary Admission Centre (TAC) responsabile per ciascuno stato/territorio",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorHonoursDegree",
+                    "label": "Bachelor Honours Degree",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "AustralianCapitalTerritoryYear12Certificate",
+                    "NswHigherSchoolCertificateHsc",
+                    "QueenslandCertificateOfEducationQce",
+                    "SouthAustralianCertificateOfEducationSace",
+                    "TasmanianCertificateOfEducationTce",
+                    "VictorianCertificateOfEducationVce",
+                    "WesternAustralianCertificateOfEducationWace",
+                    "NorthernTerritoryCertificateOfEducationAnd",
+                    "AustralianTertiaryAdmissionRankAtarCertificato"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorHonoursDegree"
+                ],
+                "min_duration": {
+                    "BachelorHonoursDegree": 4
+                },
+                "min_gpa": {}
+            }
+        }
+    },
+    "Azerbaigian": {
+        "country_code": "AZ",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base5",
+                "label_it": "Su 5",
+                "label_en": "On 5"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "TamOrtaHsilHaqqNdaAttestat",
+                    "label": "Tam orta təhsil haqqında attestat (Certificate of complete secondary education)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BakalavrDiplomu",
+                    "label": "Bakalavr Diplomu",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "TamOrtaHsilHaqqNdaAttestat"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BakalavrDiplomu"
+                ],
+                "min_duration": {},
+                "min_gpa": {
+                    "Base5": 4.0,
+                    "Base100": 80.0
+                }
+            }
+        }
+    },
+    "Bangladesh": {
+        "country_code": "BD",
+        "gpa_scales": [
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "HigherSecondaryCertificate",
+                    "label": "Higher Secondary Certificate",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "HonoursBachelorDegree",
+                    "label": "Honours Bachelor’s degree",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "ProfessionalBachelorDegreeHonours",
+                    "label": "Professional Bachelor’s degree honours",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "HigherSecondaryCertificate"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "HonoursBachelorDegree",
+                    "ProfessionalBachelorDegreeHonours"
+                ],
+                "min_duration": {
+                    "HonoursBachelorDegree": 4,
+                    "ProfessionalBachelorDegreeHonours": 4
+                },
+                "min_gpa": {
+                    "Base4": 3.3
+                }
+            }
+        }
+    },
+    "Brasile": {
+        "country_code": "BR",
+        "gpa_scales": [
+            {
+                "value": "Base10",
+                "label_it": "Su 10",
+                "label_en": "On 10"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "CertificadoDeConclusDeEnsinoM",
+                    "label": "Certificado de Conclusão de Ensino Médio or Certificado de Conclusão do 2° Grau concluso dopo 11 anni di scolarità",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "RisultatiDellExameNacionalDoEnsino",
+                    "label": "Risultati dell’Exame Nacional do Ensino Médio (ENEM) or Vestibular",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "CertificadoDeConclusDeEnsinoM2",
+                    "label": "Certificado de Conclusão de Ensino Médio or Certificado de Conclusão do 2° Grau concluso dopo 12 anni di scolarità",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BacharelOrLicenciado",
+                    "label": "Bacharel or Licenciado",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "CertificadoDeConclusDeEnsinoM",
+                    "RisultatiDellExameNacionalDoEnsino",
+                    "CertificadoDeConclusDeEnsinoM2"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BacharelOrLicenciado"
+                ],
+                "min_duration": {
+                    "BacharelOrLicenciado": 4
+                },
+                "min_gpa": {
+                    "Base10": 7.0
+                }
+            }
+        }
+    },
+    "Camerun": {
+        "country_code": "CM",
+        "gpa_scales": [
+            {
+                "value": "Base20",
+                "label_it": "Su 20",
+                "label_en": "On 20"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "GeneralCertificateOfEducationCheIndichi",
+                    "label": "General Certificate of Education che indichi il conseguimento di Advanced Level in almeno 2 materie e Ordinary Level in almeno 4 materie",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "BaccalaurAtDeEnseignementSecondaire",
+                    "label": "Baccalauréat de l’Enseignement Secondaire",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegree",
+                    "label": "Bachelor’s degree",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "Licence",
+                    "label": "Licence",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "GeneralCertificateOfEducationCheIndichi",
+                    "BaccalaurAtDeEnseignementSecondaire"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegree",
+                    "Licence"
+                ],
+                "min_duration": {
+                    "BachelorDegree": 3,
+                    "Licence": 3
+                },
+                "min_gpa": {}
+            }
+        }
+    },
+    "Cina": {
+        "country_code": "CN",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base5",
+                "label_it": "Su 5",
+                "label_en": "On 5"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "SeniorMiddleSchoolGraduationCertificatePutong",
+                    "label": "Senior middle school graduation certificate (普通高中毕业证书 putong gaozhong biye zhengshu) + Verification report del China Secondary Education Qualification Certificate rilasciato dal CSSD o da altra istituzione ufficiale competente",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "NationalCollegeEntranceExaminationGaokao",
+                    "label": "National College Entrance Examination - Gaokao (普通高等学校招生全国统一考 试)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegreeCertificateXueshiXueweiHengshu",
+                    "label": "Bachelor degree certificate (学士学 位证书 xueshi xuewei hengshu) dopo un corso di studi della durata di 4 anni (本科 , benke) + CSSD verification report per ogni certificato/laurea",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "GraduationCertificateBiyeZhengshuCssdVerification",
+                    "label": "Graduation certificate (毕业证书 biye zhengshu) + CSSD verification",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "SeniorMiddleSchoolGraduationCertificatePutong",
+                    "NationalCollegeEntranceExaminationGaokao"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegreeCertificateXueshiXueweiHengshu",
+                    "GraduationCertificateBiyeZhengshuCssdVerification"
+                ],
+                "min_duration": {},
+                "min_gpa": {
+                    "Base100": 75.0,
+                    "Base5": 3.0,
+                    "Base4": 2.8
+                }
+            }
+        }
+    },
+    "Cipro": {
+        "country_code": "CY",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "Apolyterion",
+                    "label": "Απολυτήριο - Apolyterion",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "SuperamentoDelPankPriesExetSeis",
+                    "label": "superamento del Παγκύπριες Εξετάσεις - Pankýpries Exetáseis (Pancyprian Examinations) ed ottenimento del Δελτίο Αποτελεσμάτων Υποψηφίου, Παγκύπριες Εξετάσεις Πρόσβασης - Deltío Apotelesmáton Ypopsifíou, Pankýpries Exetáseis Prósvasis",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "Ptychio",
+                    "label": "Πτυχίο - Ptychio",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "Apolyterion",
+                    "SuperamentoDelPankPriesExetSeis"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "Ptychio"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Colombia": {
+        "country_code": "CO",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base10",
+                "label_it": "Su 10",
+                "label_en": "On 10"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "BachillerAcadMicoComercialTCnico",
+                    "label": "Bachiller Académico / Comercial / Técnico, ottenuto dopo il sostenimento dell’esame di stato (Examen de Estado) amministrato dall’Instituto Colombiano para la Evaluación de la Educación (ICFES)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "Licenciado",
+                    "label": "Licenciado",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "BachillerAcadMicoComercialTCnico"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "Licenciado"
+                ],
+                "min_duration": {
+                    "Licenciado": 4
+                },
+                "min_gpa": {}
+            }
+        }
+    },
+    "Corea del Sud": {
+        "country_code": "KR",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "HighSchoolCertificateGodeungHakgyoJolupjang",
+                    "label": "High School Certificate (고등학교 졸업장, Godeung Hakgyo Jolupjang)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegreeHaksa",
+                    "label": "Bachelor's degree (학사, Haksa)",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "HighSchoolCertificateGodeungHakgyoJolupjang"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegreeHaksa"
+                ],
+                "min_duration": {
+                    "BachelorDegreeHaksa": 4
+                },
+                "min_gpa": {}
+            }
+        }
+    },
+    "Egitto": {
+        "country_code": "EG",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "GeneralSecondaryEducationCertificateShahDat",
+                    "label": "General Secondary Education Certificate (shahâdat itmâm al-dirâsa al-thânawiyya al-`âmma)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "AlAzharSecondarySchoolCertificateAl",
+                    "label": "Al-Azhar Secondary School Certificate (al-shahâda l-thânawiyya l-azhariyya)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorOfArtsBakRiy",
+                    "label": "Bachelor of Arts (bakâlôriyûs âdâb)",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "BachelorOfScienceBakRiyUl",
+                    "label": "Bachelor of Science (bakâlôriyûs ‘ulûm)",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "LicenceNs",
+                    "label": "Licence (lîsâns)",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "GeneralSecondaryEducationCertificateShahDat",
+                    "AlAzharSecondarySchoolCertificateAl"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorOfArtsBakRiy",
+                    "BachelorOfScienceBakRiyUl",
+                    "LicenceNs"
+                ],
+                "min_duration": {
+                    "BachelorOfArtsBakRiy": 4,
+                    "BachelorOfScienceBakRiyUl": 4,
+                    "LicenceNs": 4
+                },
+                "min_gpa": {
+                    "Base100": 70.0,
+                    "Base4": 2.8
+                }
+            }
+        }
+    },
+    "Etiopia": {
+        "country_code": "ET",
+        "gpa_scales": [
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "EthiopianSchoolLeavingCertificateEthiopianHigher",
+                    "label": "Ethiopian School Leaving Certificate / Ethiopian Higher Education Entrance Examination (senior secondary general education)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "DiplomaHigherProfessionalEducation",
+                    "label": "Diploma (higher professional education)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegree",
+                    "label": "Bachelor’s degree",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "EthiopianSchoolLeavingCertificateEthiopianHigher",
+                    "DiplomaHigherProfessionalEducation"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegree"
+                ],
+                "min_duration": {
+                    "BachelorDegree": 3
+                },
+                "min_gpa": {
+                    "Base4": 3.3
+                }
+            }
+        }
+    },
+    "Filippine": {
+        "country_code": "PH",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "JuniorSecondarySchoolCertificateKatunayanSenior",
+                    "label": "Junior Secondary School Certificate (Katunayan ) + Senior Secondary School Diploma (Katibayan – 2 anni) conseguito dal 2018",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegreeBatsilyer",
+                    "label": "Bachelor’s Degree (Batsilyer) - 4, 5",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "Anni",
+                    "label": "6 anni",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "JuniorSecondarySchoolCertificateKatunayanSenior"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegreeBatsilyer",
+                    "Anni"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Francia": {
+        "country_code": "FR",
+        "gpa_scales": [
+            {
+                "value": "Base20",
+                "label_it": "Su 20",
+                "label_en": "On 20"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "BaccalaurAtGRal",
+                    "label": "Baccalauréat Général",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "BaccalaurAtTechnologique",
+                    "label": "Baccalauréat Technologique",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "BaccalaurAtProfessionnel",
+                    "label": "Baccalauréat Professionnel",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "Licence",
+                    "label": "Licence",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "LicenceProfessionnelle",
+                    "label": "Licence professionnelle",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "BaccalaurAtGRal",
+                    "BaccalaurAtTechnologique",
+                    "BaccalaurAtProfessionnel"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "Licence",
+                    "LicenceProfessionnelle"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Gambia": {
+        "country_code": "GM",
+        "gpa_scales": [
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "WestAfricanSeniorSecondarySchoolCertificate",
+                    "label": "West African Senior Secondary School Certificate (WASSCE), di cui almeno 5 materie",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "IncluseIngleseMatematicaScienzeSociali",
+                    "label": "– incluse Inglese, Matematica e Scienze Sociali",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "ConVotiTraAC",
+                    "label": "– con voti tra A e C",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegree",
+                    "label": "Bachelor’s degree",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "WestAfricanSeniorSecondarySchoolCertificate",
+                    "IncluseIngleseMatematicaScienzeSociali",
+                    "ConVotiTraAC"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegree"
+                ],
+                "min_duration": {
+                    "BachelorDegree": 4
+                },
+                "min_gpa": {
+                    "Base4": 3.5
+                }
+            }
+        }
+    },
+    "Germania": {
+        "country_code": "DE",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "AllgemeineHochschulreifeAbiturGeneralHigherEducation",
+                    "label": "Allgemeine Hochschulreife / Abitur (General Higher Education Entrance Qualification)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "Bachelor",
+                    "label": "Bachelor",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "AllgemeineHochschulreifeAbiturGeneralHigherEducation"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "Bachelor"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Ghana": {
+        "country_code": "GH",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "WestAfricanSeniorSecondarySchoolCertificate",
+                    "label": "West African Senior Secondary School Certificate (WASSCE), in almeno 6 materie – incluso Lingua inglese e Matematica – con voti tra A1 e C6.",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "WaecScratchCard",
+                    "label": "WAEC scratch card",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegree",
+                    "label": "Bachelor’s Degree",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "HigherNationalDiplomaUltimiDueAnni",
+                    "label": "Higher National Diploma + ultimi due anni di un Bachelor’s Degree",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "WestAfricanSeniorSecondarySchoolCertificate",
+                    "WaecScratchCard"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegree",
+                    "HigherNationalDiplomaUltimiDueAnni"
+                ],
+                "min_duration": {
+                    "BachelorDegree": 4,
+                    "HigherNationalDiplomaUltimiDueAnni": 4
+                },
+                "min_gpa": {
+                    "Base100": 60.0
+                }
+            }
+        }
+    },
+    "Giordania": {
+        "country_code": "JO",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "GeneralSecondaryEducationCertificateTawjihi",
+                    "label": "General Secondary Education Certificate (Tawjihi)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegree",
+                    "label": "Bachelor’s degree",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "GeneralSecondaryEducationCertificateTawjihi"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegree"
+                ],
+                "min_duration": {
+                    "BachelorDegree": 4
+                },
+                "min_gpa": {}
+            }
+        }
+    },
+    "Grecia": {
+        "country_code": "GR",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "ApolytRioGenikoLykeOu",
+                    "label": "Απολυτήριο Γενικού Λυκείου - Apolytírio Genikoú Lykeíou",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "SuperamentoDel",
+                    "label": "superamento del Πανελλαδικές Εξετάσεις",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "PanelladikExetSeisPanhellenicExaminationsOttenimento",
+                    "label": "Panelladikés Exetáseis (Panhellenic Examinations) e ottenimento del Βεβαίωση Συμμετοχής - Vevaíosi Symmetochís (or Βεβαίωση Πρόσβασης - Vevaíosi Prósvasis per esami sostenuti prima del 2016)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "Ptychio",
+                    "label": "Πτυχίο - Ptychio",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "ApolytRioGenikoLykeOu",
+                    "SuperamentoDel",
+                    "PanelladikExetSeisPanhellenicExaminationsOttenimento"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "Ptychio"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
     "India": {
         "country_code": "IN",
         "gpa_scales": [
@@ -26,86 +1332,64 @@
         "qualifications": {
             "Undergraduate": [
                 {
-                    "key": "AllIndiaSeniorSchool",
-                    "label": "AllIndiaSeniorSchoolCertificate",
+                    "key": "AllIndiaSeniorSchoolCertificate",
+                    "label": "All-India Senior School Certificate",
                     "requiresDuration": false
                 },
                 {
-                    "key": "IndianSchoolCert",
-                    "label": "IndianSchoolCertificate",
+                    "key": "IndianSchoolCertificate",
+                    "label": "Indian school certificate",
                     "requiresDuration": false
                 },
                 {
-                    "key": "IntermediateExam",
-                    "label": "IntermediateExaminationCertificate",
+                    "key": "HigherSecondarySchoolCertificate",
+                    "label": "Higher Secondary School Certificate",
                     "requiresDuration": false
                 },
                 {
-                    "key": "HigherSecondarySchool",
-                    "label": "HigherSecondarySchoolCertificate",
-                    "requiresDuration": false
-                },
-                {
-                    "key": "HigherSecondaryPartII",
-                    "label": "HigherSecondaryExaminationCertificatePartII",
+                    "key": "HigherSecondaryExaminationCertificatePartIi",
+                    "label": "Higher Secondary Examination Certificate Part II",
                     "requiresDuration": false
                 }
             ],
             "Postgraduate": [
                 {
-                    "key": "HonoursBachelor",
-                    "label": "HonoursBachelorDegree",
+                    "key": "HonoursBachelorDegree",
+                    "label": "Honours Bachelor Degree",
                     "requiresDuration": true
                 },
                 {
-                    "key": "ProfessionalBachelor",
-                    "label": "ProfessionalBachelorDegree",
+                    "key": "ProfessionalBachelorDegree",
+                    "label": "Professional Bachelor Degree e ½",
                     "requiresDuration": true
                 },
                 {
-                    "key": "PassGeneralBachelor",
-                    "label": "PassGeneralBachelorDegree",
-                    "requiresDuration": false
-                },
-                {
-                    "key": "MasterDegree",
-                    "label": "MasterDegree",
-                    "requiresDuration": false
-                },
-                {
-                    "key": "PostgraduateBachelor",
-                    "label": "PostgraduateBachelorDegree",
-                    "requiresDuration": false
+                    "key": "PassGeneralBachelorDegreePostgraduateBachelor",
+                    "label": "Pass/General Bachelor Degree + Postgraduate Bachelor’s degree o almeno 1 anno di Master’s degree",
+                    "requiresDuration": true
                 }
             ]
         },
         "thresholds": {
             "Undergraduate": {
                 "eligible_qualifications": [
-                    "AllIndiaSeniorSchool",
-                    "IndianSchoolCert",
-                    "IntermediateExam",
-                    "HigherSecondarySchool",
-                    "HigherSecondaryPartII"
+                    "AllIndiaSeniorSchoolCertificate",
+                    "IndianSchoolCertificate",
+                    "HigherSecondarySchoolCertificate",
+                    "HigherSecondaryExaminationCertificatePartIi"
                 ],
-                "min_gpa": {
-                    "Base100": 50.0
-                }
+                "min_gpa": {}
             },
             "Postgraduate": {
                 "eligible_qualifications": [
-                    "HonoursBachelor",
-                    "ProfessionalBachelor",
-                    "PassGeneralBachelor",
-                    "MasterDegree",
-                    "PostgraduateBachelor"
+                    "HonoursBachelorDegree",
+                    "ProfessionalBachelorDegree",
+                    "PassGeneralBachelorDegreePostgraduateBachelor"
                 ],
                 "min_duration": {
-                    "HonoursBachelor": 3,
-                    "ProfessionalBachelor": 4,
-                    "PassGeneralBachelor": 3,
-                    "PostgraduateBachelor": 1,
-                    "MasterDegree": 1
+                    "HonoursBachelorDegree": 3,
+                    "ProfessionalBachelorDegree": 3,
+                    "PassGeneralBachelorDegreePostgraduateBachelor": 3
                 },
                 "min_gpa": {
                     "Base100": 60.0,
@@ -113,6 +1397,64 @@
                     "Base8": 5.6,
                     "Base4": 2.8
                 }
+            }
+        }
+    },
+    "Indonesia": {
+        "country_code": "ID",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "PerTitoliConseguitiFinoAl2019",
+                    "label": "Per titoli conseguiti fino al 2019 (incluso):",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "IjazahSekolahMenengahAtasSmaSenior",
+                    "label": "Ijazah Sekolah Menengah Atas, SMA (Senior Secondary School Certificate) + Surat Keterangan Hasil Ujian Nasional Per titoli conseguiti a partire dal 2020:",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "SoloIjazahSekolahMenengahAtasSma",
+                    "label": "SOLO Ijazah Sekolah Menengah Atas, SMA (Senior Secondary School Certificate)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "SarjanaStratumSatuSIDegree",
+                    "label": "Sarjana Stratum satu, S I degree",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "PerTitoliConseguitiFinoAl2019",
+                    "IjazahSekolahMenengahAtasSmaSenior",
+                    "SoloIjazahSekolahMenengahAtasSma"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "SarjanaStratumSatuSIDegree"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
             }
         }
     },
@@ -128,30 +1470,30 @@
         "qualifications": {
             "Undergraduate": [
                 {
-                    "key": "DiplomMotevasete",
-                    "label": "DiplomEMotevasete",
+                    "key": "CertificateOfCompletionOfSecondaryEducation",
+                    "label": "Certificate of completion of secondary education (Diplom-e-Motevasete) + certificato di completamento dell’anno pre-universitario (Dowre-ye pîsh dâneshgâhî)",
                     "requiresDuration": false
                 },
                 {
-                    "key": "SecondaryEdu2018",
-                    "label": "SecondaryEducationFrom2018",
+                    "key": "CertificatoDiCompletamentoDellEducazioneSecondaria",
+                    "label": "Certificato di completamento dell’educazione secondaria ottenuto dall’anno accademico 2018/19",
                     "requiresDuration": false
                 },
                 {
-                    "key": "Kardani",
-                    "label": "Kardani",
+                    "key": "AssociateDegreeKRd",
+                    "label": "Associate Degree (Kârdânî)",
                     "requiresDuration": false
                 }
             ],
             "Postgraduate": [
                 {
-                    "key": "Karshenasi",
-                    "label": "Karshenasi",
+                    "key": "BachelorDegreeRshenSi",
+                    "label": "Bachelor’s Degree (kârshenâsi)",
                     "requiresDuration": true
                 },
                 {
-                    "key": "KarshenasiNapayvasteh",
-                    "label": "KarshenasiNapayvasteh",
+                    "key": "AssociateDegreeKRd2anniDiscontinuous",
+                    "label": "Associate Degree (Kârdânî) – 2anni + Discontinuous Degree (kârshenâsi-napayvasteh)",
                     "requiresDuration": true
                 }
             ]
@@ -159,25 +1501,1803 @@
         "thresholds": {
             "Undergraduate": {
                 "eligible_qualifications": [
-                    "SecondaryEdu2018",
-                    "Kardani"
+                    "CertificateOfCompletionOfSecondaryEducation",
+                    "CertificatoDiCompletamentoDellEducazioneSecondaria",
+                    "AssociateDegreeKRd"
                 ],
-                "min_gpa": {
-                    "Base20": 10.0
-                }
+                "min_gpa": {}
             },
             "Postgraduate": {
                 "eligible_qualifications": [
-                    "Karshenasi",
-                    "KarshenasiNapayvasteh"
+                    "BachelorDegreeRshenSi",
+                    "AssociateDegreeKRd2anniDiscontinuous"
                 ],
                 "min_duration": {
-                    "Karshenasi": 4,
-                    "KarshenasiNapayvasteh": 2
+                    "BachelorDegreeRshenSi": 4,
+                    "AssociateDegreeKRd2anniDiscontinuous": 4
                 },
                 "min_gpa": {
                     "Base20": 15.0
                 }
+            }
+        }
+    },
+    "Iraq": {
+        "country_code": "IQ",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "SecondarySchoolCertificateWathQaMadrasiyya",
+                    "label": "Secondary School Certificate wathîqa (ﺔﯾدادﻋﻹا ﺔﻠﺣرﻣﻟا / ﺔﯾﺳردﻣ ﺔﻘﯾﺛو – madrasiyya / al-marhalla al-i‘dâdiyya)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegreeAlBakRiyy",
+                    "label": "Bachelor’s degree سوﯾروﻟﺎﻛﺑﻟا (al-bakâlûriyyûs)",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "SecondarySchoolCertificateWathQaMadrasiyya"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegreeAlBakRiyy"
+                ],
+                "min_duration": {
+                    "BachelorDegreeAlBakRiyy": 4
+                },
+                "min_gpa": {
+                    "Base100": 70.0
+                }
+            }
+        }
+    },
+    "Irlanda": {
+        "country_code": "IE",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "LeavingCertificateArdteistimIreachtCheSoddisfi",
+                    "label": "Leaving Certificate (Ardteistiméireacht) che soddisfi i seguenti requisiti:",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "OttenutoDopo12AnniDiScolarit",
+                    "label": "ottenuto dopo 12 anni di scolarità;",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "UnMinimoDiMaterieTraCui",
+                    "label": "un minimo di 6 materie, tra cui inglese o irlandese;",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "AlmenoDelleMaterie",
+                    "label": "almeno 2 delle 6 materie",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "Superiore",
+                    "label": "superiore;",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "LeAltreMaterie",
+                    "label": "le altre 4 materie",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorHonoursDegree",
+                    "label": "Bachelor Honours Degree",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "LeavingCertificateArdteistimIreachtCheSoddisfi",
+                    "OttenutoDopo12AnniDiScolarit",
+                    "UnMinimoDiMaterieTraCui",
+                    "AlmenoDelleMaterie",
+                    "Superiore",
+                    "LeAltreMaterie"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorHonoursDegree"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Israele": {
+        "country_code": "IL",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "SecondaryEducationCertificateTeudatBagrutCon",
+                    "label": "Secondary Education Certificate (Teudat Bagrut) con più di 21 unità",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "ProfessionalCertificatePracticalEngineerHandassai",
+                    "label": "Professional Certificate + Practical Engineer/Handassai",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegree",
+                    "label": "Bachelor’s degree",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "SecondaryEducationCertificateTeudatBagrutCon",
+                    "ProfessionalCertificatePracticalEngineerHandassai"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegree"
+                ],
+                "min_duration": {
+                    "BachelorDegree": 3
+                },
+                "min_gpa": {}
+            }
+        }
+    },
+    "Kazakistan": {
+        "country_code": "KZ",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "ZhalpyOrtaBilimTuralyAttestatGeneral",
+                    "label": "Жалпы орта білім туралы аттестат / Zhalpy orta bilim turaly attestat (General secondary education certificate)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "KSiptikOrtaBilimTuralyDiplom",
+                    "label": "Кəсіптік орта білім туралы диплом / Käsiptik orta bilim turaly diplom or Техникалық жəне кəсіптік білім туралы диплом / Tekhnikalyq zhäne käsiptik bilim turaly diplom (Diploma of secondary vocational education)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "ZhogaryMekteptiBitiruTuralyAttestatNazarbayev",
+                    "label": "Жоғары мектепті бітіру туралы аттестат / Zhogary mektepti bitiru turaly attestat (Nazarbayev Intellectual Schools",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "NisGrade12Certificate",
+                    "label": "– NIS Grade 12 Certificate)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BakalavrDiploma",
+                    "label": "Бакалавр дипломы / Bakalavr diploma",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "MamanDiploma",
+                    "label": "Мамаң дипломы / Maman diploma",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "ZhalpyOrtaBilimTuralyAttestatGeneral",
+                    "KSiptikOrtaBilimTuralyDiplom",
+                    "ZhogaryMekteptiBitiruTuralyAttestatNazarbayev",
+                    "NisGrade12Certificate"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BakalavrDiploma",
+                    "MamanDiploma"
+                ],
+                "min_duration": {},
+                "min_gpa": {
+                    "Base4": 3.0,
+                    "Base100": 80.0
+                }
+            }
+        }
+    },
+    "Libano": {
+        "country_code": "LB",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "BaccalaurAtRalLibanaisShahaadatAl",
+                    "label": "Baccalauréat général libanais (Shahaadat Al-Bakaalouriya al Lubnaaniya l'il-ta 'liim al-Thaanawi)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegreeLicenceBakRiy",
+                    "label": "Bachelor ‘s degree / Licence / Bakâlôriyûs",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "BaccalaurAtRalLibanaisShahaadatAl"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegreeLicenceBakRiy"
+                ],
+                "min_duration": {},
+                "min_gpa": {
+                    "Base4": 3.0,
+                    "Base100": 75.0
+                }
+            }
+        }
+    },
+    "Malesia": {
+        "country_code": "MY",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "SijilTinggiPersekolahanMalaysiaStpmMalaysian",
+                    "label": "Sijil Tinggi Persekolahan Malaysia - STPM (Malaysian Higher School Certificate)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "MatriculationCertificate",
+                    "label": "Matriculation Certificate",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "UnifiedExaminationCertificate",
+                    "label": "Unified Examination Certificate",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegree",
+                    "label": "Bachelor’s degree",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "SijilTinggiPersekolahanMalaysiaStpmMalaysian",
+                    "MatriculationCertificate",
+                    "UnifiedExaminationCertificate"
+                ],
+                "min_gpa": {
+                    "Base100": 75.0
+                }
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegree"
+                ],
+                "min_duration": {
+                    "BachelorDegree": 3
+                },
+                "min_gpa": {
+                    "Base4": 3.0
+                }
+            }
+        }
+    },
+    "Malta": {
+        "country_code": "MT",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "MatriculationCertificate",
+                    "label": "Matriculation certificate",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorHonoursDegree",
+                    "label": "Bachelor Honours Degree",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "MatriculationCertificate"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorHonoursDegree"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Marocco": {
+        "country_code": "MA",
+        "gpa_scales": [
+            {
+                "value": "Base20",
+                "label_it": "Su 20",
+                "label_en": "On 20"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "AttestationDuBaccalaurAtUpperSecondary",
+                    "label": "ﺎﯾروﻟﺎﻛﺑﻟا ةدﺎﮭﺷ / Attestation du Baccalauréat (upper secondary general education)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "BaccalaurAtEnseignementTechnologiqueEtProfessionnel",
+                    "label": "Baccalauréat d’enseignement technologique et professionnel (BETP)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "LicenceTudesFondamentales",
+                    "label": "ﺔﯾﺳﺎﺳﻷا تﺎﺳاردﻟا ﻲﻓ ةزﺎﺟﻹا / Licence d’Études Fondamentales",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "LicenceProfessionnelle",
+                    "label": "ﺔﯾﻧﮭﻣﻟا ةزﺎﺟﻹا / Licence Professionnelle",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "AttestationDuBaccalaurAtUpperSecondary",
+                    "BaccalaurAtEnseignementTechnologiqueEtProfessionnel"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "LicenceTudesFondamentales",
+                    "LicenceProfessionnelle"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Moldavia": {
+        "country_code": "MD",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "DiplomDeBacalaureat",
+                    "label": "Diplomă de Bacalaureat",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "AtestatDeStudiiMediiDeCultura",
+                    "label": "Atestat de Studii Medii de Cultura Generala",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "DiplomDeStudiiSuperioareDeLicen",
+                    "label": "Diplomă de studii superioare de licenţă / Diplomă de Licenţă",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "DiplomDeBacalaureat",
+                    "AtestatDeStudiiMediiDeCultura"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "DiplomDeStudiiSuperioareDeLicen"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Nigeria": {
+        "country_code": "NG",
+        "gpa_scales": [
+            {
+                "value": "Base5",
+                "label_it": "Su 5",
+                "label_en": "On 5"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "WestAfricanSeniorSchoolCertificateWassc",
+                    "label": "West African Senior School Certificate (WASSC, rilasciato dal WAEC)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "SeniorSchoolCertificateSscRilasciatoDa",
+                    "label": "Senior School Certificate (SSC, rilasciato da NECO)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegree",
+                    "label": "Bachelor’s Degree",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "HigherNationalDiplomaUltimiAnniDi",
+                    "label": "Higher National Diploma + ultimi 2 anni di un Bachelor’s Degree",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "WestAfricanSeniorSchoolCertificateWassc",
+                    "SeniorSchoolCertificateSscRilasciatoDa"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegree",
+                    "HigherNationalDiplomaUltimiAnniDi"
+                ],
+                "min_duration": {
+                    "BachelorDegree": 4,
+                    "HigherNationalDiplomaUltimiAnniDi": 4
+                },
+                "min_gpa": {
+                    "Base5": 3.5
+                }
+            }
+        }
+    },
+    "Paesi Bassi": {
+        "country_code": "NL",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "VoorbereidendWetenschappelijkOnderwijsDiplomaVwoPre",
+                    "label": "Voorbereidend Wetenschappelijk Onderwijs diploma (VWO - Pre-university education)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "HogerAlgemeenVoortgezetOnderwijsHavoSenior",
+                    "label": "Hoger Algemeen Voortgezet Onderwijs (HAVO - Senior general secondary education) + Hoger Beroepsonderwijs propedeuse (HBO - Higher professional education first-year certificate)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "WetenschappelijkOnderwijsBachelorWoResearchOriented",
+                    "label": "Wetenschappelijk Onderwijs Bachelor (WO - Research-oriented bachelor’s degree)",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "VoorbereidendWetenschappelijkOnderwijsDiplomaVwoPre",
+                    "HogerAlgemeenVoortgezetOnderwijsHavoSenior"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "WetenschappelijkOnderwijsBachelorWoResearchOriented"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Pakistan": {
+        "country_code": "PK",
+        "gpa_scales": [
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "HigherSecondarySchoolCertificateHssc",
+                    "label": "Higher Secondary School Certificate (HSSC)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorPassMasterDegreeAnni",
+                    "label": "Bachelor (Pass) + Master’s Degree – 2 anni",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "BachelorPassBachelorOfLawLl",
+                    "label": "Bachelor (Pass) + Bachelor of Law (LL.B.)",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "BachelorPassBachelorOfEducationAnni",
+                    "label": "Bachelor (Pass) + Bachelor of Education (3 anni totali)",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "BachelorHonours",
+                    "label": "Bachelor (Honours)",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "ProfessionalBachelor",
+                    "label": "Professional Bachelor",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "HigherSecondarySchoolCertificateHssc"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorPassMasterDegreeAnni",
+                    "BachelorPassBachelorOfLawLl",
+                    "BachelorPassBachelorOfEducationAnni",
+                    "BachelorHonours",
+                    "ProfessionalBachelor"
+                ],
+                "min_duration": {
+                    "BachelorPassMasterDegreeAnni": 2,
+                    "BachelorPassBachelorOfLawLl": 2,
+                    "BachelorPassBachelorOfEducationAnni": 2,
+                    "BachelorHonours": 2,
+                    "ProfessionalBachelor": 2
+                },
+                "min_gpa": {
+                    "Base4": 3.3
+                }
+            }
+        }
+    },
+    "Polonia": {
+        "country_code": "PL",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "WiadectwoUkoCzeniaLiceumOgLnokszta",
+                    "label": "świadectwo ukończenia liceum ogólnokształcącego (certificate of completion of the general lyceum)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "WiadectwoDojrzaCiMaturityCertificate",
+                    "label": "świadectwo dojrzałości (maturity certificate)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "Licencjat",
+                    "label": "Licencjat",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "InYnier",
+                    "label": "Inżynier",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "WiadectwoUkoCzeniaLiceumOgLnokszta",
+                    "WiadectwoDojrzaCiMaturityCertificate"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "Licencjat",
+                    "InYnier"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Regno Unito": {
+        "country_code": "GB",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "GeneralCertificateOfEducationGceOr",
+                    "label": "General Certificate of Education (GCE, or IGCE - International General Certificate of Education per qualifiche rilasciate fuori dal Regno Unito) rilasciate da enti certificatori ufficiali del Regno Unito, che attestino il superamento di almeno 3 Advanced level (A level)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "CambridgePreUDiplomaPreU",
+                    "label": "Cambridge Pre-U Diploma (3 Pre-U Principal Subjects + Global Perspective and Research)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "UnaCombinazioneDiMaterieDiverseTra",
+                    "label": "Una combinazione di 3 materie diverse tra A level e Pre-U Principal Subjects",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "BtecLevelNationalExtendedDiploma",
+                    "label": "BTEC Level 3 National Extended Diploma",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "AdvancedSubsidiaryAsLevelsNonVerranno",
+                    "label": "Advanced Subsidiary (AS) levels non verranno considerati;",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorHonoursDegree",
+                    "label": "Bachelor Honours Degree",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "GeneralCertificateOfEducationGceOr",
+                    "CambridgePreUDiplomaPreU",
+                    "UnaCombinazioneDiMaterieDiverseTra",
+                    "BtecLevelNationalExtendedDiploma",
+                    "AdvancedSubsidiaryAsLevelsNonVerranno"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorHonoursDegree"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Regno Unito (Scozia)": {
+        "country_code": "GB",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "ScottishQualificationsCertificateHighersAndAdvanced",
+                    "label": "Scottish Qualifications Certificate (Highers and Advanced Highers) che soddisfa i seguenti requisiti:",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "AlmenoAdvancedHighersOppure",
+                    "label": "almeno 3 Advanced Highers, oppure",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "AdvancedHighersAlmenoHighers",
+                    "label": "2 Advanced Highers e almeno 4 Highers.",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorHonoursDegree",
+                    "label": "Bachelor Honours Degree",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "MasterOfArtsHonoursDegree",
+                    "label": "Master of Arts Honours Degree",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "ScottishQualificationsCertificateHighersAndAdvanced",
+                    "AlmenoAdvancedHighersOppure",
+                    "AdvancedHighersAlmenoHighers"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorHonoursDegree",
+                    "MasterOfArtsHonoursDegree"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Romania": {
+        "country_code": "RO",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "DiplomDeBacalaureat",
+                    "label": "Diplomă de Bacalaureat",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "DiplomDeLicen",
+                    "label": "Diplomă de Licenţă",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "DiplomDeInginer",
+                    "label": "Diplomă de Inginer",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "DiplomDeBacalaureat"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "DiplomDeLicen",
+                    "DiplomDeInginer"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Russia": {
+        "country_code": "RU",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "AttestatSrednemObshchemObrazovaniiCertificateOf",
+                    "label": "Аттестат о среднем общем образовании / Attestat o srednem obshchem obrazovanii (Certificate of complete general secondary education)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "DiplomSrednemProfessionalnomObrazovaniiDiplomaOf",
+                    "label": "Диплом о среднем профессиональном образовании / Diplom o srednem professionalnom obrazovanii (Diploma of secondary professional education)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "DiplomBakalavra",
+                    "label": "Диплом бакалавра / Diplom bakalavra",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "DiplomSpetsialista",
+                    "label": "Диплом специалиста / Diplom spetsialista",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "AttestatSrednemObshchemObrazovaniiCertificateOf",
+                    "DiplomSrednemProfessionalnomObrazovaniiDiplomaOf"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "DiplomBakalavra",
+                    "DiplomSpetsialista"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Santa Sede": {
+        "country_code": "VA",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [],
+            "Postgraduate": [
+                {
+                    "key": "BaccalaureatoBaccalaureatus",
+                    "label": "Baccalaureato / Baccalaureatus",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "BaccalaureatoBaccalaureatusInTheologyAnni",
+                    "label": "Baccalaureato / Baccalaureatus in Theology (5 anni)",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BaccalaureatoBaccalaureatus",
+                    "BaccalaureatoBaccalaureatusInTheologyAnni"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Serbia": {
+        "country_code": "RS",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "DiplomaSteEnomSrednemObrazovanjuDiploma",
+                    "label": "Диплома о стеченом среднем образовањy / Diploma o stečenom srednem obrazovanju (Diploma of completed secondary education)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "OrDiplomaOrUverenjePoloEnom",
+                    "label": "Диплома or Уверење о положеном матурском испиту / Diploma or Uverenje o položenom maturskom ispitu (Diploma/Statement of the completed matura exam)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "DiplomaSteEnomVisokomObrazovanju",
+                    "label": "Диплома о стеченом високом образовањy / Diploma o stečenom visokom obrazovanju",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "DiplomaAkademskeStudijePrvojStepena",
+                    "label": "Диплома академске студије првој степена / Diploma akademske studije prvoj stepena",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "DiplomaSteEnomPrvomStepenuVisokog",
+                    "label": "Диплома о стеченом првом степену високог образованја / Diploma o stečenom prvom stepenu visokog obrazovanja",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "DiplomiraniYearBachelorDegree",
+                    "label": "Дипломирани / Diplomirani (4-year Bachelor’s degree)",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "DiplomaSteEnomSrednemObrazovanjuDiploma",
+                    "OrDiplomaOrUverenjePoloEnom"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "DiplomaSteEnomVisokomObrazovanju",
+                    "DiplomaAkademskeStudijePrvojStepena",
+                    "DiplomaSteEnomPrvomStepenuVisokog",
+                    "DiplomiraniYearBachelorDegree"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Siria": {
+        "country_code": "SY",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "GeneralSecondaryCertificateEducationAlShah",
+                    "label": "General Secondary Certificate Education (Al Shahâda Al Thânawiyya al-Ìmma)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegreeLicence",
+                    "label": "Bachelor's degree o Licence",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "GeneralSecondaryCertificateEducationAlShah"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegreeLicence"
+                ],
+                "min_duration": {
+                    "BachelorDegreeLicence": 4
+                },
+                "min_gpa": {
+                    "Base100": 75.0
+                }
+            }
+        }
+    },
+    "Somalia": {
+        "country_code": "SO",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base5",
+                "label_it": "Su 5",
+                "label_en": "On 5"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "SecondarySchoolLeavingCertificate",
+                    "label": "Secondary School Leaving Certificate",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegree",
+                    "label": "Bachelor’s degree",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "SecondarySchoolLeavingCertificate"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegree"
+                ],
+                "min_duration": {
+                    "BachelorDegree": 3
+                },
+                "min_gpa": {
+                    "Base4": 3.0,
+                    "Base5": 3.5,
+                    "Base100": 80.0
+                }
+            }
+        }
+    },
+    "Spagna": {
+        "country_code": "ES",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base10",
+                "label_it": "Su 10",
+                "label_en": "On 10"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "TTuloDeBachiller",
+                    "label": "Título de Bachiller",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "SuperamentoDellEsameDiAccessoAll",
+                    "label": "superamento dell’esame di accesso all’università (EBAU - Evaluación de Bachillerato para el Acceso a la Universidad, o EVAU - Evaluación para el Acceso a la Universidad, o Selectividad)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "TTuloDeGraduadoGrado",
+                    "label": "Título de Graduado / Grado",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "TTuloDeBachiller",
+                    "SuperamentoDellEsameDiAccessoAll"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "TTuloDeGraduadoGrado"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Sri Lanka": {
+        "country_code": "LK",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegree",
+                    "label": "Bachelor’s degree",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "SpecialDegreeProgramme",
+                    "label": "Special Degree programme",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [],
+                "min_gpa": {
+                    "Base100": 30.0
+                }
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegree",
+                    "SpecialDegreeProgramme"
+                ],
+                "min_duration": {
+                    "BachelorDegree": 4,
+                    "SpecialDegreeProgramme": 4
+                },
+                "min_gpa": {}
+            }
+        }
+    },
+    "Sudan": {
+        "country_code": "SD",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [],
+            "Postgraduate": [
+                {
+                    "key": "BachelorHonoursDegree",
+                    "label": "Bachelor Honours Degree",
+                    "requiresDuration": true
+                },
+                {
+                    "key": "BachelorDegreeBachelorDegreeAnniPost",
+                    "label": "Bachelor’s degree o Bachelor’s degree – 4 anni + Post-graduate – 1 anno",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorHonoursDegree",
+                    "BachelorDegreeBachelorDegreeAnniPost"
+                ],
+                "min_duration": {
+                    "BachelorHonoursDegree": 5,
+                    "BachelorDegreeBachelorDegreeAnniPost": 5
+                },
+                "min_gpa": {
+                    "Base100": 70.0,
+                    "Base4": 2.8
+                }
+            }
+        }
+    },
+    "Tunisia": {
+        "country_code": "TN",
+        "gpa_scales": [
+            {
+                "value": "Base20",
+                "label_it": "Su 20",
+                "label_en": "On 20"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "BaccalaurAt",
+                    "label": "ﺎﯾروﻟﺎﻛﺑﻟا / Baccalauréat",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "LicenceFondamentale",
+                    "label": "ةزﺎﺟﻹا ﺔﯾﺳﺎﺳﻷا / Licence Fondamentale",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "LicenceProfessionnelleTalvoltaDenominataLicenceAppliqu",
+                    "label": "ةزﺎﺟﻹا ﺔﯾﻘﯾﺑطﺗﻟا / Licence Professionnelle (talvolta denominata Licence Appliquée)",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "BaccalaurAt"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "LicenceFondamentale",
+                    "LicenceProfessionnelleTalvoltaDenominataLicenceAppliqu"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Turchia": {
+        "country_code": "TR",
+        "gpa_scales": [
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "LiseDiplomas",
+                    "label": "Lise Diploması",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "MeslekiVeTeknikLisesiDiplomas",
+                    "label": "Mesleki ve Teknik Lisesi Diploması",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "ProvaDelSuperamentoDelYKsek",
+                    "label": "prova del superamento del Yükseköğretim Kurumları Sınavı (YKS - Higher Education Institutions Examination), inclusi sia il Temel Yeterlilik Testi (TYT - Basic Proficiency Test) e il Alan Yeterlilik Testleri (AYT - Field Qualification Tests), oppure l’esame YÖS (Yabancı Uyruklu Öğrenci Sınavı) per cittadini di nazionalità non turca",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "Dal2010Al2018GliEsami",
+                    "label": "Dal 2010 al 2018, gli esami di accesso all’università erano denominati Yükseköğretime Geçis Sınavı (YGS - Higher Education Entrance Exam) e Lisans Yerleştirme Sınav (LYS - Undergraduate Placement Exam)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "LisansDiplomas",
+                    "label": "Lisans Diploması",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "LiseDiplomas",
+                    "MeslekiVeTeknikLisesiDiplomas",
+                    "ProvaDelSuperamentoDelYKsek",
+                    "Dal2010Al2018GliEsami"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "LisansDiplomas"
+                ],
+                "min_duration": {},
+                "min_gpa": {
+                    "Base4": 2.7
+                }
+            }
+        }
+    },
+    "Ucraina": {
+        "country_code": "UA",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "SvidotstvoProZdobuttiaPovnoiZagalnoiSerednoi",
+                    "label": "Свідоцтво про здобуття повної загальної середньої освіти / Svidotstvo pro zdobuttia povnoi zagalnoi serednoi osvity (Certificate of complete general secondary education)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "AtestatProPovnuZahalnuSerednjuOsvitu",
+                    "label": "Атестат про повну загалну середню освiту / Atestat pro povnu zahalnu serednju osvitu (per titoli di studio conseguiti fino al 2018)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "OrDyplomMolodsjogoSpetialistaOrBakalavra",
+                    "label": "Диплом молодшого спеціаліста or бакалавра / Dyplom molodsjogo spetialista or bakalavra (Junior Specialist diploma or Bachelor’s degree)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "DiplomSakalavra",
+                    "label": "Диплом бакалавра / Diplom sakalavra",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "DiplomSpetsialista",
+                    "label": "Диплом спеціалиста / Diplom Spetsialista",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "SvidotstvoProZdobuttiaPovnoiZagalnoiSerednoi",
+                    "AtestatProPovnuZahalnuSerednjuOsvitu",
+                    "OrDyplomMolodsjogoSpetialistaOrBakalavra"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "DiplomSakalavra",
+                    "DiplomSpetsialista"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Uganda": {
+        "country_code": "UG",
+        "gpa_scales": [
+            {
+                "value": "Base5",
+                "label_it": "Su 5",
+                "label_en": "On 5"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "UgandaAdvancedCertificateOfEducation",
+                    "label": "Uganda Advanced Certificate of Education",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegree",
+                    "label": "Bachelor’s Degree",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "UgandaAdvancedCertificateOfEducation"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegree"
+                ],
+                "min_duration": {
+                    "BachelorDegree": 3
+                },
+                "min_gpa": {
+                    "Base5": 3.5
+                }
+            }
+        }
+    },
+    "USA": {
+        "country_code": "US",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "HighSchoolDiplomaUsAdvancedPlacements",
+                    "label": "High School Diploma + 3 US \"Advanced Placements\" (APs)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegree",
+                    "label": "Bachelor’s Degree",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "HighSchoolDiplomaUsAdvancedPlacements"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegree"
+                ],
+                "min_duration": {
+                    "BachelorDegree": 4
+                },
+                "min_gpa": {}
+            }
+        }
+    },
+    "Uzbekistan": {
+        "country_code": "UZ",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base5",
+                "label_it": "Su 5",
+                "label_en": "On 5"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "CertificateOfCompletedSecondaryEducation",
+                    "label": "Certificate of Completed Secondary Education",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "DiplomaOfSecondarySpecializedEducation",
+                    "label": "Diploma of Secondary Specialized Education.",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegreeBakalavr",
+                    "label": "Bachelor's degree (Bakalavr)",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "CertificateOfCompletedSecondaryEducation",
+                    "DiplomaOfSecondarySpecializedEducation"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegreeBakalavr"
+                ],
+                "min_duration": {},
+                "min_gpa": {
+                    "Base5": 4.0,
+                    "Base100": 80.0
+                }
+            }
+        }
+    },
+    "Vietnam": {
+        "country_code": "VN",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "BNgTNghiTrungH",
+                    "label": "Bằng Tốt Nghiệp Trung Học Phổ Thông (Certificate of secondary school graduation)",
+                    "requiresDuration": false
+                },
+                {
+                    "key": "BNgTrungChuyNghiDiploma",
+                    "label": "Bằng Trung học chuyên nghiệp (Diploma of Secondary Vocational Education) + Bằng Tốt Nghiệp Cao Đẳng Cử Nhân Cao Đẳng (Associate Degree)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BNgTNghiHUniversity",
+                    "label": "Bằng Tốt Nghiệp Đại Học (University graduation certificate) ottenuto dopo un corso Bachelor’s degree di almeno 4 anni attestante la qualifica ottenuta (Cử Nhân)",
+                    "requiresDuration": false
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "BNgTNghiTrungH",
+                    "BNgTrungChuyNghiDiploma"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BNgTNghiHUniversity"
+                ],
+                "min_duration": {},
+                "min_gpa": {}
+            }
+        }
+    },
+    "Yemen": {
+        "country_code": "YE",
+        "gpa_scales": [
+            {
+                "value": "Base100",
+                "label_it": "Su 100",
+                "label_en": "On 100"
+            },
+            {
+                "value": "Base4",
+                "label_it": "Su 4",
+                "label_en": "On 4"
+            }
+        ],
+        "qualifications": {
+            "Undergraduate": [
+                {
+                    "key": "GeneralSecondaryEducationCertificateAlThanawiya",
+                    "label": "General Secondary Education Certificate (Al Thanawiya)",
+                    "requiresDuration": false
+                }
+            ],
+            "Postgraduate": [
+                {
+                    "key": "BachelorDegree",
+                    "label": "Bachelor’s degree",
+                    "requiresDuration": true
+                }
+            ]
+        },
+        "thresholds": {
+            "Undergraduate": {
+                "eligible_qualifications": [
+                    "GeneralSecondaryEducationCertificateAlThanawiya"
+                ],
+                "min_gpa": {}
+            },
+            "Postgraduate": {
+                "eligible_qualifications": [
+                    "BachelorDegree"
+                ],
+                "min_duration": {
+                    "BachelorDegree": 4
+                },
+                "min_gpa": {}
             }
         }
     }
