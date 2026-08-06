@@ -3421,21 +3421,46 @@
             // BARRA DI RICERCA INTELLIGENTE CON MENU A TENDINA ATTACCATO ADERENTE (CUSTOM DROPDOWN)
             const reqsSearchDropdownMenu = document.getElementById('reqsSearchDropdownMenu');
             const reqsSearchWrapper = document.querySelector('.reqs-search-wrapper');
+            const reqsSearchArrow = document.querySelector('.reqs-search-arrow-custom');
 
-            function updateCustomSearchDropdownMenu(filterQuery = "") {
+            function updateCustomSearchDropdownMenu(filterQuery = "", showAllOption = true) {
                 if (!reqsSearchDropdownMenu) return;
                 reqsSearchDropdownMenu.innerHTML = "";
                 const currentLang = document.documentElement.lang || 'it';
+
+                const allCountries = Object.keys(allRequirements);
                 
-                const countries = Object.keys(allRequirements).filter(c => 
-                    c.toLowerCase().includes(filterQuery.toLowerCase())
+                // Se la query corrisponde esattamente ad una nazione già selezionata, mostriamo comunque tutte le opzioni
+                const isExactMatch = allCountries.some(c => c.toLowerCase() === filterQuery.trim().toLowerCase());
+                const effectiveQuery = isExactMatch ? "" : filterQuery.trim().toLowerCase();
+
+                const countries = allCountries.filter(c => 
+                    c.toLowerCase().includes(effectiveQuery)
                 );
-                
+
+                // Opzione per resettare e mostrare tutte le nazioni
+                if (showAllOption) {
+                    const allItem = document.createElement('div');
+                    allItem.className = 'reqs-dropdown-item';
+                    allItem.style.fontWeight = '600';
+                    allItem.style.color = '#facc15';
+                    allItem.textContent = currentLang === 'en' ? '🌐 All countries' : '🌐 Tutte le nazioni';
+                    allItem.addEventListener('click', () => {
+                        selectCountryFromCustomDropdown("");
+                    });
+                    reqsSearchDropdownMenu.appendChild(allItem);
+                }
+
                 if (countries.length === 0) {
-                    reqsSearchDropdownMenu.innerHTML = `<div style="padding: 10px 16px; color: var(--text-muted); font-size: 13px;">${currentLang === 'en' ? 'No country found' : 'Nessuna nazione trovata'}</div>`;
+                    const noFound = document.createElement('div');
+                    noFound.style.padding = '10px 16px';
+                    noFound.style.color = 'var(--text-muted)';
+                    noFound.style.fontSize = '13px';
+                    noFound.textContent = currentLang === 'en' ? 'No country found' : 'Nessuna nazione trovata';
+                    reqsSearchDropdownMenu.appendChild(noFound);
                     return;
                 }
-                
+
                 countries.forEach(country => {
                     const item = document.createElement('div');
                     item.className = 'reqs-dropdown-item';
@@ -3451,12 +3476,14 @@
                 if (!reqsSearchInput) return;
                 reqsSearchInput.value = countryName;
                 if (reqsSearchDropdownMenu) reqsSearchDropdownMenu.classList.add('hidden');
-                
+
                 filterCountryCardsByQuery(countryName);
-                
-                const targetCard = document.getElementById(`country_card_${countryName.replace(/\s+/g, '_')}`);
-                if (targetCard) {
-                    targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                if (countryName) {
+                    const targetCard = document.getElementById(`country_card_${countryName.replace(/\s+/g, '_')}`);
+                    if (targetCard) {
+                        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                 }
             }
 
@@ -3465,8 +3492,11 @@
                 const cards = reqsCountryCardsList.querySelectorAll('.reqs-card-fullwidth');
                 cards.forEach(card => {
                     const countryAttr = card.getAttribute('data-country-name');
-                    if (!countryAttr) return;
-                    if (countryAttr.includes(q)) {
+                    if (!countryAttr) {
+                        card.style.display = 'block';
+                        return;
+                    }
+                    if (!q || countryAttr.includes(q)) {
                         card.style.display = 'block';
                     } else {
                         card.style.display = 'none';
@@ -3476,14 +3506,36 @@
 
             if (reqsSearchInput) {
                 reqsSearchInput.addEventListener('focus', () => {
-                    updateCustomSearchDropdownMenu(reqsSearchInput.value);
+                    reqsSearchInput.select();
+                    updateCustomSearchDropdownMenu("");
                     if (reqsSearchDropdownMenu) reqsSearchDropdownMenu.classList.remove('hidden');
                 });
-                
+
+                reqsSearchInput.addEventListener('click', () => {
+                    updateCustomSearchDropdownMenu("");
+                    if (reqsSearchDropdownMenu) reqsSearchDropdownMenu.classList.remove('hidden');
+                });
+
                 reqsSearchInput.addEventListener('input', () => {
                     updateCustomSearchDropdownMenu(reqsSearchInput.value);
                     if (reqsSearchDropdownMenu) reqsSearchDropdownMenu.classList.remove('hidden');
                     filterCountryCardsByQuery(reqsSearchInput.value);
+                });
+            }
+
+            if (reqsSearchArrow) {
+                reqsSearchArrow.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (reqsSearchDropdownMenu) {
+                        const isHidden = reqsSearchDropdownMenu.classList.contains('hidden');
+                        if (isHidden) {
+                            updateCustomSearchDropdownMenu("");
+                            reqsSearchDropdownMenu.classList.remove('hidden');
+                            if (reqsSearchInput) reqsSearchInput.focus();
+                        } else {
+                            reqsSearchDropdownMenu.classList.add('hidden');
+                        }
+                    }
                 });
             }
 
