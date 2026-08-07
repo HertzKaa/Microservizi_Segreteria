@@ -2,31 +2,35 @@
     {
         "country": "INTERNATIONAL BACCALAUREATE (IB)",
         "triennale": {
-            "titoli_richiesti": "Diploma di International Baccalaureate (Diploma Programme - IBDP) ottenuto dopo 12 anni di scolarità e rilasciato da un’istituzione scolastica ufficialmente riconosciuta dall’International Baccalaureate Organization (IBO) che soddisfi i seguenti requisiti:\npositivo superamento delle tre materie principali:\nTheory of Knowledge (TOK), Creativity, Action, Service (CAS) e Extended Essay (EE).",
-            "voto_minimo": "almeno 24 punti in sei materie a scelta, dei quali 12 ottenuti almeno ad “Higher Level”;",
+            "titoli_richiesti": "Diploma di International Baccalaureate (Diploma Programme - IBDP) ottenuto dopo 12 anni di scolarità e rilasciato da un’istituzione scolastica ufficialmente riconosciuta dall’International Baccalaureate Organization (IBO) che soddisfi i seguenti requisiti:\n○ almeno 24 punti in sei materie a scelta, dei quali 12 ottenuti almeno ad “Higher Level”;\n○ positivo superamento delle tre materie principali: Theory of Knowledge (TOK), Creativity, Action, Service (CAS) e Extended Essay (EE).",
+            "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Per maggiori informazioni consultare l’Allegato 2 alla Circolare Ministeriale."
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Per maggiori informazioni consultare l’Allegato 2 alla Circolare Ministeriale."
         },
         "magistrale": {
             "titoli_richiesti": "Requisito non richiesto",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "EUROPEAN BACCALAUREATE (EB)",
         "triennale": {
-            "titoli_richiesti": "Requisito non richiesto",
+            "titoli_richiesti": "Diploma di Baccalaureato Europeo (European Baccalaureate - EB) rilasciato da una Scuola Europea accreditata",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Diploma di Baccalaureato Europeo (European Baccalaureate - EB) rilasciato da una Scuola Europea accreditata Per maggiori informazioni consultare l’Allegato 2 alla Circolare Ministeriale."
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Per maggiori informazioni consultare l’Allegato 2 alla Circolare Ministeriale."
         },
         "magistrale": {
             "titoli_richiesti": "Requisito non richiesto",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -35,13 +39,15 @@
             "titoli_richiesti": "12th Grade graduation certificate\nesame di accesso all’università Kankor examination",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Entrambi i requisiti devono essere soddisfatti:"
+            "quantita_titoli_richiesti": "Entrambi i requisiti devono essere soddisfatti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor ‘s degree\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor ‘s degree",
             "voto_minimo": "votazione media (GPA) minima 75 su 100",
             "durata_minima": "almeno 4 anni",
-            "altri_requisiti": "Note: Gli istituti privati di istruzione superiore devono essere pienamente accreditati dalla Quality Assurance Accreditation Agency (QAAD)."
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Note: Gli istituti privati di istruzione superiore devono essere pienamente accreditati dalla Quality Assurance Accreditation Agency (QAAD)."
         }
     },
     {
@@ -50,28 +56,32 @@
             "titoli_richiesti": "Diplomë e Maturës Shtetërore\nDëftesë Pjekurie (per titoli di studio conseguiti fino 2011)",
             "voto_minimo": "con voto medio minimo di 6.5",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Diplomë Bachelor\nDiplomë e Nivelit të Parë (per titoli di studio conseguito fino al 2008)\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Diplomë Bachelor\nDiplomë e Nivelit të Parë (per titoli di studio conseguito fino al 2008)",
             "voto_minimo": "votazione media (GPA) minima 7 su 10",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "ALGERIA",
         "triennale": {
-            "titoli_richiesti": "Baccalauréat de l’Enseignement Secondaire / يوﻧﺎﺛﻟا مﯾﻠﻌﺗﻟا ﺎﯾروﻟﺎﻛﺑ ةدﺎﮭﺷ (upper secondary general education)",
+            "titoli_richiesti": "Baccalauréat de l’Enseignement Secondaire / شهادة بكالوريا التعليم الثانوي (upper secondary general education)",
             "voto_minimo": "Valutazione media di almeno 10 o superiore per gli esami di Baccalauréat",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Entrambi i requisiti devono essere soddisfatti:"
+            "quantita_titoli_richiesti": "Entrambi i requisiti devono essere soddisfatti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Licence\nLicence of the système classique (precedente al 2004)\nDiplôme d'Études Supérieures o Diplôme d'Ingénieur\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Licence\nLicence of the système classique (precedente al 2004)\nDiplôme d'Études Supérieures o Diplôme d'Ingénieur",
             "voto_minimo": "votazione media (GPA) minima 10.5 su 20",
-            "durata_minima": "3 – سﻧﺎﺳﯾﻠﻟا anni\n4 anni",
-            "altri_requisiti": "Uno dei seguenti:"
+            "durata_minima": "Licence: 3 anni; Licence du système classique: 4 anni",
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -80,13 +90,15 @@
             "titoli_richiesti": "General Secondary Education Certificate (Tawjihiyah)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Bachelor’s degree",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "4, 5 o 6 anni",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -95,13 +107,15 @@
             "titoli_richiesti": "Australian Capital Territory Year 12 Certificate (ACT Year 12 Certificate)\nNSW Higher School Certificate (HSC)\nQueensland Certificate of Education (QCE)\nSouth Australian Certificate of Education (SACE)\nTasmanian Certificate of Education (TCE)\nVictorian Certificate of Education (VCE)\nWestern Australian Certificate of Education (WACE)\nNorthern Territory Certificate of Education and Training\nAustralian Tertiary Admission Rank (ATAR) certificato dal Tertiary Admission Centre (TAC) responsabile per ciascuno stato/territorio",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Entrambi i requisiti devono essere soddisfatti::\n● Uno dei seguenti Senior Secondary Certificates of Education:"
+            "quantita_titoli_richiesti": "Entrambi i requisiti devono essere soddisfatti: uno dei Senior Secondary Certificates of Education + ATAR",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Bachelor Honours Degree",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "almeno 4 anni",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -110,13 +124,15 @@
             "titoli_richiesti": "Tam orta təhsil haqqında attestat (Certificate of complete secondary education)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Ulteriori requisiti di ammissione per titoli di studio ottenuti dopo 11 anni di scolarità: una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Ulteriori requisiti di ammissione per titoli di studio ottenuti dopo 11 anni di scolarità: una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
         },
         "magistrale": {
-            "titoli_richiesti": "Bakalavr Diplomu\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bakalavr Diplomu",
             "voto_minimo": "votazione media (GPA) minima 4.0 su 5.0\nvotazione media (GPA) minima 80 su 100",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -125,58 +141,66 @@
             "titoli_richiesti": "Higher Secondary Certificate",
             "voto_minimo": "con valutazione finale pari o superiore a Second Division",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Honours Bachelor’s degree\nProfessional Bachelor’s degree honours\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Honours Bachelor’s degree\nProfessional Bachelor’s degree honours",
             "voto_minimo": "votazione media (GPA) minima 3.3 su 4.0",
-            "durata_minima": "4 anni\n4 o 5 anni",
-            "altri_requisiti": "Uno dei seguenti:"
+            "durata_minima": "Honours Bachelor’s degree: 4 anni; Professional Bachelor’s degree honours: 4 o 5 anni",
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "BRASILE",
         "triennale": {
-            "titoli_richiesti": "Certificado de Conclusão de Ensino Médio or Certificado de Conclusão do 2° Grau concluso dopo 11 anni di scolarità\nRisultati dell’Exame Nacional do Ensino Médio (ENEM) or Vestibular\nCertificado de Conclusão de Ensino Médio or Certificado de Conclusão do 2° Grau concluso dopo 12 anni di scolarità",
+            "titoli_richiesti": "Certificado de Conclusão de Ensino Médio or Certificado de Conclusão do 2° Grau\nRisultati dell’Exame Nacional do Ensino Médio (ENEM) or Vestibular",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "[Per titoli di studio conseguiti dopo 11 anni di scolarità] Tutti i requisiti devono essere soddisfatti:\n● una delle opzioni presenti al link www.unipd.it/ammissione-studenti-inter nazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico\n[Per titoli di studio conseguiti dopo 12 anni di scolarità] Entrambi i requisiti devono essere soddisfatti:"
+            "quantita_titoli_richiesti": "[Per titoli di studio conseguiti dopo 11 anni di scolarità] Tutti i requisiti devono essere soddisfatti: / [Per titoli di studio conseguiti dopo 12 anni di scolarità] Entrambi i requisiti devono essere soddisfatti:",
+            "note": "[Per titoli di studio conseguiti dopo 11 anni di scolarità] una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
         },
         "magistrale": {
-            "titoli_richiesti": "Bacharel or Licenciado\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bacharel or Licenciado",
             "voto_minimo": "votazione media (GPA) minima 7 su 10",
             "durata_minima": "4, o 5, o 6 anni",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "CAMERUN",
         "triennale": {
-            "titoli_richiesti": "Sistema britannico :\nGeneral Certificate of Education che indichi il conseguimento di Advanced Level in almeno 2 materie e Ordinary Level in almeno 4 materie\nSistema francese:\nBaccalauréat de l’Enseignement Secondaire",
+            "titoli_richiesti": "Sistema britannico:\nGeneral Certificate of Education che indichi il conseguimento di Advanced Level in almeno 2 materie e Ordinary Level in almeno 4 materie\nSistema francese:\nBaccalauréat de l’Enseignement Secondaire",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Uno dei seguenti (Sistema britannico o Sistema francese)",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Sistema britannico:\nBachelor’s degree\nSistema francese:\nLicence",
             "voto_minimo": "Requisito non richiesto",
-            "durata_minima": "3 o più anni",
-            "altri_requisiti": "Requisito non richiesto"
+            "durata_minima": "Sistema britannico: 3 o più anni; Sistema francese: 3 o più anni",
+            "quantita_titoli_richiesti": "Uno dei seguenti (Sistema britannico o Sistema francese)",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "CINA",
         "triennale": {
-            "titoli_richiesti": "Senior middle school graduation certificate (普通高中毕业证书 putong gaozhong biye zhengshu) + Verification report del China Secondary Education Qualification Certificate rilasciato dal CSSD o da altra istituzione ufficiale competente\nNational College Entrance Examination - Gaokao (普通高等学校招生全国统一考 试)",
-            "voto_minimo": "con un punteggio pari o superiore a 400/750 + Verification report del China Secondary Education Qualification Certificate rilasciato dal CSSD o da altra istituzione ufficiale competente",
+            "titoli_richiesti": "Senior middle school graduation certificate (普通高中毕业证书 putong gaozhong biye zhengshu) + Verification report del China Secondary Education Qualification Certificate rilasciato dal CSSD o da altra istituzione ufficiale competente\nNational College Entrance Examination - Gaokao (普通高等学校招生全国统一考试) + Verification report del China Secondary Education Qualification Certificate rilasciato dal CSSD o da altra istituzione ufficiale competente",
+            "voto_minimo": "con un punteggio pari o superiore a 400/750",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Entrambi i requisiti devono essere soddisfatti:"
+            "quantita_titoli_richiesti": "Entrambi i requisiti devono essere soddisfatti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor degree certificate (学士学 位证书 xueshi xuewei hengshu) dopo un corso di studi della durata di 4 anni (本科 , benke) + CSSD verification report per ogni certificato/laurea\nGraduation certificate (毕业证书 biye zhengshu) + CSSD verification\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor degree certificate (学士学位证书 xueshi xuewei hengshu) dopo un corso di studi della durata di 4 anni (本科 , benke) + CSSD verification report per ogni certificato/laurea\nGraduation certificate (毕业证书 biye zhengshu) + CSSD verification",
             "voto_minimo": "votazione media (GPA) minima 75 su 100\nvotazione media (GPA) minima 3.0 su 5.0\nvotazione media (GPA) minima 2.8 su 4.0",
-            "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Entrambi i requisiti devono essere soddisfatti:"
+            "durata_minima": "4 anni",
+            "quantita_titoli_richiesti": "Entrambi i requisiti devono essere soddisfatti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -185,13 +209,15 @@
             "titoli_richiesti": "Απολυτήριο - Apolyterion\nsuperamento del Παγκύπριες Εξετάσεις - Pankýpries Exetáseis (Pancyprian Examinations) ed ottenimento del Δελτίο Αποτελεσμάτων Υποψηφίου, Παγκύπριες Εξετάσεις Πρόσβασης - Deltío Apotelesmáton Ypopsifíou, Pankýpries Exetáseis Prósvasis",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Entrambi i requisiti devono essere soddisfatti:"
+            "quantita_titoli_richiesti": "Entrambi i requisiti devono essere soddisfatti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Πτυχίο - Ptychio",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -200,13 +226,15 @@
             "titoli_richiesti": "Bachiller Académico / Comercial / Técnico, ottenuto dopo il sostenimento dell’esame di stato (Examen de Estado) amministrato dall’Instituto Colombiano para la Evaluación de la Educación (ICFES)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Entrambi i requisiti devono essere soddisfatti:\n● una delle opzioni presenti al link www.unipd.it/ammissione-studenti-inter nazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
+            "quantita_titoli_richiesti": "Entrambi i requisiti devono essere soddisfatti:",
+            "note": "una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
         },
         "magistrale": {
             "titoli_richiesti": "Licenciado",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "4, o 5, o 6, o 7 anni",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -215,13 +243,15 @@
             "titoli_richiesti": "High School Certificate (고등학교 졸업장, Godeung Hakgyo Jolupjang)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Bachelor's degree (학사, Haksa)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "4 anni",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -230,43 +260,49 @@
             "titoli_richiesti": "General Secondary Education Certificate (shahâdat itmâm al-dirâsa al-thânawiyya al-`âmma)\nAl-Azhar Secondary School Certificate (al-shahâda l-thânawiyya l-azhariyya)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor of Arts (bakâlôriyûs âdâb)\nBachelor of Science (bakâlôriyûs ‘ulûm)\nLicence (lîsâns)\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor of Arts (bakâlôriyûs âdâb)\nBachelor of Science (bakâlôriyûs ‘ulûm)\nLicence (lîsâns)",
             "voto_minimo": "votazione media (GPA) minima di 70 su 100\nvotazione media (GPA) minima di 2.8 su 4.0",
             "durata_minima": "4 o 5 anni",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "ETIOPIA",
         "triennale": {
-            "titoli_richiesti": "Ethiopian School Leaving Certificate / Ethiopian Higher Education Entrance Examination (senior secondary general education)\nDiploma (higher professional education)\nUlteriori requisiti:",
-            "voto_minimo": "con votazione A, B o C per il titolo denominato Ethiopian School Leaving Certificate\nGPA pari ad almeno 2.0, o almeno 6 materie",
+            "titoli_richiesti": "Ethiopian School Leaving Certificate / Ethiopian Higher Education Entrance Examination (senior secondary general education)\nDiploma (higher professional education)",
+            "voto_minimo": "GPA pari ad almeno 2.0, o almeno 6 materie con votazione A, B o C per il titolo denominato Ethiopian School Leaving Certificate",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor’s degree\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor’s degree",
             "voto_minimo": "votazione media (GPA) minima di 3.3 su 4.0",
             "durata_minima": "3 anni o più",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "FILIPPINE",
         "triennale": {
-            "titoli_richiesti": "Junior Secondary School Certificate (Katunayan ) + Senior Secondary School Diploma (Katibayan – 2 anni) conseguito dal 2018",
-            "voto_minimo": "Requisito non richiesto",
-            "durata_minima": "4 anni",
-            "altri_requisiti": "Uno dei seguenti:\n● Secondary School Diploma (Katibayan) + una delle opzioni presenti al link www.unipd.it/ammissione-studenti-inter nazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico;"
-        },
-        "magistrale": {
-            "titoli_richiesti": "Bachelor’s Degree (Batsilyer) - 4, 5\n6 anni",
+            "titoli_richiesti": "Secondary School Diploma (Katibayan) + una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico\nJunior Secondary School Certificate (Katunayan – 4 anni) + Senior Secondary School Diploma (Katibayan – 2 anni) conseguito dal 2018",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
+        },
+        "magistrale": {
+            "titoli_richiesti": "Bachelor’s Degree (Batsilyer)",
+            "voto_minimo": "Requisito non richiesto",
+            "durata_minima": "4, 5, o 6 anni",
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -275,28 +311,32 @@
             "titoli_richiesti": "Baccalauréat Général\nBaccalauréat Technologique\nBaccalauréat Professionnel",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Licence\nLicence professionnelle",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "GAMBIA",
         "triennale": {
-            "titoli_richiesti": "West African Senior Secondary School Certificate (WASSCE), di cui almeno 5 materie\n– incluse Inglese, Matematica e Scienze Sociali\n– con voti tra A e C",
+            "titoli_richiesti": "West African Senior Secondary School Certificate (WASSCE), di cui almeno 5 materie – incluse Inglese, Matematica e Scienze Sociali – con voti tra A e C",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor’s degree\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor’s degree",
             "voto_minimo": "votazione media (GPA) minima di 3.5 su 4.3",
             "durata_minima": "4 anni o più",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -305,88 +345,100 @@
             "titoli_richiesti": "Allgemeine Hochschulreife / Abitur (General Higher Education Entrance Qualification)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Bachelor",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "GHANA",
         "triennale": {
-            "titoli_richiesti": "West African Senior Secondary School Certificate (WASSCE), in almeno 6 materie – incluso Lingua inglese e Matematica – con voti tra A1 e C6.\nWAEC scratch card",
+            "titoli_richiesti": "West African Senior Secondary School Certificate (WASSCE), in almeno 6 materie – incluso Lingua inglese e Matematica – con voti tra A1 e C6\nWAEC scratch card",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Entrambi i requisiti devono essere soddisfatti:"
+            "quantita_titoli_richiesti": "Entrambi i requisiti devono essere soddisfatti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor’s Degree\nHigher National Diploma + ultimi due anni di un Bachelor’s Degree\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor’s Degree\nHigher National Diploma – 3 anni + ultimi due anni di un Bachelor’s Degree",
             "voto_minimo": "votazione media (GPA) minima di 60 su 100\nvotazione media (GPA) minima di 3.3. su 4.0",
-            "durata_minima": "4 anni o più\n3 anni",
-            "altri_requisiti": "Uno dei seguenti:"
+            "durata_minima": "Bachelor’s Degree: 4 anni o più; HND + Bachelor’s Degree: 3 + 2 anni",
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "GIORDANIA",
         "triennale": {
-            "titoli_richiesti": "General Secondary Education Certificate (Tawjihi)",
-            "voto_minimo": "Vocational Secondary Education Certificate + Intermediate Diploma",
+            "titoli_richiesti": "General Secondary Education Certificate (Tawjihi)\nVocational Secondary Education Certificate + Intermediate Diploma",
+            "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Bachelor’s degree",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "4, 5, o 6 anni",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "GRECIA",
         "triennale": {
-            "titoli_richiesti": "Απολυτήριο Γενικού Λυκείου - Apolytírio Genikoú Lykeíou\nsuperamento del Πανελλαδικές Εξετάσεις\nPanelladikés Exetáseis (Panhellenic Examinations) e ottenimento del Βεβαίωση Συμμετοχής - Vevaíosi Symmetochís (or Βεβαίωση Πρόσβασης - Vevaíosi Prósvasis per esami sostenuti prima del 2016)",
+            "titoli_richiesti": "Απολυτήριο Γενικού Λυκείου - Apolytírio Genikoú Lykeíou\nsuperamento del Πανελλαδικές Εξετάσεις - Panelladikés Exetáseis (Panhellenic Examinations) e ottenimento del Βεβαίωση Συμμετοχής - Vevaíosi Symmetochís (or Βεβαίωση Πρόσβασης - Vevaíosi Prósvasis per esami sostenuti prima del 2016)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Entrambi i requisiti devono essere soddisfatti:"
+            "quantita_titoli_richiesti": "Entrambi i requisiti devono essere soddisfatti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Πτυχίο - Ptychio",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Note:\nI candidati devono aver conseguito il titolo presso gli istituti di istruzione superiore privati accreditati, indicati al link seguente: https://www.doatap.gr/home_english/helle nic-institutions/"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Note: I candidati devono aver conseguito il titolo presso gli istituti di istruzione superiore privati accreditati, indicati al link seguente: https://www.doatap.gr/home_english/hellenic-institutions/"
         }
     },
     {
         "country": "INDIA",
         "triennale": {
-            "titoli_richiesti": "All-India Senior School Certificate\nIndian school certificate\nHigher Secondary School Certificate\nHigher Secondary Examination Certificate Part II",
-            "voto_minimo": "Intermediate Examination Certificate",
+            "titoli_richiesti": "All-India Senior School Certificate\nIndian school certificate\nIntermediate Examination Certificate\nHigher Secondary School Certificate\nHigher Secondary Examination Certificate Part II",
+            "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti Standard XII diploma:"
+            "quantita_titoli_richiesti": "Uno dei seguenti Standard XII diploma:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Honours Bachelor Degree\nProfessional Bachelor Degree e ½\nPass/General Bachelor Degree + Postgraduate Bachelor’s degree o almeno 1 anno di Master’s degree\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Honours Bachelor Degree\nProfessional Bachelor Degree\nPass/General Bachelor Degree + Postgraduate Bachelor’s degree o almeno 1 anno di Master’s degree",
             "voto_minimo": "votazione media (GPA) minima di 60 su 100\nvotazione media (GPA) minima 7 su 10\nvotazione media (GPA) minima di 5.6 su 8.0\nvotazione media (GPA) minima di 2.8 su 4.0",
-            "durata_minima": "3 o 4 anni\n4, o 5, o 5 anni\n3 anni",
-            "altri_requisiti": "Uno dei seguenti:"
+            "durata_minima": "Honours Bachelor Degree: 3 o 4 anni; Professional Bachelor Degree: 4, o 5, o 5 anni e ½; Pass/General Bachelor Degree: 3 anni + Postgraduate Bachelor's degree o 1 anno Master's",
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "INDONESIA",
         "triennale": {
-            "titoli_richiesti": "Per titoli conseguiti fino al 2019 (incluso):\nIjazah Sekolah Menengah Atas, SMA (Senior Secondary School Certificate) + Surat Keterangan Hasil Ujian Nasional Per titoli conseguiti a partire dal 2020:\nSOLO Ijazah Sekolah Menengah Atas, SMA (Senior Secondary School Certificate)",
+            "titoli_richiesti": "Per titoli conseguiti fino al 2019 (incluso): Ijazah Sekolah Menengah Atas, SMA (Senior Secondary School Certificate) + Surat Keterangan Hasil Ujian Nasional\nPer titoli conseguiti a partire dal 2020: SOLO Ijazah Sekolah Menengah Atas, SMA (Senior Secondary School Certificate)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Uno dei seguenti (in base all'anno di conseguimento):",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Sarjana Stratum satu, S I degree",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -395,43 +447,49 @@
             "titoli_richiesti": "Certificate of completion of secondary education (Diplom-e-Motevasete) + certificato di completamento dell’anno pre-universitario (Dowre-ye pîsh dâneshgâhî)\nCertificato di completamento dell’educazione secondaria ottenuto dall’anno accademico 2018/19\nAssociate Degree (Kârdânî)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor’s Degree (kârshenâsi)\nAssociate Degree (Kârdânî) – 2anni + Discontinuous Degree (kârshenâsi-napayvasteh)\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor’s Degree (kârshenâsi)\nAssociate Degree (Kârdânî) + Discontinuous Degree (kârshenâsi-napayvasteh)",
             "voto_minimo": "votazione media (GPA) minima di 15 su 20",
-            "durata_minima": "4 o 5 anni\n2 anni",
-            "altri_requisiti": "Uno dei seguenti:"
+            "durata_minima": "Bachelor’s Degree: 4 o 5 anni; Associate Degree + Discontinuous Degree: 2 + 2 anni",
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "IRAQ",
         "triennale": {
-            "titoli_richiesti": "Secondary School Certificate wathîqa (ﺔﯾدادﻋﻹا ﺔﻠﺣرﻣﻟا / ﺔﯾﺳردﻣ ﺔﻘﯾﺛو – madrasiyya / al-marhalla al-i‘dâdiyya)",
+            "titoli_richiesti": "Secondary School Certificate wathîqa – وثيقة مدرسية / المرحلة الإعدادية) madrasiyya / al-marhalla al-i‘dâdiyya)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor’s degree سوﯾروﻟﺎﻛﺑﻟا (al-bakâlûriyyûs)\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor’s degree (al-bakâlûriyyûs)",
             "voto_minimo": "votazione media (GPA) minima di 70 su 100",
             "durata_minima": "4, 5, o 6 anni",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "IRLANDA",
         "triennale": {
-            "titoli_richiesti": "Leaving Certificate (Ardteistiméireacht) che soddisfi i seguenti requisiti:\nottenuto dopo 12 anni di scolarità;\nun minimo di 6 materie, tra cui inglese o irlandese;\nalmeno 2 delle 6 materie\nsuperiore;\nle altre 4 materie",
-            "voto_minimo": "con risultato H5\ncon un risultato di almeno O6 o H7.",
+            "titoli_richiesti": "Leaving Certificate (Ardteistiméireacht) che soddisfi i seguenti requisiti:\n● ottenuto dopo 12 anni di scolarità;\n● un minimo di 6 materie, tra cui inglese o irlandese;\n● almeno 2 delle 6 materie con risultato H5 o superiore;\n● le altre 4 materie con risultato di almeno O6 o H7.",
+            "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Bachelor Honours Degree",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -440,28 +498,32 @@
             "titoli_richiesti": "Secondary Education Certificate (Teudat Bagrut) con più di 21 unità\nProfessional Certificate + Practical Engineer/Handassai",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Bachelor’s degree",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "3 o 4 anni",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "KAZAKISTAN",
         "triennale": {
-            "titoli_richiesti": "Жалпы орта білім туралы аттестат / Zhalpy orta bilim turaly attestat (General secondary education certificate)\nКəсіптік орта білім туралы диплом / Käsiptik orta bilim turaly diplom or Техникалық жəне кəсіптік білім туралы диплом / Tekhnikalyq zhäne käsiptik bilim turaly diplom (Diploma of secondary vocational education)\nЖоғары мектепті бітіру туралы аттестат / Zhogary mektepti bitiru turaly attestat (Nazarbayev Intellectual Schools\n– NIS Grade 12 Certificate)",
+            "titoli_richiesti": "Жалпы орта білім туралы аттестат / Zhalpy orta bilim turaly attestat (General secondary education certificate)\nКәсіптік орта білім туралы диплом / Käsiptik orta bilim turaly diplom or Техникалық және кәсіптік білім туралы диплом / Tekhnikalyq zhäne käsiptik bilim turaly diplom (Diploma of secondary vocational education)\nЖоғары мектепті бітіру туралы аттестат / Zhogary mektepti bitiru turaly attestat (Nazarbayev Intellectual Schools – NIS Grade 12 Certificate)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:\nUlteriori requisiti di ammissione per titoli di studio ottenuti dopo 11 anni di scolarità: una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Ulteriori requisiti di ammissione per titoli di studio ottenuti dopo 11 anni di scolarità: una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
         },
         "magistrale": {
-            "titoli_richiesti": "Бакалавр дипломы / Bakalavr diploma\nМамаң дипломы / Maman diploma\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Бакалавр дипломы / Bakalavr diploma\nМамаң дипломы / Maman diploma",
             "voto_minimo": "votazione media (GPA) minima di 3.0 su 4.0\nvotazione media (GPA) minima di 80 su 100\nvotazione minima B (su scala in lettere)",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -470,28 +532,32 @@
             "titoli_richiesti": "Baccalauréat général libanais (Shahaadat Al-Bakaalouriya al Lubnaaniya l'il-ta 'liim al-Thaanawi)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor ‘s degree / Licence / Bakâlôriyûs\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor ‘s degree / Licence / Bakâlôriyûs",
             "voto_minimo": "votazione media (GPA) minima di 3.0 su 4.0\nvotazione media (GPA) minima di 75 su 100",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "MALESIA",
         "triennale": {
-            "titoli_richiesti": "Sijil Tinggi Persekolahan Malaysia - STPM (Malaysian Higher School Certificate)\nMatriculation Certificate\nUnified Examination Certificate",
-            "voto_minimo": "with an average score of 75% or higher",
+            "titoli_richiesti": "Sijil Tinggi Persekolahan Malaysia - STPM (Malaysian Higher School Certificate)\nMatriculation Certificate\nUnified Examination Certificate (with an average score of 75% or higher)",
+            "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor’s degree\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor’s degree",
             "voto_minimo": "valutazione media (GPA) minima di 3.0 su 4.0",
             "durata_minima": "3, 4, o 5 Anni",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -500,28 +566,32 @@
             "titoli_richiesti": "Matriculation certificate",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Bachelor Honours Degree",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "MAROCCO",
         "triennale": {
-            "titoli_richiesti": "ﺎﯾروﻟﺎﻛﺑﻟا ةدﺎﮭﺷ / Attestation du Baccalauréat (upper secondary general education)\nBaccalauréat d’enseignement technologique et professionnel (BETP)",
+            "titoli_richiesti": "Attestation du Baccalauréat / شهادة البكالوريا (upper secondary general education)\nBaccalauréat d’enseignement technologique et professionnel (BETP)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "ﺔﯾﺳﺎﺳﻷا تﺎﺳاردﻟا ﻲﻓ ةزﺎﺟﻹا / Licence d’Études Fondamentales\nﺔﯾﻧﮭﻣﻟا ةزﺎﺟﻹا / Licence Professionnelle",
+            "titoli_richiesti": "Licence d’Études Fondamentales / الإجازة في الدراسات الأساسية\nLicence Professionnelle / الإجازة المهنية",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -530,28 +600,32 @@
             "titoli_richiesti": "Diplomă de Bacalaureat\nAtestat de Studii Medii de Cultura Generala",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:\nUlteriori requisiti di ammissione per titoli di studio ottenuti dopo 11 anni di scolarità: una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Ulteriori requisiti di ammissione per titoli di studio ottenuti dopo 11 anni di scolarità: una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
         },
         "magistrale": {
             "titoli_richiesti": "Diplomă de studii superioare de licenţă / Diplomă de Licenţă",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "NIGERIA",
         "triennale": {
-            "titoli_richiesti": "West African Senior School Certificate (WASSC, rilasciato dal WAEC)\nSenior School Certificate (SSC, rilasciato da NECO)",
-            "voto_minimo": "con votazione finale di A1, B2-3, C4-6 in almeno 6 materie",
+            "titoli_richiesti": "West African Senior School Certificate (WASSC, rilasciato dal WAEC), con votazione finale di A1, B2-3, C4-6 in almeno 6 materie\nSenior School Certificate (SSC, rilasciato da NECO) con votazione finale di A1, B2-3, C4-6 in almeno 6 materie",
+            "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor’s Degree\nHigher National Diploma + ultimi 2 anni di un Bachelor’s Degree\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor’s Degree\nHigher National Diploma -2 anni + ultimi 2 anni di un Bachelor’s Degree",
             "voto_minimo": "votazione media (GPA) minima di 3.5 su 5.0",
-            "durata_minima": "4 anni o più\n2 anni",
-            "altri_requisiti": "Uno dei seguenti:"
+            "durata_minima": "Bachelor’s Degree: 4 anni o più; Higher National Diploma: 2 + 2 anni",
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -560,28 +634,32 @@
             "titoli_richiesti": "Voorbereidend Wetenschappelijk Onderwijs diploma (VWO - Pre-university education)\nHoger Algemeen Voortgezet Onderwijs (HAVO - Senior general secondary education) + Hoger Beroepsonderwijs propedeuse (HBO - Higher professional education first-year certificate)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Wetenschappelijk Onderwijs Bachelor (WO - Research-oriented bachelor’s degree)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "PAKISTAN",
         "triennale": {
-            "titoli_richiesti": "Higher Secondary School Certificate (HSSC)",
-            "voto_minimo": "Intermediate School Certificate",
+            "titoli_richiesti": "Higher Secondary School Certificate (HSSC)\nIntermediate School Certificate",
+            "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor (Pass) + Master’s Degree – 2 anni\nBachelor (Pass) + Bachelor of Law (LL.B.)\nBachelor (Pass) + Bachelor of Education (3 anni totali)\nBachelor (Honours)\nProfessional Bachelor\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor (Pass) + Master’s Degree\nBachelor (Pass) + Bachelor of Law (LL.B.)\nBachelor (Pass) + Bachelor of Education\nBachelor (Honours)\nProfessional Bachelor",
             "voto_minimo": "valutazione media (GPA) minima di 3.3 su 4.0",
-            "durata_minima": "2 anni\n3 anni\n4 o 5 anni",
-            "altri_requisiti": "Uno dei seguenti:"
+            "durata_minima": "Bachelor (Pass) 2 anni + Master’s Degree 2 anni; Bachelor (Pass) 2 anni + LL.B.; Bachelor (Pass) 2 anni + B.Ed. (3 anni totali); Bachelor (Honours): 3 anni; Professional Bachelor: 4 o 5 anni",
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -590,43 +668,49 @@
             "titoli_richiesti": "świadectwo ukończenia liceum ogólnokształcącego (certificate of completion of the general lyceum)\nświadectwo dojrzałości (maturity certificate)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Swiadectwo Dojrzałości (Upper secondary school education) Entrambi i requisiti devono essere soddisfatti:"
+            "quantita_titoli_richiesti": "Entrambi i requisiti devono essere soddisfatti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Licencjat\nInżynier",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "REGNO UNITO (INGHILTERRA, GALLES E IRLANDA DEL NORD)",
         "triennale": {
-            "titoli_richiesti": "General Certificate of Education (GCE, or IGCE - International General Certificate of Education per qualifiche rilasciate fuori dal Regno Unito) rilasciate da enti certificatori ufficiali del Regno Unito, che attestino il superamento di almeno 3 Advanced level (A level)\nCambridge Pre-U Diploma (3 Pre-U Principal Subjects + Global Perspective and Research)\nUna combinazione di 3 materie diverse tra A level e Pre-U Principal Subjects\nBTEC Level 3 National Extended Diploma\nAdvanced Subsidiary (AS) levels non verranno considerati;",
-            "voto_minimo": "con una votazione almeno sufficiente (passing grade - E);",
+            "titoli_richiesti": "General Certificate of Education (GCE, or IGCE - International General Certificate of Education per qualifiche rilasciate fuori dal Regno Unito) rilasciate da enti certificatori ufficiali del Regno Unito, che attestino il superamento di almeno 3 Advanced level (A level) con una votazione almeno sufficiente (passing grade - E)\nCambridge Pre-U Diploma (3 Pre-U Principal Subjects + Global Perspective and Research)\nUna combinazione di 3 materie diverse tra A level e Pre-U Principal Subjects\nBTEC Level 3 National Extended Diploma",
+            "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:\nNote:\n● La presenza di un A level in lingua italiana sarà richiesto solo a studenti con cittadinanza straniera, mentre non potrà essere computato tra i tre A level richiesti nel caso di studenti con cittadinanza italiana\no nel caso di iscrizione a corsi erogati interamente in lingua inglese Per ulteriori informazioni consultare l’Allegato 1 alla Circolare Ministeriale."
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Note:\n● Advanced Subsidiary (AS) levels non verranno considerati;\n● La presenza di un A level in lingua italiana sarà richiesto solo a studenti con cittadinanza straniera, mentre non potrà essere computato tra i tre A level richiesti nel caso di studenti con cittadinanza italiana o nel caso di iscrizione a corsi erogati interamente in lingua inglese\nPer ulteriori informazioni consultare l’Allegato 1 alla Circolare Ministeriale."
         },
         "magistrale": {
             "titoli_richiesti": "Bachelor Honours Degree",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "REGNO UNITO (SCOZIA)",
         "triennale": {
-            "titoli_richiesti": "Scottish Qualifications Certificate (Highers and Advanced Highers) che soddisfa i seguenti requisiti:\nalmeno 3 Advanced Highers, oppure\n2 Advanced Highers e almeno 4 Highers.",
+            "titoli_richiesti": "Scottish Qualifications Certificate (Highers and Advanced Highers) che soddisfa i seguenti requisiti: almeno 3 Advanced Highers, oppure 2 Advanced Highers e almeno 4 Highers",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Per ulteriori informazioni consultare l’Allegato 1 alla Circolare Ministeriale."
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Per ulteriori informazioni consultare l’Allegato 1 alla Circolare Ministeriale."
         },
         "magistrale": {
             "titoli_richiesti": "Bachelor Honours Degree\nMaster of Arts Honours Degree",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -635,13 +719,15 @@
             "titoli_richiesti": "Diplomă de Bacalaureat",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Diplomă de Licenţă\nDiplomă de Inginer",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -650,13 +736,15 @@
             "titoli_richiesti": "Аттестат о среднем общем образовании / Attestat o srednem obshchem obrazovanii (Certificate of complete general secondary education)\nДиплом о среднем профессиональном образовании / Diplom o srednem professionalnom obrazovanii (Diploma of secondary professional education)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:\nUlteriori requisiti di ammissione per titoli di studio ottenuti dopo 11 anni di scolarità: una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Ulteriori requisiti di ammissione per titoli di studio ottenuti dopo 11 anni di scolarità: una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
         },
         "magistrale": {
-            "titoli_richiesti": "Диплом бакалавра / Diplom bakalavra\nДиплом специалиста / Diplom spetsialista",
+            "titoli_richiesti": "Диплом бакалавра / Diplom bakalavra\nДиплом специалиista / Diplom spetsialista",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -665,28 +753,32 @@
             "titoli_richiesti": "Requisito non richiesto",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Baccalaureato / Baccalaureatus\nBaccalaureato / Baccalaureatus in Theology (5 anni)",
+            "titoli_richiesti": "Baccalaureato / Baccalaureatus\nBaccalaureato / Baccalaureatus in Theology",
             "voto_minimo": "Requisito non richiesto",
-            "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Notes:\nPer le procedure di legalizzazione, fare riferimento al sito web dell'Ambasciata della Santa Sede"
+            "durata_minima": "Baccalaureato in Theology: 5 anni",
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Notes: Per le procedure di legalizzazione, fare riferimento al sito web dell'Ambasciata della Santa Sede"
         }
     },
     {
         "country": "SERBIA",
         "triennale": {
-            "titoli_richiesti": "Диплома о стеченом среднем образовањy / Diploma o stečenom srednem obrazovanju (Diploma of completed secondary education)\nДиплома or Уверење о положеном матурском испиту / Diploma or Uverenje o položenom maturskom ispitu (Diploma/Statement of the completed matura exam)",
+            "titoli_richiesti": "Диплома о стеченом среднем образовању / Diploma o stečenom srednem obrazovanju (Diploma of completed secondary education)\nДиплома or Уверење о položenom maturskom ispitu / Diploma or Uverenje o položenom maturskom ispitu (Diploma/Statement of the completed matura exam)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Диплома о стеченом високом образовањy / Diploma o stečenom visokom obrazovanju\nДиплома академске студије првој степена / Diploma akademske studije prvoj stepena\nДиплома о стеченом првом степену високог образованја / Diploma o stečenom prvom stepenu visokog obrazovanja\nДипломирани / Diplomirani (4-year Bachelor’s degree)",
+            "titoli_richiesti": "Диплома о стеченом високом образовању / Diploma o stečenom visokom obrazovanju\nДиплома академске студије првој степенa / Diploma akademske studije prvoj stepena\nДиплома о стеченом првом степену високог образованја / Diploma o stečenom prvom stepenu visokog obrazovanja\nДипломирани / Diplomirani",
             "voto_minimo": "Requisito non richiesto",
-            "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "durata_minima": "Diplomirani: 4 anni",
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -695,13 +787,15 @@
             "titoli_richiesti": "General Secondary Certificate Education (Al Shahâda Al Thânawiyya al-Ìmma)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor's degree o Licence\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor's degree o Licence",
             "voto_minimo": "votazione media (GPA) minima di 75 su 100",
             "durata_minima": "4, 5 o 6 anni",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -710,13 +804,15 @@
             "titoli_richiesti": "Secondary School Leaving Certificate",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor’s degree\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor’s degree",
             "voto_minimo": "votazione media (GPA) minima di 3.0 su 4.0\nvotazione media (GPA) minima di 3.5 su 5.0\nvotazione media (GPA) minima di 80 su 100",
             "durata_minima": "3 o 4 anni",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -725,28 +821,32 @@
             "titoli_richiesti": "Título de Bachiller\nsuperamento dell’esame di accesso all’università (EBAU - Evaluación de Bachillerato para el Acceso a la Universidad, o EVAU - Evaluación para el Acceso a la Universidad, o Selectividad)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Entrambi i requisiti devono essere soddisfatti:"
+            "quantita_titoli_richiesti": "Entrambi i requisiti devono essere soddisfatti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Título de Graduado / Grado",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "SRI LANKA",
         "triennale": {
-            "titoli_richiesti": "Requisito non richiesto",
-            "voto_minimo": "General Certificate of Education (Advanced Level) con almeno un Ordinary Pass (S) in 3 materie e un punteggio di almeno 30% per il Common General Test",
+            "titoli_richiesti": "General Certificate of Education (Advanced Level) con almeno un Ordinary Pass (S) in 3 materie e un punteggio di almeno 30% per il Common General Test",
+            "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Bachelor’s degree\nSpecial Degree programme",
             "voto_minimo": "Requisito non richiesto",
-            "durata_minima": "4 anni",
-            "altri_requisiti": "Uno dei seguenti"
+            "durata_minima": "Bachelor’s degree: 4 anni",
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -755,58 +855,66 @@
             "titoli_richiesti": "Sudan Secondary School Certificate, con superamento di almeno 7 materie",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Ulteriori requisiti di ammissione per titoli di studio ottenuti dopo 11 anni di scolarità: una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Ulteriori requisiti di ammissione per titoli di studio ottenuti dopo 11 anni di scolarità: una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor Honours Degree\nBachelor’s degree o Bachelor’s degree – 4 anni + Post-graduate – 1 anno\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor Honours Degree\nBachelor’s degree (5 anni)\nBachelor’s degree (4 anni) + Post-graduate (1 anno)",
             "voto_minimo": "votazione media (GPA) minima di 70 su 100\nvotazione media (GPA) minima di 2.8 su 4.0",
-            "durata_minima": "5 anni",
-            "altri_requisiti": "Uno dei seguenti:"
+            "durata_minima": "Bachelor’s degree: 5 anni; Bachelor’s degree (4 anni) + Post-graduate (1 anno)",
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "TUNISIA",
         "triennale": {
-            "titoli_richiesti": "ﺎﯾروﻟﺎﻛﺑﻟا / Baccalauréat",
+            "titoli_richiesti": "Baccalauréat / البكالوريا",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "ةزﺎﺟﻹا ﺔﯾﺳﺎﺳﻷا / Licence Fondamentale\nةزﺎﺟﻹا ﺔﯾﻘﯾﺑطﺗﻟا / Licence Professionnelle (talvolta denominata Licence Appliquée)",
+            "titoli_richiesti": "Licence Fondamentale / الإجازة الأساسية\nLicence Professionnelle (talvolta denominata Licence Appliquée) / الإجازة التطبيقية",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "TURCHIA",
         "triennale": {
-            "titoli_richiesti": "Lise Diploması\nMesleki ve Teknik Lisesi Diploması\nprova del superamento del Yükseköğretim Kurumları Sınavı (YKS - Higher Education Institutions Examination), inclusi sia il Temel Yeterlilik Testi (TYT - Basic Proficiency Test) e il Alan Yeterlilik Testleri (AYT - Field Qualification Tests), oppure l’esame YÖS (Yabancı Uyruklu Öğrenci Sınavı) per cittadini di nazionalità non turca\nDal 2010 al 2018, gli esami di accesso all’università erano denominati Yükseköğretime Geçis Sınavı (YGS - Higher Education Entrance Exam) e Lisans Yerleştirme Sınav (LYS - Undergraduate Placement Exam)",
+            "titoli_richiesti": "Lise Diploması / Mesleki ve Teknik Lisesi Diploması\nprova del superamento del Yükseköğretim Kurumları Sınavı (YKS - Higher Education Institutions Examination), inclusi sia il Temel Yeterlilik Testi (TYT - Basic Proficiency Test) e il Alan Yeterlilik Testleri (AYT - Field Qualification Tests), oppure l’esame YÖS (Yabancı Uyruklu Öğrenci Sınavı) per cittadini di nazionalità non turca",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Entrambi i requisiti devono essere soddisfatti:\n● Uno dei seguenti:\nNote:\n● Per titoli di studio conseguiti fino al 2008, è richiesta anche la presentazione di una delle opzioni presenti al link www.unipd.it/ammissione-studenti-inter nazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea"
+            "quantita_titoli_richiesti": "Entrambi i requisiti devono essere soddisfatti:",
+            "note": "Note:\n● Per titoli di studio conseguiti fino al 2008, è richiesta anche la presentazione di una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico\n● Dal 2010 al 2018, gli esami di accesso all’università erano denominati Yükseköğretime Geçis Sınavı (YGS - Higher Education Entrance Exam) e Lisans Yerleştirme Sınav (LYS - Undergraduate Placement Exam)"
         },
         "magistrale": {
-            "titoli_richiesti": "Lisans Diploması\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Lisans Diploması",
             "voto_minimo": "votazione media (GPA) minima di 2.7 su 4.0",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "UCRAINA",
         "triennale": {
-            "titoli_richiesti": "Свідоцтво про здобуття повної загальної середньої освіти / Svidotstvo pro zdobuttia povnoi zagalnoi serednoi osvity (Certificate of complete general secondary education)\nАтестат про повну загалну середню освiту / Atestat pro povnu zahalnu serednju osvitu (per titoli di studio conseguiti fino al 2018)\nДиплом молодшого спеціаліста or бакалавра / Dyplom molodsjogo spetialista or bakalavra (Junior Specialist diploma or Bachelor’s degree)",
+            "titoli_richiesti": "Свідоцтво про здобуття повної загальної середньої освіти / Svidotstvo pro zdobuttia povnoi zagalnoi serednoi osvity (Certificate of complete general secondary education)\nАтестат про повну загалну середню освіту / Atestat pro povnu zahalnu serednju osvitu (per titoli di studio conseguiti fino al 2018)\nДиплом молодшого спеціаліста or бакалавра / Dyplom molodsjogo spetialista or bakalavra (Junior Specialist diploma or Bachelor’s degree)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:\nUlteriori requisiti di ammissione per titoli di studio ottenuti dopo 11 anni di scolarità: una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Ulteriori requisiti di ammissione per titoli di studio ottenuti dopo 11 anni di scolarità: una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
         },
         "magistrale": {
             "titoli_richiesti": "Диплом бакалавра / Diplom sakalavra\nДиплом спеціалиста / Diplom Spetsialista",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -815,43 +923,49 @@
             "titoli_richiesti": "Uganda Advanced Certificate of Education",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor’s Degree\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor’s Degree",
             "voto_minimo": "votazione media (GPA) minima di 3.5 su 5.0",
             "durata_minima": "3, 4 o 5 anni",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "USA",
         "triennale": {
-            "titoli_richiesti": "High School Diploma + 3 US \"Advanced Placements\" (APs)\nHigh School Diploma integrato da almeno un anno di frequenza con superamento di tutti gli esami previsti al primo anno di un corso a livello universitario\nnel caso di iscrizione a corsi erogati interamente in lingua inglese.",
-            "voto_minimo": "con un punteggio tra 3 e 5, in tre materie diverse attinenti al corso per cui si intende iscriversi. I risultati dell’esame devono essere stati rilasciati ufficialmente dal College Board;",
+            "titoli_richiesti": "High School Diploma + 3 US \"Advanced Placements\" (APs) con un punteggio tra 3 e 5, in tre materie diverse attinenti al corso per cui si intende iscriversi. I risultati dell’esame devono essere stati rilasciati ufficialmente dal College Board\nHigh School Diploma integrato da almeno un anno di frequenza con superamento di tutti gli esami previsti al primo anno di un corso a livello universitario",
+            "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:\nNote:\n● La presenza di un AP in lingua italiana sarà richiesta obbligatoriamente solo a studenti con cittadinanza straniera. Non sarà computabile a tal fine l’AP in lingua italiana, nel caso di studenti con cittadinanza italiana\nPer ulteriori informazioni consultare l’Allegato 1 alla Circolare Ministeriale."
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Note:\n● La presenza di un AP in lingua italiana sarà richiesta obbligatoriamente solo a studenti con cittadinanza straniera. Non sarà computabile a tal fine l’AP in lingua italiana, nel caso di studenti con cittadinanza italiana o nel caso di iscrizione a corsi erogati interamente in lingua inglese.\nPer ulteriori informazioni consultare l’Allegato 1 alla Circolare Ministeriale."
         },
         "magistrale": {
             "titoli_richiesti": "Bachelor’s Degree",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "4 o 5 anni",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
         "country": "UZBEKISTAN",
         "triennale": {
-            "titoli_richiesti": "Certificate of Completed Secondary Education\nDiploma of Secondary Specialized Education.",
+            "titoli_richiesti": "Certificate of Completed Secondary Education\nDiploma of Secondary Specialized Education",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:\nUlteriori requisiti di ammissione per titoli di studio ottenuti dopo 10 o 11 anni di scolarità: una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Ulteriori requisiti di ammissione per titoli di studio ottenuti dopo 10 o 11 anni di scolarità: una delle opzioni presenti al link www.unipd.it/ammissione-studenti-internazionali sotto la sezione Come accedere ad un intero corso di studi > Corsi di laurea e di laurea magistrale a ciclo unico"
         },
         "magistrale": {
-            "titoli_richiesti": "Bachelor's degree (Bakalavr)\nUlteriori requisiti di ammissione:",
+            "titoli_richiesti": "Bachelor's degree (Bakalavr)",
             "voto_minimo": "votazione media (GPA) minima di 4.0 su 5.0\nvotazione media (GPA) minima di 80 su 100",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -860,13 +974,15 @@
             "titoli_richiesti": "Bằng Tốt Nghiệp Trung Học Phổ Thông (Certificate of secondary school graduation)\nBằng Trung học chuyên nghiệp (Diploma of Secondary Vocational Education) + Bằng Tốt Nghiệp Cao Đẳng Cử Nhân Cao Đẳng (Associate Degree)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Uno dei seguenti:"
+            "quantita_titoli_richiesti": "Uno dei seguenti:",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Bằng Tốt Nghiệp Đại Học (University graduation certificate) ottenuto dopo un corso Bachelor’s degree di almeno 4 anni attestante la qualifica ottenuta (Cử Nhân)",
             "voto_minimo": "Requisito non richiesto",
-            "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "durata_minima": "almeno 4 anni",
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     },
     {
@@ -875,13 +991,15 @@
             "titoli_richiesti": "General Secondary Education Certificate (Al Thanawiya)",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "Requisito non richiesto",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         },
         "magistrale": {
             "titoli_richiesti": "Bachelor’s degree",
             "voto_minimo": "Requisito non richiesto",
             "durata_minima": "4, 5 o 6 anni",
-            "altri_requisiti": "Requisito non richiesto"
+            "quantita_titoli_richiesti": "Requisito non richiesto",
+            "note": "Requisito non richiesto"
         }
     }
 ]

@@ -668,6 +668,10 @@ def add_requirement():
             "thresholds": data.get('thresholds', {
                 "Undergraduate": {"eligible_qualifications": [], "min_gpa": {}},
                 "Postgraduate": {"eligible_qualifications": [], "min_duration": {}, "min_gpa": {}}
+            }),
+            "raw_details": data.get('raw_details', {
+                "Undergraduate": {},
+                "Postgraduate": {}
             })
         }
         
@@ -698,6 +702,8 @@ def update_requirement(country):
             reqs[country]['qualifications'] = data['qualifications']
         if 'thresholds' in data:
             reqs[country]['thresholds'] = data['thresholds']
+        if 'raw_details' in data:
+            reqs[country]['raw_details'] = data['raw_details']
             
         if save_requirements(reqs):
             return jsonify({"message": f"Nazione {country} aggiornata con successo", "requirements": reqs[country]}), 200

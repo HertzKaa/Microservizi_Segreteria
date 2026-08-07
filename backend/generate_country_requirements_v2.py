@@ -300,6 +300,10 @@ for item in source_data:
                 "min_duration": min_dur_map,
                 "min_gpa": postgrad_min_gpa
             }
+        },
+        "raw_details": {
+            "Undergraduate": tri,
+            "Postgraduate": mag
         }
     }
 

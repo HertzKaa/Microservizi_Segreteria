@@ -1453,6 +1453,35 @@
             line-height: 1;
         }
 
+        /* DURATION CHIP BADGE (MATCHING MODIFICA IN CORSO CHIP STYLING) */
+        .reqs-badge-duration {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid #38bdf8;
+            color: #38bdf8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            margin-left: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        /* QUANTITY / CONDITION RULE BANNER IN CARD DETAILS */
+        .reqs-rule-quantity {
+            background: rgba(250, 204, 21, 0.08);
+            border-left: 3px solid #facc15;
+            color: #facc15;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            display: block;
+            line-height: 1.4;
+        }
+
         /* COUNTRY FLAG BADGE IN TOP-RIGHT CORNER */
         .reqs-card-flag {
             position: absolute;
@@ -3037,22 +3066,119 @@
                 
                 const underGpa = data?.thresholds?.Undergraduate?.min_gpa || {};
                 const underGpaSummary = Object.entries(underGpa)
+                    .filter(([k, v]) => v > 0)
                     .map(([k, v]) => `<div style="color:#ffffff; font-weight:400;"><span style="color:#94a3b8;">${k}:</span> ${v}</div>`)
                     .join('') || '<div style="color:#94a3b8;">-</div>';
 
                 const postGpa = data?.thresholds?.Postgraduate?.min_gpa || {};
                 const postGpaSummary = Object.entries(postGpa)
+                    .filter(([k, v]) => v > 0)
                     .map(([k, v]) => `<div style="color:#ffffff; font-weight:400;"><span style="color:#94a3b8;">${k}:</span> ${v}</div>`)
                     .join('') || '<div style="color:#94a3b8;">-</div>';
 
-                const underQuals = (data?.qualifications?.Undergraduate || []);
-                const underQualsList = underQuals.map(q => `• <strong>${q.key}</strong>: ${q.label}`).join('<br>') || '-';
+                function buildColumnContent(levelRaw, fallbackQuals, currentLang) {
+                    const qtyRule = levelRaw?.quantita_titoli_richiesti;
+                    const titlesRaw = levelRaw?.titoli_richiesti;
+                    const durRaw = levelRaw?.durata_minima;
+                    const gradeRaw = levelRaw?.voto_minimo;
+                    const notesRaw = levelRaw?.note;
 
+                    let html = "";
+
+                    // 1. QUANTITÀ TITOLI RICHIESTI (PRIMA DEI TITOLI, COME DA PDF PADOVA)
+                    if (qtyRule && qtyRule !== "Requisito non richiesto") {
+                        html += `
+                            <div class="reqs-rule-quantity">
+                                ● ${qtyRule}
+                            </div>
+                        `;
+                    }
+
+                    // 2. SOTTOTITOLO "Titoli di studio:" & BADGE DURATA
+                    html += `
+                        <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 10px; margin-bottom: 6px;">
+                            ${currentLang === 'en' ? 'Qualifications / Degrees:' : 'Titoli di studio:'}
+                        </div>
+                    `;
+
+                    let durBadge = "";
+                    if (durRaw && durRaw !== "Requisito non richiesto") {
+                        durBadge = `<span class="reqs-badge-duration">${currentLang === 'en' ? 'Duration:' : 'Durata:'} ${durRaw}</span>`;
+                    }
+
+                    if (titlesRaw && titlesRaw !== "Requisito non richiesto") {
+                        const titleLines = titlesRaw.split('\n').filter(l => l.trim().length > 0);
+                        const formattedTitles = titleLines.map((t, idx) => {
+                            const badgeStr = (idx === 0 && durBadge) ? ` ${durBadge}` : '';
+                            return `<div style="margin-bottom: 6px; line-height: 1.5; color: #ffffff;">• <strong>${t.trim()}</strong>${badgeStr}</div>`;
+                        }).join('');
+                        html += `<div style="font-size: 13px; margin-bottom: 12px;">${formattedTitles}</div>`;
+                    } else if (fallbackQuals && fallbackQuals.length > 0) {
+                        const formattedTitles = fallbackQuals.map((q, idx) => {
+                            const minDurText = q.min_duration ? `<span class="reqs-badge-duration">${currentLang === 'en' ? 'Duration:' : 'Durata:'} ${q.min_duration} ${currentLang === 'en' ? 'years' : 'anni'}</span>` : durBadge;
+                            const badgeStr = (idx === 0 && minDurText) ? ` ${minDurText}` : '';
+                            return `<div style="margin-bottom: 6px; line-height: 1.5; color: #ffffff;">• <strong>${q.key}</strong>: ${q.label}${badgeStr}</div>`;
+                        }).join('');
+                        html += `<div style="font-size: 13px; margin-bottom: 12px;">${formattedTitles}</div>`;
+                    } else {
+                        html += `<div style="font-size: 13px; color: #94a3b8; margin-bottom: 12px;">-</div>`;
+                    }
+
+                    // 3. SOTTOTITOLO "Requisiti aggiuntivi & Note:"
+                    let hasGrade = gradeRaw && gradeRaw !== "Requisito non richiesto";
+                    let displayGrade = gradeRaw;
+                    if (hasGrade) {
+                        const parts = gradeRaw.split(',').map(p => p.trim());
+                        const nonZeroParts = parts.filter(p => {
+                            const subparts = p.split(':');
+                            if (subparts.length === 2) {
+                                const val = parseFloat(subparts[1].trim());
+                                return !isNaN(val) && val > 0;
+                            }
+                            return true;
+                        });
+                        if (nonZeroParts.length === 0) {
+                            hasGrade = false;
+                        } else {
+                            displayGrade = nonZeroParts.join(', ');
+                        }
+                    }
+                    const hasNotes = notesRaw && notesRaw !== "Requisito non richiesto";
+
+                    if (hasGrade || hasNotes) {
+                        html += `
+                            <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 10px; margin-bottom: 6px;">
+                                ${currentLang === 'en' ? 'Additional Requirements & Notes:' : 'Requisiti aggiuntivi:'}
+                            </div>
+                        `;
+
+                        if (hasGrade) {
+                            html += `
+                                <div style="font-size: 13px; color: #e2e8f0; margin-bottom: 6px; line-height: 1.5;">
+                                    <span style="color: #94a3b8;">${currentLang === 'en' ? 'Minimum Grade / GPA:' : 'Voto / GPA minimo:'}</span> ${displayGrade}
+                                </div>
+                            `;
+                        }
+
+                        if (hasNotes) {
+                            html += `
+                                <div style="font-size: 12px; color: #cbd5e1; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); padding: 8px 10px; border-radius: 6px; line-height: 1.5; margin-top: 4px;">
+                                    ${notesRaw}
+                                </div>
+                            `;
+                        }
+                    }
+
+                    return html;
+                }
+
+                const underRaw = data?.raw_details?.Undergraduate;
+                const underQuals = (data?.qualifications?.Undergraduate || []);
+                const underContent = buildColumnContent(underRaw, underQuals, currentLang);
+
+                const postRaw = data?.raw_details?.Postgraduate;
                 const postQuals = (data?.qualifications?.Postgraduate || []);
-                const postQualsList = postQuals.map(q => {
-                    const minDurText = q.min_duration ? ` (${currentLang === 'en' ? 'min' : 'min.'} ${q.min_duration} ${currentLang === 'en' ? 'years' : 'anni'})` : '';
-                    return `• <strong>${q.key}</strong>: ${q.label}${minDurText}`;
-                }).join('<br>') || '-';
+                const postContent = buildColumnContent(postRaw, postQuals, currentLang);
 
                 card.innerHTML = `
                     <!-- Bandierina in alto a destra -->
@@ -3094,11 +3220,11 @@
                         <div class="reqs-expanded-grid">
                             <div class="reqs-expanded-box">
                                 <div class="reqs-expanded-box-title" data-i18n="undergradCourse">${translations[currentLang]?.undergradCourse || (currentLang === 'en' ? 'Undergraduate Course (Triennale)' : 'Corso Triennale (Undergraduate)')}</div>
-                                <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">${underQualsList}</div>
+                                ${underContent}
                             </div>
                             <div class="reqs-expanded-box">
                                 <div class="reqs-expanded-box-title" data-i18n="postgradCourse">${translations[currentLang]?.postgradCourse || (currentLang === 'en' ? 'Postgraduate Course (Magistrale)' : 'Corso Magistrale (Postgraduate)')}</div>
-                                <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">${postQualsList}</div>
+                                ${postContent}
                             </div>
                         </div>
                     </div>
@@ -3231,6 +3357,16 @@
                     <!-- Macro-Sezione 3: Titoli Abilitanti Triennale -->
                     <div class="reqs-macro-section">
                         <div class="reqs-macro-title" data-i18n="undergradReqsTitle">Titoli Abilitanti Triennale (Undergraduate)</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; margin-bottom: 14px;">
+                            <div>
+                                <label style="font-size: 12px; font-weight: 700; color: #94a3b8; display: block; margin-bottom: 4px;">Regola quantità titoli (es. Entrambi i requisiti devono essere soddisfatti:)</label>
+                                <input type="text" class="reqs-input input-undergrad-qty" value="${data?.raw_details?.Undergraduate?.quantita_titoli_richiesti || ''}" placeholder="Es. Entrambi i requisiti devono essere soddisfatti:" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; font-weight: 700; color: #94a3b8; display: block; margin-bottom: 4px;">Note e accreditamenti (Triennale)</label>
+                                <input type="text" class="reqs-input input-undergrad-note" value="${data?.raw_details?.Undergraduate?.note || ''}" placeholder="Es. Note o riferimenti ministeriali" style="width: 100%;">
+                            </div>
+                        </div>
                         <div style="margin-top: 14px; margin-bottom: 20px; overflow-x: auto;">
                             <table class="reqs-quals-table">
                                 <thead>
@@ -3251,6 +3387,16 @@
                     <!-- Macro-Sezione 4: Titoli Abilitanti Magistrale -->
                     <div class="reqs-macro-section">
                         <div class="reqs-macro-title" data-i18n="postgradReqsTitle">Titoli Abilitanti Magistrale (Postgraduate)</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; margin-bottom: 14px;">
+                            <div>
+                                <label style="font-size: 12px; font-weight: 700; color: #94a3b8; display: block; margin-bottom: 4px;">Regola quantità titoli (es. Uno dei seguenti:)</label>
+                                <input type="text" class="reqs-input input-postgrad-qty" value="${data?.raw_details?.Postgraduate?.quantita_titoli_richiesti || ''}" placeholder="Es. Uno dei seguenti:" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; font-weight: 700; color: #94a3b8; display: block; margin-bottom: 4px;">Note e accreditamenti (Magistrale)</label>
+                                <input type="text" class="reqs-input input-postgrad-note" value="${data?.raw_details?.Postgraduate?.note || ''}" placeholder="Es. Note: Gli istituti privati devono essere accreditati..." style="width: 100%;">
+                            </div>
+                        </div>
                         <div style="margin-top: 14px; margin-bottom: 24px; overflow-x: auto;">
                             <table class="reqs-quals-table">
                                 <thead>
@@ -3385,9 +3531,24 @@
 
                 renderCardGpaFields();
 
-                // Popola righe qualifiche
-                (data?.qualifications?.Undergraduate || []).forEach(q => addQualRowToTable(underBody, q.key, q.label, q.requiresDuration, q.min_duration));
-                (data?.qualifications?.Postgraduate || []).forEach(q => addQualRowToTable(postBody, q.key, q.label, q.requiresDuration, q.min_duration));
+                // Popola righe qualifiche con ricerca dinamica della durata minima
+                (data?.qualifications?.Undergraduate || []).forEach(q => {
+                    const dur = (q.min_duration !== undefined && q.min_duration !== null)
+                        ? q.min_duration
+                        : (data?.thresholds?.Undergraduate?.min_duration?.[q.key] !== undefined
+                            ? data?.thresholds?.Undergraduate?.min_duration?.[q.key]
+                            : "");
+                    addQualRowToTable(underBody, q.key, q.label, q.requiresDuration, dur);
+                });
+
+                (data?.qualifications?.Postgraduate || []).forEach(q => {
+                    const dur = (q.min_duration !== undefined && q.min_duration !== null)
+                        ? q.min_duration
+                        : (data?.thresholds?.Postgraduate?.min_duration?.[q.key] !== undefined
+                            ? data?.thresholds?.Postgraduate?.min_duration?.[q.key]
+                            : "");
+                    addQualRowToTable(postBody, q.key, q.label, q.requiresDuration, dur);
+                });
 
                 // Bottoni Aggiungi Titolo di Studio in BIANCO LED
                 card.querySelector('.btn-add-undergrad-qual').addEventListener('click', () => addQualRowToTable(underBody));
@@ -3624,46 +3785,99 @@
                 cardElement.querySelectorAll('.container-undergrad-gpa .reqs-gpa-row').forEach(row => {
                     const input = row.querySelector('input');
                     const scaleName = input.getAttribute('data-scale');
-                    undergradGpa[scaleName] = parseFloat(input.value) || 0;
+                    const val = parseFloat(input.value);
+                    if (!isNaN(val) && val > 0) {
+                        undergradGpa[scaleName] = val;
+                    }
                 });
 
                 const postgradGpa = {};
                 cardElement.querySelectorAll('.container-postgrad-gpa .reqs-gpa-row').forEach(row => {
                     const input = row.querySelector('input');
                     const scaleName = input.getAttribute('data-scale');
-                    postgradGpa[scaleName] = parseFloat(input.value) || 0;
+                    const val = parseFloat(input.value);
+                    if (!isNaN(val) && val > 0) {
+                        postgradGpa[scaleName] = val;
+                    }
                 });
 
                 // Raccoglie qualifiche
                 const undergradQuals = gatherQualsTableDataFromTbody(cardElement.querySelector('.body-undergrad-quals'));
                 const postgradQuals = gatherQualsTableDataFromTbody(cardElement.querySelector('.body-postgrad-quals'));
 
-                const minDurationMap = {};
-                postgradQuals.forEach(q => {
+                const minDurationMapUnder = {};
+                undergradQuals.forEach(q => {
                     if (q.requiresDuration && q.min_duration) {
-                        minDurationMap[q.key] = parseInt(q.min_duration) || 0;
+                        minDurationMapUnder[q.key] = parseInt(q.min_duration) || 0;
                     }
                 });
+
+                const minDurationMapPost = {};
+                postgradQuals.forEach(q => {
+                    if (q.requiresDuration && q.min_duration) {
+                        minDurationMapPost[q.key] = parseInt(q.min_duration) || 0;
+                    }
+                });
+
+                // Raccoglie input custom per quantita_titoli_richiesti e note
+                const undergradQtyInput = cardElement.querySelector('.input-undergrad-qty');
+                const undergradNoteInput = cardElement.querySelector('.input-undergrad-note');
+                const postgradQtyInput = cardElement.querySelector('.input-postgrad-qty');
+                const postgradNoteInput = cardElement.querySelector('.input-postgrad-note');
+
+                const undergradQty = undergradQtyInput ? (undergradQtyInput.value.trim() || "Requisito non richiesto") : "Requisito non richiesto";
+                const undergradNote = undergradNoteInput ? (undergradNoteInput.value.trim() || "Requisito non richiesto") : "Requisito non richiesto";
+
+                const postgradQty = postgradQtyInput ? (postgradQtyInput.value.trim() || "Requisito non richiesto") : "Requisito non richiesto";
+                const postgradNote = postgradNoteInput ? (postgradNoteInput.value.trim() || "Requisito non richiesto") : "Requisito non richiesto";
+
+                const undergradTitlesText = undergradQuals.map(q => q.label).join('\n') || "Requisito non richiesto";
+                const postgradTitlesText = postgradQuals.map(q => q.label).join('\n') || "Requisito non richiesto";
+
+                const undergradGpaStr = Object.entries(undergradGpa).map(([s, val]) => `${s}: ${val}`).join(', ') || "Requisito non richiesto";
+                const postgradGpaStr = Object.entries(postgradGpa).map(([s, val]) => `${s}: ${val}`).join(', ') || "Requisito non richiesto";
+
+                const undergradDurStr = Object.values(minDurationMapUnder).length > 0 ? `almeno ${Math.min(...Object.values(minDurationMapUnder))} anni` : "Requisito non richiesto";
+                const postgradDurStr = Object.values(minDurationMapPost).length > 0 ? `almeno ${Math.min(...Object.values(minDurationMapPost))} anni` : "Requisito non richiesto";
+
+                const rawDetails = {
+                    Undergraduate: {
+                        titoli_richiesti: undergradTitlesText,
+                        voto_minimo: undergradGpaStr,
+                        durata_minima: undergradDurStr,
+                        quantita_titoli_richiesti: undergradQty,
+                        note: undergradNote
+                    },
+                    Postgraduate: {
+                        titoli_richiesti: postgradTitlesText,
+                        voto_minimo: postgradGpaStr,
+                        durata_minima: postgradDurStr,
+                        quantita_titoli_richiesti: postgradQty,
+                        note: postgradNote
+                    }
+                };
 
                 const payload = {
                     country: countryName,
                     country_code: countryCode,
                     gpa_scales: gpaScales,
                     qualifications: {
-                        Undergraduate: undergradQuals.map(q => ({ key: q.key, label: q.label, requiresDuration: q.requiresDuration })),
-                        Postgraduate: postgradQuals.map(q => ({ key: q.key, label: q.label, requiresDuration: q.requiresDuration }))
+                        Undergraduate: undergradQuals.map(q => ({ key: q.key, label: q.label, requiresDuration: q.requiresDuration, min_duration: q.min_duration })),
+                        Postgraduate: postgradQuals.map(q => ({ key: q.key, label: q.label, requiresDuration: q.requiresDuration, min_duration: q.min_duration }))
                     },
                     thresholds: {
                         Undergraduate: {
                             eligible_qualifications: undergradQuals.map(q => q.key),
+                            min_duration: minDurationMapUnder,
                             min_gpa: undergradGpa
                         },
                         Postgraduate: {
                             eligible_qualifications: postgradQuals.map(q => q.key),
-                            min_duration: minDurationMap,
+                            min_duration: minDurationMapPost,
                             min_gpa: postgradGpa
                         }
-                    }
+                    },
+                    raw_details: rawDetails
                 };
 
                 try {
