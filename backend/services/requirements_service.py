@@ -132,7 +132,7 @@ def get_qualifications_map_dynamic():
         for course in ["Undergraduate", "Postgraduate"]:
             quals_list = details.get("qualifications", {}).get(course, [])
             qual_map[country][course] = [
-                (q["key"], q["label"], q["requiresDuration"]) for q in quals_list
+                (q["key"], q.get("class_name", q["key"]), q["requiresDuration"]) for q in quals_list
             ]
     return qual_map
 

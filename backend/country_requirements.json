@@ -1719,44 +1719,52 @@
                 {
                     "key": "AllIndiaSeniorSchoolCertificate",
                     "label": "All-India Senior School Certificate",
-                    "requiresDuration": false
+                    "requiresDuration": false,
+                    "class_name": "AllIndiaSeniorSchoolCertificate"
                 },
                 {
                     "key": "IndianSchoolCertificate",
                     "label": "Indian school certificate",
-                    "requiresDuration": false
+                    "requiresDuration": false,
+                    "class_name": "IndianSchoolCertificate"
                 },
                 {
                     "key": "IntermediateExaminationCertificate",
                     "label": "Intermediate Examination Certificate",
-                    "requiresDuration": false
+                    "requiresDuration": false,
+                    "class_name": "IntermediateExaminationCertificate"
                 },
                 {
                     "key": "HigherSecondarySchoolCertificate",
                     "label": "Higher Secondary School Certificate",
-                    "requiresDuration": false
+                    "requiresDuration": false,
+                    "class_name": "HigherSecondarySchoolCertificate"
                 },
                 {
                     "key": "HigherSecondaryExaminationCertificatePartIi",
                     "label": "Higher Secondary Examination Certificate Part II",
-                    "requiresDuration": false
+                    "requiresDuration": false,
+                    "class_name": "HigherSecondaryExaminationCertificatePartII"
                 }
             ],
             "Postgraduate": [
                 {
                     "key": "HonoursBachelorDegree",
                     "label": "Honours Bachelor Degree",
-                    "requiresDuration": true
+                    "requiresDuration": true,
+                    "class_name": "HonoursBachelorDegree"
                 },
                 {
                     "key": "ProfessionalBachelorDegree",
                     "label": "Professional Bachelor Degree",
-                    "requiresDuration": true
+                    "requiresDuration": true,
+                    "class_name": "ProfessionalBachelorDegree"
                 },
                 {
                     "key": "PassGeneralBachelorDegreePostgraduateBachelor",
                     "label": "Pass/General Bachelor Degree + Postgraduate Bachelor’s degree o almeno 1 anno di Master’s degree",
-                    "requiresDuration": true
+                    "requiresDuration": true,
+                    "class_name": "PassGeneralBachelorDegree"
                 }
             ]
         },
@@ -1889,29 +1897,34 @@
                 {
                     "key": "CertificateOfCompletionOfSecondaryEducation",
                     "label": "Certificate of completion of secondary education (Diplom-e-Motevasete) + certificato di completamento dell’anno pre-universitario (Dowre-ye pîsh dâneshgâhî)",
-                    "requiresDuration": false
+                    "requiresDuration": false,
+                    "class_name": "DiplomEMotevasete"
                 },
                 {
                     "key": "CertificatoDiCompletamentoDellEducazioneSecondaria",
                     "label": "Certificato di completamento dell’educazione secondaria ottenuto dall’anno accademico 2018/19",
-                    "requiresDuration": false
+                    "requiresDuration": false,
+                    "class_name": "SecondaryEducationFrom2018"
                 },
                 {
                     "key": "AssociateDegreeKRd",
                     "label": "Associate Degree (Kârdânî)",
-                    "requiresDuration": false
+                    "requiresDuration": false,
+                    "class_name": "Kardani"
                 }
             ],
             "Postgraduate": [
                 {
                     "key": "BachelorDegreeRshenSi",
                     "label": "Bachelor’s Degree (kârshenâsi)",
-                    "requiresDuration": true
+                    "requiresDuration": true,
+                    "class_name": "Karshenasi"
                 },
                 {
                     "key": "AssociateDegreeKRdDiscontinuousDegree",
                     "label": "Associate Degree (Kârdânî) + Discontinuous Degree (kârshenâsi-napayvasteh)",
-                    "requiresDuration": true
+                    "requiresDuration": true,
+                    "class_name": "KarshenasiNapayvasteh"
                 }
             ]
         },
