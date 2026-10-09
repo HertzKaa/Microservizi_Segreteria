@@ -13,6 +13,46 @@ requirements_lock = threading.Lock()
 _cached_requirements = None
 _last_mtime = 0
 
+KEY_TO_CLASS_MAP = {
+    # Mappature per l'Iran
+    "CertificatoDiCompletamentoDellEducazioneSecondaria": "SecondaryEducationFrom2018",
+    "CertificateOfCompletionOfSecondaryEducation": "DiplomEMotevasete",
+    "SecondaryEdu2018": "SecondaryEducationFrom2018",
+    "DiplomMotevasete": "DiplomEMotevasete",
+    "AssociateDegreeKRd": "Kardani",
+    "Kardani": "Kardani",
+    "BachelorDegreeRshenSi": "Karshenasi",
+    "Karshenasi": "Karshenasi",
+    "AssociateDegreeKRdDiscontinuousDegree": "KarshenasiNapayvasteh",
+    "KarshenasiNapayvasteh": "KarshenasiNapayvasteh",
+    # Mappature per l'India
+    "AllIndiaSeniorSchoolCertificate": "AllIndiaSeniorSchoolCertificate",
+    "AllIndiaSeniorSchool": "AllIndiaSeniorSchoolCertificate",
+    "IndianSchoolCertificate": "IndianSchoolCertificate",
+    "IndianSchoolCert": "IndianSchoolCertificate",
+    "IntermediateExaminationCertificate": "IntermediateExaminationCertificate",
+    "IntermediateExam": "IntermediateExaminationCertificate",
+    "HigherSecondarySchoolCertificate": "HigherSecondarySchoolCertificate",
+    "HigherSecondarySchool": "HigherSecondarySchoolCertificate",
+    "HigherSecondaryExaminationCertificatePartIi": "HigherSecondaryExaminationCertificatePartII",
+    "HigherSecondaryExaminationCertificatePartII": "HigherSecondaryExaminationCertificatePartII",
+    "HigherSecondaryPartII": "HigherSecondaryExaminationCertificatePartII",
+    "HonoursBachelorDegree": "HonoursBachelorDegree",
+    "HonoursBachelor": "HonoursBachelorDegree",
+    "ProfessionalBachelorDegree": "ProfessionalBachelorDegree",
+    "ProfessionalBachelor": "ProfessionalBachelorDegree",
+    "PassGeneralBachelorDegreePostgraduateBachelor": "PassGeneralBachelorDegree",
+    "PassGeneralBachelorDegree": "PassGeneralBachelorDegree",
+    "PassGeneralBachelor": "PassGeneralBachelorDegree",
+    "MasterDegree": "MasterDegree",
+    "PostgraduateBachelorDegree": "PostgraduateBachelorDegree",
+    "PostgraduateBachelor": "PostgraduateBachelorDegree",
+}
+for c_data in QUALIFICATIONS_MAP.values():
+    for course_data in c_data.values():
+        for k, c_name, _ in course_data:
+            KEY_TO_CLASS_MAP[k] = c_name
+
 def initialize_default_requirements():
     """Costruisce la configurazione iniziale di default leggendola da config.py"""
     default_reqs = {}
@@ -55,10 +95,11 @@ def initialize_default_requirements():
         # Mappiamo le qualifiche
         for course in ["Undergraduate", "Postgraduate"]:
             if country in QUALIFICATIONS_MAP and course in QUALIFICATIONS_MAP[country]:
-                for key, label, req_dur in QUALIFICATIONS_MAP[country][course]:
+                for key, class_name, req_dur in QUALIFICATIONS_MAP[country][course]:
                     default_reqs[country]["qualifications"][course].append({
                         "key": key,
-                        "label": label,
+                        "label": key,
+                        "class_name": class_name,
                         "requiresDuration": req_dur
                     })
                     
@@ -132,7 +173,7 @@ def get_qualifications_map_dynamic():
         for course in ["Undergraduate", "Postgraduate"]:
             quals_list = details.get("qualifications", {}).get(course, [])
             qual_map[country][course] = [
-                (q["key"], q.get("class_name", q["key"]), q["requiresDuration"]) for q in quals_list
+                (q["key"], q.get("class_name", KEY_TO_CLASS_MAP.get(q["key"], q["key"])), q["requiresDuration"]) for q in quals_list
             ]
     return qual_map
 

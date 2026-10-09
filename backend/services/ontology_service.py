@@ -24,19 +24,13 @@ def load_ontology():
         logger.error(f"File ontologia non trovato: {' o '.join(ONTOLOGY_FILES)}")
         raise FileNotFoundError(f"Impossibile trovare: {' o '.join(ONTOLOGY_FILES)}")
 
-    logger.info(f"Caricamento ontologia da: {ontology_file}")
-
     # Configura il percorso
     if "." not in onto_path:
         onto_path.append(".")
 
     try:
         full_path = os.path.abspath(ontology_file)
-        if os.name == 'nt':
-            # Su Windows usiamo il percorso assoluto pulito
-            file_url = full_path
-        else:
-            file_url = f"file://{full_path}"
+        file_url = f"file://{full_path.replace('\\', '/')}"
 
         logger.info(f"Caricamento ontologia da: {full_path}")
         logger.info(f"URL file: {file_url}")
@@ -76,19 +70,26 @@ def create_individuals_and_check(student_name, country, course,
         course_class = "PostgraduateCourse" if course == "Postgraduate" else "UndergraduateCourse"
 
         # Nomi unici per evitare collisioni in caso di richieste contemporanee
-        student_individual_name = f"Student_{student_name}_{datetime.now().timestamp()}"
-        course_individual_name = f"Course_{course}_{datetime.now().timestamp()}"
-        qual_individual_name = f"Qualification_{student_name}_{datetime.now().timestamp()}"
+        ts = datetime.now().timestamp()
+        student_individual_name = f"Student_{student_name}_{ts}"
+        course_individual_name = f"Course_{course}_{ts}"
+        qual_individual_name = f"Qualification_{student_name}_{ts}"
 
         logger.info(f"Creazione individui: {student_individual_name}, {course_individual_name}, {qual_individual_name}")
 
         with current_onto:
-            # 1. Crea l'individuo Course
-            course_ind = current_onto[course_class](course_individual_name)
+            # 1. Crea l'individuo Course (evitiamo '__contains__' che blocca sqlite)
+            course_class_onto = current_onto[course_class] if course_class else None
+            if course_class_onto is None:
+                course_class_onto = current_onto["Course"]
+            course_ind = course_class_onto(course_individual_name)
             logger.info(f"Corso creato: {course_individual_name} ({course_class})")
 
             # 2. Crea l'individuo Qualification
-            qual_class = current_onto[qual_class_name]
+            qual_class = current_onto[qual_class_name] if qual_class_name else None
+            if qual_class is None:
+                logger.warning(f"Classe qualifica '{qual_class_name}' non trovata in Protégé OWL. Fallback alla classe base 'Qualification'.")
+                qual_class = current_onto["Qualification"]
             qual_ind = qual_class(qual_individual_name)
             logger.info(f"Qualifica creata: {qual_individual_name} ({qual_class_name})")
 
@@ -97,14 +98,19 @@ def create_individuals_and_check(student_name, country, course,
                 qual_ind.hasDurationInYears = [float(duration)]
                 logger.info(f"Durata impostata: {duration} anni")
 
-            if gpa:
+            if gpa and gpa_scale:
                 gpa_property_name = f"hasGPA_{gpa_scale}"
                 gpa_property = current_onto[gpa_property_name]
-                gpa_property[qual_ind].append(float(gpa))
-                logger.info(f"GPA impostato: {gpa} ({gpa_property_name})")
+                if gpa_property is not None:
+                    gpa_property[qual_ind].append(float(gpa))
+                    logger.info(f"GPA impostato: {gpa} ({gpa_property_name})")
+                else:
+                    logger.warning(f"Proprietà GPA '{gpa_property_name}' non trovata nell'ontologia.")
 
             # 4. Crea l'individuo Student
-            student_class_onto = current_onto[student_class]
+            student_class_onto = current_onto[student_class] if student_class else None
+            if student_class_onto is None:
+                student_class_onto = current_onto["Student"]
             student_ind = student_class_onto(student_individual_name)
             logger.info(f"Studente creato: {student_individual_name} ({student_class_onto.name})")
 
@@ -113,41 +119,38 @@ def create_individuals_and_check(student_name, country, course,
             student_ind.hasQualification.append(qual_ind)
             logger.info(f"Relazioni collegate per lo studente {student_individual_name}")
 
-            # 6. Sincronizza il reasoner (HermiT)
-            logger.info("Esecuzione del reasoner...")
-            sync_reasoner(infer_property_values=True)
-            logger.info("Reasoner completato")
+        # 6. Sincronizza il reasoner (HermiT) FUORI dal blocco 'with current_onto'
+        logger.info("Esecuzione del reasoner HermiT...")
+        sync_reasoner(current_onto.world, infer_property_values=True)
+        logger.info("Reasoner completato")
 
-            # 7. Verifica l'ammissione attraverso le classi di eligibilità dedotte
-            eligibility_classes = [
-                "EligibleIndianUndergraduateStudent",
-                "EligibleIndianPostgraduateStudent",
-                "EligibleIranianUndergraduateStudent",
-                "EligibleIranianPostgraduateStudent"
-            ]
+        # 7. Verifica l'ammissione attraverso le classi di eligibilità dedotte
+        eligibility_classes = [
+            "EligibleIndianUndergraduateStudent",
+            "EligibleIndianPostgraduateStudent",
+            "EligibleIranianUndergraduateStudent",
+            "EligibleIranianPostgraduateStudent"
+        ]
 
-            admitted = False
-            for elig_class_name in eligibility_classes:
-                elig_class = current_onto[elig_class_name]
-                if student_ind in elig_class.instances():
-                    admitted = True
-                    logger.info(f"Studente ammesso in classe: {elig_class_name}")
-                    break
+        admitted = False
+        for elig_class_name in eligibility_classes:
+            elig_class = current_onto[elig_class_name]
+            if elig_class is not None and student_ind in elig_class.instances():
+                admitted = True
+                logger.info(f"Studente ammesso in classe: {elig_class_name}")
+                break
 
-            if not admitted:
-                logger.info("Studente NON ammesso in alcuna classe di eligibilità logica")
+        if not admitted:
+            logger.info("Studente NON ammesso in alcuna classe di eligibilità logica")
 
-            # 8. Pulisci l'ontologia eliminando gli individui temporanei
-            logger.info("Eliminazione degli individui temporanei...")
-            destroy_entity(student_ind)
-            destroy_entity(course_ind)
-            destroy_entity(qual_ind)
+        # 8. Pulisci l'ontologia eliminando gli individui temporanei
+        logger.info("Eliminazione degli individui temporanei...")
+        destroy_entity(student_ind)
+        destroy_entity(course_ind)
+        destroy_entity(qual_ind)
+        logger.info("Pulizia completata")
 
-            # Rinsincronizza dopo la distruzione delle entità temporanee
-            sync_reasoner(infer_property_values=True)
-            logger.info("Pulizia completata e ontologia sincronizzata")
-
-            return admitted
+        return admitted
 
     except Exception as e:
         logger.error(f"Errore durante la creazione e il controllo degli individui: {str(e)}", exc_info=True)
@@ -197,21 +200,30 @@ def check_admission_batch_ontology(students_to_reason):
                 qual_individual_name = f"Qualification_{name}_{timestamp}_{idx}"
 
                 # 1. Crea l'individuo Course
-                course_ind = current_onto[course_class](course_individual_name)
+                course_class_onto = current_onto[course_class] if course_class else None
+                if course_class_onto is None:
+                    course_class_onto = current_onto["Course"]
+                course_ind = course_class_onto(course_individual_name)
+
                 # 2. Crea l'individuo Qualification
-                qual_class = current_onto[qual_class_name]
+                qual_class = current_onto[qual_class_name] if qual_class_name else None
+                if qual_class is None:
+                    qual_class = current_onto["Qualification"]
                 qual_ind = qual_class(qual_individual_name)
 
                 # 3. Aggiungi proprietà alla qualifica
                 if duration:
                     qual_ind.hasDurationInYears = [float(duration)]
-                if gpa:
+                if gpa and gpa_scale:
                     gpa_property_name = f"hasGPA_{gpa_scale}"
                     gpa_property = current_onto[gpa_property_name]
-                    gpa_property[qual_ind].append(float(gpa))
+                    if gpa_property is not None:
+                        gpa_property[qual_ind].append(float(gpa))
 
                 # 4. Crea l'individuo Student
-                student_class_onto = current_onto[student_class]
+                student_class_onto = current_onto[student_class] if student_class else None
+                if student_class_onto is None:
+                    student_class_onto = current_onto["Student"]
                 student_ind = student_class_onto(student_individual_name)
 
                 # 5. Collega le relazioni
@@ -226,39 +238,36 @@ def check_admission_batch_ontology(students_to_reason):
                     'qual_ind': qual_ind
                 })
 
-            # 6. Sincronizza il reasoner una sola volta per tutti gli studenti
-            logger.info(f"Esecuzione batch del reasoner per {len(students_to_reason)} studenti...")
-            sync_reasoner(infer_property_values=True)
-            logger.info("Reasoner batch completato")
+        # 6. Sincronizza il reasoner una sola volta per tutti gli studenti (fuori dal blocco context)
+        logger.info(f"Esecuzione batch del reasoner per {len(students_to_reason)} studenti...")
+        sync_reasoner(current_onto.world, infer_property_values=True)
+        logger.info("Reasoner batch completato")
 
-            # 7. Verifica l'ammissione per ciascuno
-            eligibility_classes = [
-                "EligibleIndianUndergraduateStudent",
-                "EligibleIndianPostgraduateStudent",
-                "EligibleIranianUndergraduateStudent",
-                "EligibleIranianPostgraduateStudent"
-            ]
+        # 7. Verifica l'ammissione per ciascuno
+        eligibility_classes = [
+            "EligibleIndianUndergraduateStudent",
+            "EligibleIndianPostgraduateStudent",
+            "EligibleIranianUndergraduateStudent",
+            "EligibleIranianPostgraduateStudent"
+        ]
 
-            for entity in created_entities:
-                admitted = False
-                student_ind = entity['student_ind']
-                for elig_class_name in eligibility_classes:
-                    elig_class = current_onto[elig_class_name]
-                    if student_ind in elig_class.instances():
-                        admitted = True
-                        break
-                results[entity['index']] = admitted
+        for entity in created_entities:
+            admitted = False
+            student_ind = entity['student_ind']
+            for elig_class_name in eligibility_classes:
+                elig_class = current_onto[elig_class_name]
+                if elig_class is not None and student_ind in elig_class.instances():
+                    admitted = True
+                    break
+            results[entity['index']] = admitted
 
-            # 8. Pulisci l'ontologia eliminando tutti gli individui temporanei
-            logger.info("Eliminazione in batch degli individui temporanei...")
-            for entity in created_entities:
-                destroy_entity(entity['student_ind'])
-                destroy_entity(entity['course_ind'])
-                destroy_entity(entity['qual_ind'])
-
-            # Rinsincronizza dopo la distruzione delle entità per mantenere l'ontologia pulita
-            sync_reasoner(infer_property_values=True)
-            logger.info("Pulizia batch completata e ontologia sincronizzata")
+        # 8. Pulisci l'ontologia eliminando tutti gli individui temporanei
+        logger.info("Eliminazione in batch degli individui temporanei...")
+        for entity in created_entities:
+            destroy_entity(entity['student_ind'])
+            destroy_entity(entity['course_ind'])
+            destroy_entity(entity['qual_ind'])
+        logger.info("Pulizia batch completata")
 
         return results
 
@@ -266,16 +275,13 @@ def check_admission_batch_ontology(students_to_reason):
         logger.error(f"Errore durante la verifica ontologica in batch: {str(e)}", exc_info=True)
         # Assicuriamoci di pulire in ogni caso se abbiamo creato qualcosa
         try:
-            with current_onto:
-                for entity in created_entities:
-                    try: destroy_entity(entity['student_ind'])
-                    except: pass
-                    try: destroy_entity(entity['course_ind'])
-                    except: pass
-                    try: destroy_entity(entity['qual_ind'])
-                    except: pass
-                sync_reasoner(infer_property_values=True)
+            for entity in created_entities:
+                try: destroy_entity(entity['student_ind'])
+                except: pass
+                try: destroy_entity(entity['course_ind'])
+                except: pass
+                try: destroy_entity(entity['qual_ind'])
+                except: pass
         except Exception as cleanup_error:
             logger.error(f"Errore durante la pulizia di emergenza in batch: {str(cleanup_error)}")
         raise
-

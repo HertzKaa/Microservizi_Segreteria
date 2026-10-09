@@ -1898,18 +1898,21 @@
                     "key": "CertificateOfCompletionOfSecondaryEducation",
                     "label": "Certificate of completion of secondary education (Diplom-e-Motevasete) + certificato di completamento dell’anno pre-universitario (Dowre-ye pîsh dâneshgâhî)",
                     "requiresDuration": false,
+                    "min_duration": null,
                     "class_name": "DiplomEMotevasete"
                 },
                 {
                     "key": "CertificatoDiCompletamentoDellEducazioneSecondaria",
                     "label": "Certificato di completamento dell’educazione secondaria ottenuto dall’anno accademico 2018/19",
                     "requiresDuration": false,
+                    "min_duration": null,
                     "class_name": "SecondaryEducationFrom2018"
                 },
                 {
                     "key": "AssociateDegreeKRd",
                     "label": "Associate Degree (Kârdânî)",
                     "requiresDuration": false,
+                    "min_duration": null,
                     "class_name": "Kardani"
                 }
             ],
@@ -1918,12 +1921,14 @@
                     "key": "BachelorDegreeRshenSi",
                     "label": "Bachelor’s Degree (kârshenâsi)",
                     "requiresDuration": true,
+                    "min_duration": 4,
                     "class_name": "Karshenasi"
                 },
                 {
                     "key": "AssociateDegreeKRdDiscontinuousDegree",
                     "label": "Associate Degree (Kârdânî) + Discontinuous Degree (kârshenâsi-napayvasteh)",
                     "requiresDuration": true,
+                    "min_duration": 4,
                     "class_name": "KarshenasiNapayvasteh"
                 }
             ]
@@ -1935,6 +1940,7 @@
                     "CertificatoDiCompletamentoDellEducazioneSecondaria",
                     "AssociateDegreeKRd"
                 ],
+                "min_duration": {},
                 "min_gpa": {}
             },
             "Postgraduate": {
@@ -1947,7 +1953,7 @@
                     "AssociateDegreeKRdDiscontinuousDegree": 4
                 },
                 "min_gpa": {
-                    "Base20": 15.0
+                    "Base20": 15
                 }
             }
         },
@@ -1961,8 +1967,8 @@
             },
             "Postgraduate": {
                 "titoli_richiesti": "Bachelor’s Degree (kârshenâsi)\nAssociate Degree (Kârdânî) + Discontinuous Degree (kârshenâsi-napayvasteh)",
-                "voto_minimo": "votazione media (GPA) minima di 15 su 20",
-                "durata_minima": "Bachelor’s Degree: 4 o 5 anni; Associate Degree + Discontinuous Degree: 2 + 2 anni",
+                "voto_minimo": "Base20: 15",
+                "durata_minima": "almeno 4 anni",
                 "quantita_titoli_richiesti": "Uno dei seguenti:",
                 "note": "Requisito non richiesto"
             }

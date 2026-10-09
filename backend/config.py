@@ -4,7 +4,12 @@ import os
 TTL_FILE_PATH = "students_registered.ttl"
 
 # Percorsi dei file dell'ontologia (cercati in sequenza)
-ONTOLOGY_FILES = ["../ontology/Protege0-.rdf", "../ontology/Protege0-.ttl"]
+ONTOLOGY_FILES = [
+    "../ontology/Protege0-.rdf", 
+    "../ontology/Protege0-.ttl",
+    "ontology/Protege0-.rdf",
+    "ontology/Protege0-.ttl"
+]
 
 # Mapping dei titoli di studio per paese e tipologia di corso (con flag di obbligatorietà durata)
 QUALIFICATIONS_MAP = {
